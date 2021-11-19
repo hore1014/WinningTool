@@ -42,17 +42,13 @@ for root in root_arr:
 lagerbestand_arr = []
 for i, root in enumerate(root_arr):
     for article in root.iter('article'):
-        id = article.get('id')
-        anfangsbestand = article.get('startamount')
-        endbestand = article.get('amount')
-        wert = article.get('price')
 
         lagerbestand_arr.append({
             'Periode': i+1, 
-            'Artikel': id, 
-            'Anfangsbestand': anfangsbestand, 
-            'Endbestand': endbestand, 
-            'Wert': wert
+            'Artikel': article.get('id'), 
+            'Anfangsbestand': article.get('startamount'), 
+            'Endbestand': article.get('amount'), 
+            'Wert': article.get('price')
             })
 
 # Wareneingänge
@@ -62,15 +58,52 @@ for i, root in enumerate(root_arr):
 wareneingang_arr = []
 for i, root in enumerate(root_arr):
     for order in root.find('inwardstockmovement').iter('order'):
-        artikel = order.get('article')
-        menge = order.get('amount')
 
         wareneingang_arr.append({
             'Periode': i+1,
-            'Artikel': artikel,
-            'Menge': menge
+            'Artikel': order.get('article'),
+            'Menge': order.get('amount')
         })
 
 print(wareneingang_arr)
 
 # Warteschlangen
+warteschlangen_arr = []
+in_bearbeitung_arr = []
+fehlmaterial_arr = []
+for i, root in enumerate(root_arr):
+
+    # Hole die Werte für die Artikel in Bearbeitung
+    for workplace in root.find('ordersinwork').iter('workplace'):
+        in_bearbeitung_arr.append({
+            'Periode': i+1,
+            'Artikel': workplace.get('item'),
+            'Menge': workplace.get('amount'),
+            'Stationen': workplace.get('id')
+        })
+
+    # Hole die Werte für die Artikel in Warteschlange
+    for workplace in root.find('waitinglistworkstations').iter('workplace'):
+        if (workplace.get('timeneed')) > 0:
+            for waitinglist in workplace.iter('waitinglist'):
+                warteschlangen_arr.append({
+                    'Periode': i+1,
+                    'Artikel': waitinglist.get('item'),
+                    'Menge': waitinglist.get('amount'),
+                    'Stationen': workplace.get('id')
+                })
+    # TODO: Zeilen nach Artikel aggregieren und Stationen in Listen zusammenfassen
+
+    # Hole die Werte für die fehlenden Artikel
+    for missingpart in root.find('waitingliststock').iter('missingpart'):
+        workplace = missingpart.find('workplace')
+        waitinglist = workplace.find('waitinglist')
+        fehlmaterial_arr.append({
+            'Periode': i+1,
+            'Artikel': waitinglist.get('item'),
+            'Menge': waitinglist.get('amount'),
+            'Stationen': workplace.get('id')
+        })
+    # TODO: Was tun mit Liste von Missingparts? Müssen nur solche Missingparts mit Unterelement Waitinglist erfasst werden?
+    # TODO: Es scheint immer nur eine Waitinglist/ein Workplace pro Missingpart zu geben. --> Kein Schleife nötig?
+

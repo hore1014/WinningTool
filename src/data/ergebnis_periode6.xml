@@ -173,43 +173,43 @@
 </workplace>
 </waitinglistworkstations>
 <waitingliststock>
-<missingpart id="4"/>
-<missingpart id="5"/>
-<missingpart id="6"/>
-<missingpart id="10"/>
-<missingpart id="11"/>
-<missingpart id="12">
-<workplace id="2" timeneed="100">
-<waitinglist period="6" order="21" firstbatch="11" lastbatch="12" item="30" amount="20" timeNeed="100"/>
-</workplace>
-</missingpart>
-<missingpart id="14"/>
-<missingpart id="15"/>
-<missingpart id="16"/>
-<missingpart id="18"/>
-<missingpart id="19"/>
-<missingpart id="20"/>
-<missingpart id="21"/>
-<missingpart id="26"/>
-<missingpart id="28"/>
-<missingpart id="31"/>
-<missingpart id="37"/>
-<missingpart id="38"/>
-<missingpart id="39"/>
-<missingpart id="45"/>
-<missingpart id="50"/>
-<missingpart id="51"/>
-<missingpart id="53"/>
-<missingpart id="55"/>
-<missingpart id="56"/>
+    <missingpart id="4"/>
+    <missingpart id="5"/>
+    <missingpart id="6"/>
+    <missingpart id="10"/>
+    <missingpart id="11"/>
+    <missingpart id="12">
+        <workplace id="2" timeneed="100">
+            <waitinglist period="6" order="21" firstbatch="11" lastbatch="12" item="30" amount="20" timeNeed="100"/>
+        </workplace>
+    </missingpart>
+    <missingpart id="14"/>
+    <missingpart id="15"/>
+    <missingpart id="16"/>
+    <missingpart id="18"/>
+    <missingpart id="19"/>
+    <missingpart id="20"/>
+    <missingpart id="21"/>
+    <missingpart id="26"/>
+    <missingpart id="28"/>
+    <missingpart id="31"/>
+    <missingpart id="37"/>
+    <missingpart id="38"/>
+    <missingpart id="39"/>
+    <missingpart id="45"/>
+    <missingpart id="50"/>
+    <missingpart id="51"/>
+    <missingpart id="53"/>
+    <missingpart id="55"/>
+    <missingpart id="56"/>
 </waitingliststock>
 <ordersinwork>
-<workplace id="2" period="6" order="23" batch="21" item="55" amount="10" timeneed="50"/>
-<workplace id="4" period="6" order="30" batch="23" item="2" amount="10" timeneed="30"/>
-<workplace id="7" period="6" order="24" batch="35" item="26" amount="10" timeneed="20"/>
-<workplace id="8" period="6" order="16" batch="7" item="12" amount="10" timeneed="19"/>
-<workplace id="9" period="6" order="15" batch="20" item="11" amount="10" timeneed="2"/>
-<workplace id="11" period="6" order="13" batch="8" item="6" amount="10" timeneed="14"/>
+    <workplace id="2" period="6" order="23" batch="21" item="55" amount="10" timeneed="50"/>
+    <workplace id="4" period="6" order="30" batch="23" item="2" amount="10" timeneed="30"/>
+    <workplace id="7" period="6" order="24" batch="35" item="26" amount="10" timeneed="20"/>
+    <workplace id="8" period="6" order="16" batch="7" item="12" amount="10" timeneed="19"/>
+    <workplace id="9" period="6" order="15" batch="20" item="11" amount="10" timeneed="2"/>
+    <workplace id="11" period="6" order="13" batch="8" item="6" amount="10" timeneed="14"/>
 </ordersinwork>
 <completedorders>
 <order period="5" id="14" item="10" quantity="10" cost="135,07" averageunitcosts="13,51">

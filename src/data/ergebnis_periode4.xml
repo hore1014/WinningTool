@@ -172,16 +172,16 @@
 </workplace>
 </waitinglistworkstations>
 <waitingliststock>
-<missingpart id="11">
-<workplace id="2" timeneed="200">
-<waitinglist period="4" order="20" firstbatch="9" lastbatch="12" item="55" amount="40" timeNeed="200"/>
-</workplace>
-</missingpart>
-<missingpart id="50">
-<workplace id="3" timeneed="300">
-<waitinglist period="4" order="23" firstbatch="20" lastbatch="25" item="51" amount="60" timeNeed="300"/>
-</workplace>
-</missingpart>
+    <missingpart id="11">
+        <workplace id="2" timeneed="200">
+            <waitinglist period="4" order="20" firstbatch="9" lastbatch="12" item="55" amount="40" timeNeed="200"/>
+        </workplace>
+    </missingpart>
+    <missingpart id="50">
+        <workplace id="3" timeneed="300">
+            <waitinglist period="4" order="23" firstbatch="20" lastbatch="25" item="51" amount="60" timeNeed="300"/>
+        </workplace>
+    </missingpart>
 </waitingliststock>
 <ordersinwork>
 <workplace id="1" period="4" order="15" batch="12" item="54" amount="10" timeneed="40"/>
