@@ -35,6 +35,22 @@ for root in root_arr:
     forecast = root.find('forecast')
     vertriebswunsch_arr.append(forecast.attrib)
 
-# Lagerbestand
+#p1_val = vertriebswunsch_arr[0]['p1']
+#print(p1_val)
 
-    
+# Lagerbestand
+lagerbestand_arr = []
+for i, root in enumerate(root_arr):
+    for article in root.iter('article'):
+        id = article.get('id')
+        anfangsbestand = article.get('startamount')
+        endbestand = article.get('amount')
+        wert = article.get('price')
+
+        lagerbestand_arr.append({
+            'Periode': i+1, 
+            'Artikel': id, 
+            'Anfangsbestand': anfangsbestand, 
+            'Endbestand': endbestand, 
+            'Wert': wert
+            })
