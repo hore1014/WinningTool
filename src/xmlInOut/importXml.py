@@ -54,3 +54,23 @@ for i, root in enumerate(root_arr):
             'Endbestand': endbestand, 
             'Wert': wert
             })
+
+# Wareneingänge
+# Die eingetroffenen Waren werden in DB gespeichert
+# Wenn diese Waren bereits eingetroffen sind, ist der Ankunftszeitpunkt unerheblich für die Bestellplanung (steht in XML als 'time' in min.)
+# Lediglich für noch offene Bestellungen (future-inward-stock-movement) sollte der voraussichtliche Zeitpunkt für die Bestellplanung ausgerechnet werden
+wareneingang_arr = []
+for i, root in enumerate(root_arr):
+    for order in root.find('inwardstockmovement').iter('order'):
+        artikel = order.get('article')
+        menge = order.get('amount')
+
+        wareneingang_arr.append({
+            'Periode': i+1,
+            'Artikel': artikel,
+            'Menge': menge
+        })
+
+print(wareneingang_arr)
+
+# Warteschlangen
