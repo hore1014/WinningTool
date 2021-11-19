@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS Warteschlangen(
    Artikel CHAR(10),
    Menge_in_Bearbeitung INT,
    Stationen_in_Bearbeitung INT,
-   Menge_Warteschlange INT,
+   Menge_Warteschlange INT, -- default: 10
    Stationen_Warteschlange INT,
    Menge_Fehlmaterial INT,
    Stationen_Fehlmaterial INT,
