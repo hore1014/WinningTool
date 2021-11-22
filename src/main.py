@@ -23,7 +23,9 @@ demand = prod.calculate_demand(
 
 consumption = cons.calculate_consumption(demand, sales_forecast)
 
+# print the results with sums for control purposes
 print(f"Produktion:\n{json.dumps(demand, indent=4)}")
-print(f"\nSumme: {reduce(lambda x, value: x + value, demand.values(), 0)}")
+print(f"Summe: {reduce(lambda x, value: x + value, demand.values(), 0)}\n")
 
 print(f"Verbrauch:\n{json.dumps(consumption, indent=4)}")
+print(f"Summe: {reduce(lambda x, value: x + value, consumption.values(), 0)}\n")
