@@ -14,7 +14,6 @@ def calculate_demand(sales, current, planned, processing, queued, trade):
         # for every part look up the parts that need this specific part and the amount of it to get assembled
         for key in pd.production_demand[article]:
             prod_demand += results[key] * pd.production_demand[article][key]
-            pass
 
         # add and substract all the factors to determine the amount that needs to be produced
         results[article] = sales[article] + prod_demand + planned[article] - \
