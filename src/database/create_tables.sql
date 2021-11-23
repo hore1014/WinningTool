@@ -82,12 +82,12 @@ CREATE TABLE IF NOT EXISTS Wareneingaenge(
 CREATE TABLE IF NOT EXISTS Warteschlangen(
    Periode INT,
    Artikel CHAR(10),
-   Menge_in_Bearbeitung INT,
+   Menge_in_Bearbeitung INT, -- default: 10
    Stationen_in_Bearbeitung INT,
-   Menge_Warteschlange INT, -- default: 10
+   Menge_Warteschlange INT, 
    Stationen_Warteschlange INT,
    Menge_Fehlmaterial INT,
    Stationen_Fehlmaterial INT,
-   Fehlmaterial CHAR(20),
+   --Fehlmaterial CHAR(20), -- Artikel die für diesen Artikel nehmen
    PRIMARY KEY (Periode, Artikel)
 );

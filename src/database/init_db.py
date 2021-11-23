@@ -1,4 +1,5 @@
 import sqlite3
+from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine
 
 file = open("src\database\drop_tables.sql", "r")
 drop_cmd = file.read()
