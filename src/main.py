@@ -1,8 +1,8 @@
-import database.db_mock as db
-import production.demand as prod
-
-parts_list = ["P1", "P2", "P3", "E4", "E5", "E6", "E7",
-              "E8", "E9", "E10", "E11", "E12", "E13", "E14", ]
+from database import db_mock as db
+from production import demand as prod
+from production import consumption as cons
+import json
+from functools import reduce
 
 # load all necessary data for production calculation from database
 sales_forecast = db.get_sales_forecast(1)
@@ -21,4 +21,11 @@ demand = prod.calculate_demand(
     parts_traded,
 )
 
-print(demand)
+consumption = cons.calculate_consumption(demand, sales_forecast)
+
+# print the results with sums for control purposes
+print(f"Produktion:\n{json.dumps(demand, indent=4)}")
+print(f"Summe: {reduce(lambda x, value: x + value, demand.values(), 0)}\n")
+
+print(f"Verbrauch:\n{json.dumps(consumption, indent=4)}")
+print(f"Summe: {reduce(lambda x, value: x + value, consumption.values(), 0)}\n")
