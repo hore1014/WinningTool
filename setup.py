@@ -59,13 +59,13 @@ setup(
         # eg: 'keyword1', 'keyword2', 'keyword3',
     ],
     install_requires=[
+        'SQLAlchemy',
         # eg: 'aspectlib==1.1.1',
         # 'six>=1.7',
         # 'clint',
         # 'lxml',
         # 'psycopg2',
         # 'requests',
-        # 'SQLAlchemy',
     ],
     extras_require={
         # eg:
