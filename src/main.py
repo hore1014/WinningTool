@@ -8,7 +8,7 @@ from functools import reduce
 # load all necessary data for production calculation from database
 sales_forecast = db.get_sales_forecast(1)
 current_parts = db.get_parts_inventory(1)
-planned_parts = db.get_parts_inventory_planned(1)
+planned_parts = db.get_inventory_strategy(1)
 parts_processing = db.get_parts_processing(1)
 parts_in_queue = db.get_parts_in_queue(1)
 parts_traded = db.get_parts_trade(1)
