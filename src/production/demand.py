@@ -16,7 +16,7 @@ def calculate_demand(sales, current, planned, processing, queued, trade):
             prod_demand += results[key] * pd.production_demand[article][key]
 
         # add and substract all the factors to determine the amount that needs to be produced
-        results[article] = sales[article] + prod_demand + planned[article] - \
+        results[article] = sales[article][0] + prod_demand + planned[article] - \
             current[article] - processing[article] - \
             queued[article] - trade[article]
 
