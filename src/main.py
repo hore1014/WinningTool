@@ -1,5 +1,5 @@
 from database import db_mock as db
-from production import demand as prod
+from production import production as prod
 from production import consumption as cons
 from capacity import capacity as cap
 import json
@@ -8,12 +8,12 @@ from functools import reduce
 # load all necessary data for production calculation from database
 sales_forecast = db.get_sales_forecast(1)
 current_parts = db.get_parts_inventory(1)
-planned_parts = db.get_parts_inventory_planned(1)
+planned_parts = db.get_inventory_strategy(1)
 parts_processing = db.get_parts_processing(1)
 parts_in_queue = db.get_parts_in_queue(1)
 parts_traded = db.get_parts_trade(1)
 
-production = prod.calculate_demand(
+production = prod.calculate_production(
     sales_forecast,
     current_parts,
     planned_parts,
