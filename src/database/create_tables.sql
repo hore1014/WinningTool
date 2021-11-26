@@ -88,6 +88,6 @@ CREATE TABLE IF NOT EXISTS Warteschlangen(
    Stationen_Warteschlange INT,
    Menge_Fehlmaterial INT,
    Stationen_Fehlmaterial INT,
-   --Fehlmaterial CHAR(20), -- Artikel die für diesen Artikel nehmen
+   --Fehlmaterial CHAR(20), -- Fehlende Artikel die für diesen Artikel benötigt werden
    PRIMARY KEY (Periode, Artikel)
 );
