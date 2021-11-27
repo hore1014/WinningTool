@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 #import numpy as np
 import pandas as pd
-from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine
+# from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine
 
 # XML Ergebnis Datei auslesen
 tree_period_1 = ET.parse('src\data\ergebnis_periode1.xml')
@@ -32,7 +32,7 @@ root_arr.append(root_period_6)
 # Die Ergebnis-XML einer Periode enthält immer den Vertriebswunsch/Absatzprognose der kommenden Periode
 def create_vertriebswunsch():
     vertriebswunsch_arr = []
-    vertriebswunsch_arr.append({'p1': '150', 'p2': '150', 'p3': '150'})
+    vertriebswunsch_arr.append({'p1': '150', 'p2': '150', 'p3': '150'}) # erste Periode
 
     for root in root_arr:
         forecast = root.find('forecast')
@@ -57,7 +57,7 @@ def create_lagerbestand():
                 'Wert': article.get('price')
                 })
     
-    return lagerbestand_arr()
+    return lagerbestand_arr
 
 # Wareneingänge
 # Die eingetroffenen Waren werden in DB gespeichert
@@ -72,7 +72,11 @@ def create_wareneingang():
                 'Artikel': order.get('article'),
                 'Menge': order.get('amount')
             })
-    return wareneingang_arr
+    # Mengen gleicher Artikel summieren (da ansonsten UNIQUE constraint verletzt ist)
+    df = pd.DataFrame(wareneingang_arr)
+    wareneingang_arr_aggreg = df.groupby(['Periode', 'Artikel']).agg(sum).reset_index().to_dict('records')
+
+    return wareneingang_arr_aggreg
 
 # Hole die Werte für die Artikel in Bearbeitung
 def create_in_bearbeitung():
@@ -105,8 +109,7 @@ def create_warteschlangen():
     df = pd.DataFrame(warteschlangen_arr)
     warteschlangen_arr_aggreg = df.groupby(['Periode', 'Artikel', 'Stationen']).agg(sum)
     #TODO Stationen in Listen zusammenfassen
-
-    return warteschlangen_arr_aggreg
+    return warteschlangen_arr_aggreg.to_dict().values()
 
 # Hole die Werte für die fehlenden Artikel
 def create_fehlmaterial():

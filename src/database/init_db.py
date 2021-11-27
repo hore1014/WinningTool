@@ -1,6 +1,12 @@
+import os
 import sqlite3
-from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine
+from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine, insert, select, update
 from sqlalchemy.sql.sqltypes import DECIMAL, REAL, Float
+
+import sys
+sys.path.append(os.path.abspath(os.curdir))
+from src.xmlInOut.importXml import *
+
 
 file = open("src\database\drop_tables.sql", "r")
 drop_cmd = file.read()
@@ -12,7 +18,7 @@ file.close()
 
 # Create and Connect to SQLite database
 conn = sqlite3.connect("src\database\ibsys2.db")
-engine = create_engine('sqlite:///src/database/ibsys2.db', echo = True)
+#engine = create_engine('sqlite:///src/database/ibsys2.db', echo = True)
 
 # Drop existing tables
 conn.executescript(drop_cmd)
@@ -112,8 +118,12 @@ db_warteschlangen = Table(
     #Column('Fehlmaterial', String) -- Fehlende Artikel, die für diesen Artiekl benötigt werden
 )
 
-conn.execute()
+# Insert statements
+for el in create_lagerbestand(): 
+    conn.execute(str(db_lagerbestand.insert()), el)
 
+for el in create_wareneingang():
+    conn.execute(str(db_wareneingaenge.insert()), el)
 
-
+conn.commit()
 conn.close()
