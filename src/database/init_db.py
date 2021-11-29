@@ -2,6 +2,7 @@ import os
 import sqlite3
 from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine, insert, select, update
 from sqlalchemy.sql.sqltypes import DECIMAL, REAL, Float
+import itertools
 
 import sys
 sys.path.append(os.path.abspath(os.curdir))
@@ -35,7 +36,15 @@ db_absatzprognose = Table(
     Column('Aktuell_0', Integer),
     Column('Aktuell_1', Integer),
     Column('Aktuell_2', Integer),
-    Column('Aktuell_3', Integer),
+    Column('Aktuell_3', Integer)
+)
+
+db_absatzprognose_neu = Table(
+    'Absatzprognose_Neu', meta,
+    Column('Periode', Integer, primary_key = True),
+    Column('P1', Integer),
+    Column('P2', Integer),
+    Column('P3', Integer),
 )
 
 db_strategie_Lagerbestand = Table(
@@ -45,7 +54,7 @@ db_strategie_Lagerbestand = Table(
     Column('Aktuell_0', Integer),
     Column('Aktuell_1', Integer),
     Column('Aktuell_2', Integer),
-    Column('Aktuell_3', Integer),
+    Column('Aktuell_3', Integer)
 )
 
 db_produktion = Table(
@@ -109,13 +118,25 @@ db_warteschlangen = Table(
     'Warteschlangen', meta,
     Column('Periode', Integer, primary_key = True),
     Column('Artikel', String, primary_key = True),
-    Column('Menge_in_Bearbeitung', Integer),
-    Column('Stationen_in_Bearbeitung', Integer),
-    Column('Menge_Warteschlange', Integer),
-    Column('Stationen_Warteschlange', Integer),
-    Column('Menge_Fehlmaterial', Integer),
-    Column('Stationen_Fehlmaterial', Integer),
-    #Column('Fehlmaterial', String) -- Fehlende Artikel, die für diesen Artiekl benötigt werden
+    Column('Menge', Integer),
+    Column('Stationen', Integer, primary_key=True)
+)
+
+db_in_bearbeitung = Table(
+    'In_Bearbeitung', meta,
+    Column('Periode', Integer, primary_key = True),
+    Column('Artikel', String, primary_key = True),
+    Column('Menge', Integer),
+    Column('Stationen', Integer, primary_key = True)
+)
+
+db_fehlmaterial = Table(
+    'Fehlmaterial', meta,
+    Column('Periode', Integer, primary_key = True),
+    Column('Artikel', String, primary_key = True),
+    Column('Menge', Integer),
+    Column('Stationen', Integer, primary_key = True),
+    Column('Fehlmaterial', String, primary_key = True) #Fehlende Artikel, die für diesen Artiekl benötigt werden
 )
 
 # Insert statements
@@ -124,6 +145,21 @@ for el in create_lagerbestand():
 
 for el in create_wareneingang():
     conn.execute(str(db_wareneingaenge.insert()), el)
+
+for el in create_in_bearbeitung():
+    conn.execute(str(db_in_bearbeitung.insert()), el)
+
+for el in create_warteschlangen():
+    conn.execute(str(db_warteschlangen.insert()), el)
+
+for el in create_fehlmaterial():
+    conn.execute(str(db_fehlmaterial.insert()), el)
+
+for el in create_vertriebswunsch():
+    conn.execute(str(db_absatzprognose.insert()), el)
+
+for el in create_vertriebswunsch_neu():
+    conn.execute(str(db_absatzprognose_neu.insert()), el)
 
 conn.commit()
 conn.close()

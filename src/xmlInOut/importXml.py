@@ -32,11 +32,74 @@ root_arr.append(root_period_6)
 # Die Ergebnis-XML einer Periode enthält immer den Vertriebswunsch/Absatzprognose der kommenden Periode
 def create_vertriebswunsch():
     vertriebswunsch_arr = []
-    vertriebswunsch_arr.append({'p1': '150', 'p2': '150', 'p3': '150'}) # erste Periode
 
-    for root in root_arr:
+    # Erste Periode manuell hinzufügen: 
+    vertriebswunsch_arr.append({
+        'Periode': 1, 
+        'Artikel': 'P1', 
+        'Aktuell_0': 150, 
+        'Aktuell_1': "", 
+        'Aktuell_2': "", 
+        'Aktuell_3': ""
+    })
+    vertriebswunsch_arr.append({
+        'Periode': 1, 
+        'Artikel': 'P2', 
+        'Aktuell_0': 150, 
+        'Aktuell_1': "", 
+        'Aktuell_2': "", 
+        'Aktuell_3': ""
+    })
+    vertriebswunsch_arr.append({
+        'Periode': 1, 
+        'Artikel': 'P3', 
+        'Aktuell_0': 150, 
+        'Aktuell_1': "", 
+        'Aktuell_2': "", 
+        'Aktuell_3': ""
+    })
+
+    for i, root in enumerate(root_arr):
         forecast = root.find('forecast')
-        vertriebswunsch_arr.append(forecast.attrib)
+        vertriebswunsch_arr.append({
+            'Periode': i+2,
+            'Artikel': 'P1',
+            'Aktuell_0': forecast.get('p1'),
+            'Aktuell_1': "",
+            'Aktuell_2': "",
+            'Aktuell_3': "",
+        })
+        vertriebswunsch_arr.append({
+            'Periode': i+2,
+            'Artikel': 'P2',
+            'Aktuell_0': forecast.get('p2'),
+            'Aktuell_1': "",
+            'Aktuell_2': "",
+            'Aktuell_3': "",
+        })
+        vertriebswunsch_arr.append({
+            'Periode': i+2,
+            'Artikel': 'P3',
+            'Aktuell_0': forecast.get('p3'),
+            'Aktuell_1': "",
+            'Aktuell_2': "",
+            'Aktuell_3': "",
+        })
+
+    return vertriebswunsch_arr
+
+def create_vertriebswunsch_neu():
+    vertriebswunsch_arr = []
+    vertriebswunsch_arr.append({'Periode': 1, 'P1': 150, 'P2': 150, 'P3': 150}) # erste Periode
+
+    for i, root in enumerate(root_arr):
+        forecast = root.find('forecast')
+        vertriebswunsch_arr.append({
+            'Periode': int(root.get('period'))+1,
+            'P1': forecast.get('p1'),
+            'P2': forecast.get('p2'),
+            'P3': forecast.get('p3')
+        })
 
     return vertriebswunsch_arr
 
@@ -107,9 +170,9 @@ def create_warteschlangen():
                     })
     # Zeilen nach Artikel aggregieren (Mengen gleicher Artikel summieren)
     df = pd.DataFrame(warteschlangen_arr)
-    warteschlangen_arr_aggreg = df.groupby(['Periode', 'Artikel', 'Stationen']).agg(sum)
+    warteschlangen_arr_aggreg = df.groupby(['Periode', 'Artikel', 'Stationen']).agg(sum).reset_index().to_dict('records')
     #TODO Stationen in Listen zusammenfassen
-    return warteschlangen_arr_aggreg.to_dict().values()
+    return warteschlangen_arr_aggreg
 
 # Hole die Werte für die fehlenden Artikel
 def create_fehlmaterial():

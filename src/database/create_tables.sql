@@ -12,6 +12,14 @@ CREATE TABLE IF NOT EXISTS Absatzprognose(
    PRIMARY KEY (Periode, Artikel)
 );
 
+CREATE TABLE IF NOT EXISTS Absatzprognose_Neu(
+   Periode INT,
+   P1 INT,
+   P2 INT,
+   P3 INT,
+   PRIMARY KEY (Periode)
+);
+
 CREATE TABLE IF NOT EXISTS Strategie_Lagerbestand(
    Periode INT,
    Artikel CHAR(10),
@@ -22,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Strategie_Lagerbestand(
    PRIMARY KEY (Periode, Artikel)
 );
 
-CREATE TABLE IF NOT EXISTS  Produktion(
+CREATE TABLE IF NOT EXISTS Produktion(
    Periode INT,
    Artikel CHAR(10),
    Planlagerbestand INT,
@@ -82,12 +90,24 @@ CREATE TABLE IF NOT EXISTS Wareneingaenge(
 CREATE TABLE IF NOT EXISTS Warteschlangen(
    Periode INT,
    Artikel CHAR(10),
-   Menge_in_Bearbeitung INT, -- default: 10
-   Stationen_in_Bearbeitung INT,
-   Menge_Warteschlange INT, 
-   Stationen_Warteschlange INT,
-   Menge_Fehlmaterial INT,
-   Stationen_Fehlmaterial INT,
-   --Fehlmaterial CHAR(20), -- Fehlende Artikel die für diesen Artikel benötigt werden
-   PRIMARY KEY (Periode, Artikel)
+   Menge INT, 
+   Stationen INT,
+   PRIMARY KEY (Periode, Artikel, Stationen)
+);
+
+CREATE TABLE IF NOT EXISTS In_Bearbeitung(
+   Periode INT,
+   Artikel CHAR(10),
+   Menge INT, -- default: 10
+   Stationen INT,
+   PRIMARY KEY (Periode, Artikel, Stationen)
+);
+
+CREATE TABLE IF NOT EXISTS Fehlmaterial(
+   Periode INT,
+   Artikel CHAR(10),
+   Menge INT,
+   Stationen INT,
+   Fehlmaterial CHAR(20), -- Fehlende Artikel die für diesen Artikel benötigt werden
+   PRIMARY KEY (Periode, Artikel, Stationen, Fehlmaterial)
 );
