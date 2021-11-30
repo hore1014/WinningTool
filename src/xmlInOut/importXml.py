@@ -114,7 +114,7 @@ def create_lagerbestand():
         for article in root.iter('article'):
 
             lagerbestand_arr.append({
-                'Periode': i+1, 
+                'Periode': i+2, # iterator starts from 0, data of first period (1) refers to subsequent period (2)
                 'Artikel': article.get('id'), 
                 'Anfangsbestand': article.get('startamount'), 
                 'Endbestand': article.get('amount'), 
@@ -132,7 +132,7 @@ def create_wareneingang():
     for i, root in enumerate(root_arr):
         for order in root.find('inwardstockmovement').iter('order'):
             wareneingang_arr.append({
-                'Periode': i+1, # iterator starts from 0, first period is 1
+                'Periode': i+2, 
                 'Artikel': order.get('article'),
                 'Menge': order.get('amount')
             })
@@ -148,7 +148,7 @@ def create_in_bearbeitung():
     for i, root in enumerate(root_arr):
         for workplace in root.find('ordersinwork').iter('workplace'):
             in_bearbeitung_arr.append({
-                'Periode': i+1,
+                'Periode': i+2,
                 'Artikel': workplace.get('item'),
                 'Menge': workplace.get('amount'),
                 'Stationen': workplace.get('id')
@@ -164,7 +164,7 @@ def create_warteschlangen():
             if int(workplace.get('timeneed')) > 0:
                 for waitinglist in workplace.iter('waitinglist'):
                     warteschlangen_arr.append({
-                        'Periode': i+1,
+                        'Periode': i+2,
                         'Artikel': waitinglist.get('item'),
                         'Menge': waitinglist.get('amount'),
                         'Stationen': workplace.get('id')
@@ -184,7 +184,7 @@ def create_fehlmaterial():
                 workplace = missingpart.find('workplace')
                 waitinglist = workplace.find('waitinglist')
                 fehlmaterial_arr.append({
-                    'Periode': i+1,
+                    'Periode': i+2,
                     'Artikel': waitinglist.get('item'),
                     'Menge': waitinglist.get('amount'),
                     'Stationen': workplace.get('id'),
