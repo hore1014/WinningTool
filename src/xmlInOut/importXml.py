@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 #import numpy as np
 import pandas as pd
-from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine
+# from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine
 
 # XML Ergebnis Datei auslesen
 tree_period_1 = ET.parse('src\data\ergebnis_periode1.xml')
@@ -32,11 +32,74 @@ root_arr.append(root_period_6)
 # Die Ergebnis-XML einer Periode enthält immer den Vertriebswunsch/Absatzprognose der kommenden Periode
 def create_vertriebswunsch():
     vertriebswunsch_arr = []
-    vertriebswunsch_arr.append({'p1': '150', 'p2': '150', 'p3': '150'})
 
-    for root in root_arr:
+    # Erste Periode manuell hinzufügen: 
+    vertriebswunsch_arr.append({
+        'Periode': 1, 
+        'Artikel': 'P1', 
+        'Aktuell_0': 150, 
+        'Aktuell_1': "", 
+        'Aktuell_2': "", 
+        'Aktuell_3': ""
+    })
+    vertriebswunsch_arr.append({
+        'Periode': 1, 
+        'Artikel': 'P2', 
+        'Aktuell_0': 150, 
+        'Aktuell_1': "", 
+        'Aktuell_2': "", 
+        'Aktuell_3': ""
+    })
+    vertriebswunsch_arr.append({
+        'Periode': 1, 
+        'Artikel': 'P3', 
+        'Aktuell_0': 150, 
+        'Aktuell_1': "", 
+        'Aktuell_2': "", 
+        'Aktuell_3': ""
+    })
+
+    for i, root in enumerate(root_arr):
         forecast = root.find('forecast')
-        vertriebswunsch_arr.append(forecast.attrib)
+        vertriebswunsch_arr.append({
+            'Periode': i+2,
+            'Artikel': 'P1',
+            'Aktuell_0': forecast.get('p1'),
+            'Aktuell_1': "",
+            'Aktuell_2': "",
+            'Aktuell_3': "",
+        })
+        vertriebswunsch_arr.append({
+            'Periode': i+2,
+            'Artikel': 'P2',
+            'Aktuell_0': forecast.get('p2'),
+            'Aktuell_1': "",
+            'Aktuell_2': "",
+            'Aktuell_3': "",
+        })
+        vertriebswunsch_arr.append({
+            'Periode': i+2,
+            'Artikel': 'P3',
+            'Aktuell_0': forecast.get('p3'),
+            'Aktuell_1': "",
+            'Aktuell_2': "",
+            'Aktuell_3': "",
+        })
+
+    return vertriebswunsch_arr
+
+def create_vertriebswunsch_neu():
+    vertriebswunsch_arr = []
+    vertriebswunsch_arr.append({'Periode': 1, 'P1': 150, 'P2': 150, 'P3': 150}) # erste Periode
+
+    for i, root in enumerate(root_arr):
+        forecast = root.find('forecast')
+        vertriebswunsch_arr.append({
+            'Periode': int(root.get('period'))+1,
+            'P1': forecast.get('p1'),
+            'P2': forecast.get('p2'),
+            'P3': forecast.get('p3')
+        })
 
     return vertriebswunsch_arr
 
@@ -57,7 +120,7 @@ def create_lagerbestand():
                 'Wert': article.get('price')
                 })
     
-    return lagerbestand_arr()
+    return lagerbestand_arr
 
 # Wareneingänge
 # Die eingetroffenen Waren werden in DB gespeichert
@@ -72,7 +135,11 @@ def create_wareneingang():
                 'Artikel': order.get('article'),
                 'Menge': order.get('amount')
             })
-    return wareneingang_arr
+    # Mengen gleicher Artikel summieren (da ansonsten UNIQUE constraint verletzt ist)
+    df = pd.DataFrame(wareneingang_arr)
+    wareneingang_arr_aggreg = df.groupby(['Periode', 'Artikel']).agg(sum).reset_index().to_dict('records')
+
+    return wareneingang_arr_aggreg
 
 # Hole die Werte für die Artikel in Bearbeitung
 def create_in_bearbeitung():
@@ -103,9 +170,8 @@ def create_warteschlangen():
                     })
     # Zeilen nach Artikel aggregieren (Mengen gleicher Artikel summieren)
     df = pd.DataFrame(warteschlangen_arr)
-    warteschlangen_arr_aggreg = df.groupby(['Periode', 'Artikel', 'Stationen']).agg(sum)
+    warteschlangen_arr_aggreg = df.groupby(['Periode', 'Artikel', 'Stationen']).agg(sum).reset_index().to_dict('records')
     #TODO Stationen in Listen zusammenfassen
-
     return warteschlangen_arr_aggreg
 
 # Hole die Werte für die fehlenden Artikel
