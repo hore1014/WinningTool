@@ -2,6 +2,7 @@ from database import db_mock as db
 from production import production as prod
 from production import consumption as cons
 from capacity import capacity as cap
+from procurement import procurement as proc
 import json
 from functools import reduce
 
@@ -35,6 +36,9 @@ consumption1 = cons.calculate_consumption_forecast(production)
 consumption2 = cons.calculate_consumption_forecast(production2)
 consumption3 = cons.calculate_consumption_forecast(production3)
 consumption4 = cons.calculate_consumption_forecast(production4)
+
+orders = proc.calculate_procurement(current_parts, consumption1,
+                                    consumption2, consumption3, consumption4)
 
 # TODO: calculate tooling factors for each period from average of pervious periods
 tooling_factors = {"Station_1": 1.25, "Station_2": 1.25, "Station_3": 1, "Station_4": 1.25, "Station_5": 0, "Station_6": 1, "Station_7": 2,
@@ -72,3 +76,8 @@ print(f"Summe: {reduce(lambda x, value: x + value, consumption3.values(), 0)}\n"
 
 print(f"Verbrauch + 3:\n{json.dumps(consumption4, indent=4)}")
 print(f"Summe: {reduce(lambda x, value: x + value, consumption4.values(), 0)}\n")
+
+print("Bestellungen:\n{")
+for article in orders:
+    print(
+        f"\t\"{article}\": Normalbestellung: {orders[article][0]}, Eilbestellung: {orders[article][1]}")
