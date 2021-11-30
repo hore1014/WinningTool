@@ -24,6 +24,18 @@ production = prod.calculate_production(
 
 consumption = cons.calculate_consumption(production, sales_forecast)
 
+production2 = prod.calculate_production_forecast(
+    sales_forecast, planned_parts, 1)
+production3 = prod.calculate_production_forecast(
+    sales_forecast, planned_parts, 2)
+production4 = prod.calculate_production_forecast(
+    sales_forecast, planned_parts, 3)
+
+consumption1 = cons.calculate_consumption_forecast(production)
+consumption2 = cons.calculate_consumption_forecast(production2)
+consumption3 = cons.calculate_consumption_forecast(production3)
+consumption4 = cons.calculate_consumption_forecast(production4)
+
 # TODO: calculate tooling factors for each period from average of pervious periods
 tooling_factors = {"Station_1": 1.25, "Station_2": 1.25, "Station_3": 1, "Station_4": 1.25, "Station_5": 0, "Station_6": 1, "Station_7": 2,
                    "Station_8": 1.5, "Station_9": 1, "Station_10": 1.25, "Station_11": 1.25, "Station_12": 1, "Station_13": 1, "Station_14": 1, "Station_15": 2, }
@@ -48,3 +60,15 @@ for station in shifts:
         f"\t\"{station}\": ({shifts[station][0]}, {shifts[station][1]/5})")
 print("}\n" +
       f"Summe Mehrarbeit: {reduce(lambda x, value: x + value[1], shifts.values(), 0)}\n")
+
+print(f"Verbrauch + 0:\n{json.dumps(consumption1, indent=4)}")
+print(f"Summe: {reduce(lambda x, value: x + value, consumption1.values(), 0)}\n")
+
+print(f"Verbrauch + 1:\n{json.dumps(consumption2, indent=4)}")
+print(f"Summe: {reduce(lambda x, value: x + value, consumption2.values(), 0)}\n")
+
+print(f"Verbrauch + 2:\n{json.dumps(consumption3, indent=4)}")
+print(f"Summe: {reduce(lambda x, value: x + value, consumption3.values(), 0)}\n")
+
+print(f"Verbrauch + 3:\n{json.dumps(consumption4, indent=4)}")
+print(f"Summe: {reduce(lambda x, value: x + value, consumption4.values(), 0)}\n")
