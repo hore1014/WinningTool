@@ -13,14 +13,35 @@ def calculate_production(sales, current, planned, processing, queued, trade):
 
     for article in calculation_sequence:
         production = 0
+        processing_article = processing[article] if article in processing else 0
+        queued_article = queued[article] if article in queued else 0
+        purchase_article = trade[article][0] if article in trade else 0
+        sell_article = trade[article][1] if article in trade else 0
         # for every part look up the parts that need this specific part and the amount of it to get assembled
         for key in pd.production_demand[article]:
             production += results[key] * pd.production_demand[article][key]
 
         # add and substract all the factors to determine the amount that needs to be produced
-        results[article] = sales[article][0] + production + planned[article][0] - \
-            current[article] - processing[article] - \
-            queued[article] - trade[article]
+        match article:
+            case ("P1" | "P2" | "P3"):
+                results[article] = \
+                    sales[article][0] + \
+                    production + \
+                    planned[article][0] - \
+                    current[article] - \
+                    processing_article - \
+                    queued_article - \
+                    purchase_article + \
+                    sell_article
+            case _:
+                results[article] = \
+                    production + \
+                    planned[article][0] - \
+                    current[article] - \
+                    processing_article - \
+                    queued_article - \
+                    purchase_article + \
+                    sell_article
 
     return results
 
@@ -41,7 +62,6 @@ def calculate_production_forecast(sales, planned, period):
                     production + planned[article][period] - \
                     planned[article][period-1]
             case _:
-                results[article] = sales[article][period] + \
-                    production
+                results[article] = production
 
     return results

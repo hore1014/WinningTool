@@ -23,10 +23,6 @@ production = prod.calculate_production(
     parts_traded,
 )
 
-# TODO: get rid of useless pairs in the lookup tables
-# TODO: extend direct sales/buys
-# TODO: funktionen härten für leere dicts
-
 consumption = cons.calculate_consumption(production, sales_forecast)
 
 production2 = prod.calculate_production_forecast(
@@ -69,19 +65,8 @@ for station in shifts:
 print("}\n" +
       f"Summe Mehrarbeit: {reduce(lambda x, value: x + value[1], shifts.values(), 0)}\n")
 
-print(f"Verbrauch + 0:\n{json.dumps(consumption1, indent=4)}")
-print(f"Summe: {reduce(lambda x, value: x + value, consumption1.values(), 0)}\n")
-
-print(f"Verbrauch + 1:\n{json.dumps(consumption2, indent=4)}")
-print(f"Summe: {reduce(lambda x, value: x + value, consumption2.values(), 0)}\n")
-
-print(f"Verbrauch + 2:\n{json.dumps(consumption3, indent=4)}")
-print(f"Summe: {reduce(lambda x, value: x + value, consumption3.values(), 0)}\n")
-
-print(f"Verbrauch + 3:\n{json.dumps(consumption4, indent=4)}")
-print(f"Summe: {reduce(lambda x, value: x + value, consumption4.values(), 0)}\n")
-
 print("Bestellungen:\n{")
 for article in orders:
     print(
         f"\t\"{article}\": Normalbestellung: {orders[article][0]}, Eilbestellung: {orders[article][1]}")
+print("}\n")
