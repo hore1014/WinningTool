@@ -1,6 +1,9 @@
+# This file is responsible for handling communication realted to database, i.e. initialization, creation, population of database as well as retrievement of data from database
+
 import os
 import sqlite3
-from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine, insert, select, update
+from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine, insert, select, update, text
+from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.sqltypes import DECIMAL, REAL, Float
 import itertools
 
@@ -8,35 +11,17 @@ import sys
 sys.path.append(os.path.abspath(os.curdir))
 from src.xmlInOut.importXml import *
 
-
-file = open("src\database\drop_tables.sql", "r")
-drop_cmd = file.read()
-file.close()
-
-file = open("src\database\create_tables.sql", "r")
-create_cmd = file.read()
-file.close()
-
-# Create and Connect to SQLite database
-conn = sqlite3.connect("src\database\ibsys2.db")
-#engine = create_engine('sqlite:///src/database/ibsys2.db', echo = True)
-
-# Drop existing tables
-conn.executescript(drop_cmd)
-
-# Create Tables
-conn.executescript(create_cmd)
-
+# Define ORM for database tables
 meta = MetaData()
 
 db_absatzprognose = Table(
-    'Absatzprognose', meta,
-    Column('Periode', Integer, primary_key = True),
-    Column('Artikel', String, primary_key = True),
-    Column('Aktuell_0', Integer),
-    Column('Aktuell_1', Integer),
-    Column('Aktuell_2', Integer),
-    Column('Aktuell_3', Integer)
+        'Absatzprognose', meta,
+        Column('Periode', Integer, primary_key = True),
+        Column('Artikel', String, primary_key = True),
+        Column('Aktuell_0', Integer),
+        Column('Aktuell_1', Integer),
+        Column('Aktuell_2', Integer),
+        Column('Aktuell_3', Integer)
 )
 
 db_absatzprognose_neu = Table(
@@ -139,27 +124,86 @@ db_fehlmaterial = Table(
     Column('Fehlmaterial', String, primary_key = True) #Fehlende Artikel, die für diesen Artiekl benötigt werden
 )
 
-# Insert statements
-for el in create_lagerbestand(): 
-    conn.execute(str(db_lagerbestand.insert()), el)
+# Initialize (create and populate) database from XML input data
+def init_db():
 
-for el in create_wareneingang():
-    conn.execute(str(db_wareneingaenge.insert()), el)
+    # Read SQL files
+    file = open("src\database\drop_tables.sql", "r")
+    drop_cmd = file.read()
+    file.close()
 
-for el in create_in_bearbeitung():
-    conn.execute(str(db_in_bearbeitung.insert()), el)
+    file = open("src\database\create_tables.sql", "r")
+    create_cmd = file.read()
+    file.close()
 
-for el in create_warteschlangen():
-    conn.execute(str(db_warteschlangen.insert()), el)
+    # Create and Connect to SQLite database
+    conn = sqlite3.connect("src\database\ibsys2.db")
+    #engine = create_engine('sqlite:///src/database/ibsys2.db', echo = True)
 
-for el in create_fehlmaterial():
-    conn.execute(str(db_fehlmaterial.insert()), el)
+    # Drop existing tables
+    conn.executescript(drop_cmd)
 
-for el in create_vertriebswunsch():
-    conn.execute(str(db_absatzprognose.insert()), el)
+    # Create Tables
+    conn.executescript(create_cmd)
 
-for el in create_vertriebswunsch_neu():
-    conn.execute(str(db_absatzprognose_neu.insert()), el)
+    # Insert statements
+    for el in create_lagerbestand(): 
+        conn.execute(str(db_lagerbestand.insert()), el)
 
-conn.commit()
-conn.close()
+    for el in create_wareneingang():
+        conn.execute(str(db_wareneingaenge.insert()), el)
+
+    for el in create_in_bearbeitung():
+        conn.execute(str(db_in_bearbeitung.insert()), el)
+
+    for el in create_warteschlangen():
+        conn.execute(str(db_warteschlangen.insert()), el)
+
+    for el in create_fehlmaterial():
+        conn.execute(str(db_fehlmaterial.insert()), el)
+
+    for el in create_vertriebswunsch():
+        conn.execute(str(db_absatzprognose.insert()), el)
+
+    for el in create_vertriebswunsch_neu():
+        conn.execute(str(db_absatzprognose_neu.insert()), el)
+
+    conn.commit()
+    conn.close()
+
+    return
+
+# Retrieve data from DB
+# TODO general function for select statement with given table
+# TODO static variable, or something, that saves all ibsys articles in dict
+def get_sales_forecast(period):
+
+    # Select * from Absatzprognose
+    query = "SELECT * from Absatzprognose WHERE Periode = :p"
+    #query = db_absatzprognose.select().where(db_absatzprognose.c.Periode == period)
+
+    # Create and Connect to SQLite database
+    conn = sqlite3.connect("src\database\ibsys2.db")
+    # Execute SQL command
+    result = conn.execute(str(query), str(period))
+    for row in result:
+        print(row)
+    # Close connection to database
+    conn.close()
+
+    return
+
+def get_parts_inventory(period):
+    return
+
+def get_inventory_strategy(period):
+    return
+
+def get_parts_processing(period):
+    return
+
+def get_parts_in_queue(period):
+    return
+
+def get_parts_trade(period):
+    return

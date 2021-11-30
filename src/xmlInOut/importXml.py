@@ -4,6 +4,7 @@ import pandas as pd
 # from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine
 
 # XML Ergebnis Datei auslesen
+# TODO: Sollen vom Eingabeformular ausgelesen werden
 tree_period_1 = ET.parse('src\data\ergebnis_periode1.xml')
 tree_period_2 = ET.parse('src\data\ergebnis_periode2.xml')
 tree_period_3 = ET.parse('src\data\ergebnis_periode3.xml')
@@ -62,7 +63,7 @@ def create_vertriebswunsch():
     for i, root in enumerate(root_arr):
         forecast = root.find('forecast')
         vertriebswunsch_arr.append({
-            'Periode': i+2,
+            'Periode': int(root.get('period'))+1, # forecast of period i concerns period i+1
             'Artikel': 'P1',
             'Aktuell_0': forecast.get('p1'),
             'Aktuell_1': "",
@@ -70,7 +71,7 @@ def create_vertriebswunsch():
             'Aktuell_3': "",
         })
         vertriebswunsch_arr.append({
-            'Periode': i+2,
+            'Periode': int(root.get('period'))+1,
             'Artikel': 'P2',
             'Aktuell_0': forecast.get('p2'),
             'Aktuell_1': "",
@@ -78,7 +79,7 @@ def create_vertriebswunsch():
             'Aktuell_3': "",
         })
         vertriebswunsch_arr.append({
-            'Periode': i+2,
+            'Periode': int(root.get('period'))+1,
             'Artikel': 'P3',
             'Aktuell_0': forecast.get('p3'),
             'Aktuell_1': "",
@@ -90,7 +91,7 @@ def create_vertriebswunsch():
 
 def create_vertriebswunsch_neu():
     vertriebswunsch_arr = []
-    vertriebswunsch_arr.append({'Periode': 1, 'P1': 150, 'P2': 150, 'P3': 150}) # erste Periode
+    vertriebswunsch_arr.append({'Periode': 1, 'P1': 150, 'P2': 150, 'P3': 150}) # erste Periode manuell hinzufügen
 
     for i, root in enumerate(root_arr):
         forecast = root.find('forecast')
@@ -131,7 +132,7 @@ def create_wareneingang():
     for i, root in enumerate(root_arr):
         for order in root.find('inwardstockmovement').iter('order'):
             wareneingang_arr.append({
-                'Periode': i+1,
+                'Periode': i+1, # iterator starts from 0, first period is 1
                 'Artikel': order.get('article'),
                 'Menge': order.get('amount')
             })
