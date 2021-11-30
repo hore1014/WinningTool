@@ -23,6 +23,10 @@ production = prod.calculate_production(
     parts_traded,
 )
 
+# TODO: get rid of useless pairs in the lookup tables
+# TODO: extend direct sales/buys
+# TODO: funktionen härten für leere dicts
+
 consumption = cons.calculate_consumption(production, sales_forecast)
 
 production2 = prod.calculate_production_forecast(

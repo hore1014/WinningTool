@@ -10,7 +10,7 @@ def calculate_procurement(inventory, forecast0, forecast1, forecast2, forecast3)
         inventory_reach = 0
         average_consumption = (
             forecast0[article] + forecast1[article] + forecast2[article] + forecast3[article])/4
-        order = average_consumption * 1, 2
+        order = average_consumption * 1.2
 
         if (inventory[article] - forecast0[article] <= 0):
             inventory_reach = floor(
@@ -31,9 +31,12 @@ def calculate_procurement(inventory, forecast0, forecast1, forecast2, forecast3)
         elif ():
             print(f"Reichweite Lagerbestand {article}: >20 Tage")
 
-        if (inventory_reach >= pc.delivery_days[article][2]):
+        if (inventory_reach < pc.delivery_days[article][2]):
+
+            results[article] = (0, order)
+        elif (inventory_reach >= pc.delivery_days[article][2] and inventory_reach <= pc.delivery_days[article][2] + 5):
             results[article] = (order, 0)
         else:
-            results[article] = (0, order)
+            results[article] = (0, 0)
 
     return results
