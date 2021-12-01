@@ -6,10 +6,10 @@ from sqlalchemy import Table, Column, Integer, String, MetaData, create_engine, 
 from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.sqltypes import DECIMAL, REAL, Float
 import itertools
-
 import sys
 sys.path.append(os.path.abspath(os.curdir))
 from src.xmlInOut.importXml import *
+from . import lookupArticles as lookup
 
 # Define ORM for database tables
 meta = MetaData()
@@ -24,13 +24,13 @@ db_absatzprognose = Table(
         Column('Aktuell_3', Integer)
 )
 
-db_absatzprognose_neu = Table(
-    'Absatzprognose_Neu', meta,
-    Column('Periode', Integer, primary_key = True),
-    Column('P1', Integer),
-    Column('P2', Integer),
-    Column('P3', Integer),
-)
+# db_absatzprognose_neu = Table(
+#     'Absatzprognose_Neu', meta,
+#     Column('Periode', Integer, primary_key = True),
+#     Column('P1', Integer),
+#     Column('P2', Integer),
+#     Column('P3', Integer),
+# )
 
 db_strategie_Lagerbestand = Table(
     'Strategie_Lagerbestand', meta,
@@ -165,37 +165,50 @@ def init_db():
     for el in create_vertriebswunsch():
         conn.execute(str(db_absatzprognose.insert()), el)
 
-    for el in create_vertriebswunsch_neu():
-        conn.execute(str(db_absatzprognose_neu.insert()), el)
+    # for el in create_vertriebswunsch_neu():
+    #     conn.execute(str(db_absatzprognose_neu.insert()), el)
 
     conn.commit()
     conn.close()
 
     return
 
+
+
 # Retrieve data from DB
 def get_sales_forecast(period):
 
-    # Select * from Absatzprognose
-    query_p1 = "SELECT Aktuell_0, Aktuell_1, Aktuell_2, AKtuell_3 from Absatzprognose WHERE Periode = :p AND Artikel = 'P1'"
-    query_p2 = "SELECT Aktuell_0, Aktuell_1, Aktuell_2, AKtuell_3 from Absatzprognose WHERE Periode = :p AND Artikel = 'P2'"
-    query_p3 = "SELECT Aktuell_0, Aktuell_1, Aktuell_2, AKtuell_3 from Absatzprognose WHERE Periode = :p AND Artikel = 'P3'"
-    #query = db_absatzprognose.select().where(db_absatzprognose.c.Periode == period)
+    res_dict = {}
 
+    # SQL Query statements
+    query = "SELECT * from Absatzprognose WHERE Periode = :p"
+    
     # Create and Connect to SQLite database
     conn = sqlite3.connect("src\database\ibsys2.db")
+
     # Execute SQL command
-    result = {
-        "P1": conn.execute(str(query_p1), str(period)).fetchone(),
-        "P2": conn.execute(str(query_p2), str(period)).fetchone(),
-        "P3": conn.execute(str(query_p3), str(period)).fetchone(),
-        }
+    result = conn.execute(str(query), str(period)).fetchall()
+    for row in result:
+        # Add values to dictionary
+        res_dict[row[1]] = (row[2], row[3], row[4], row[5])
 
     # Close connection to database
     conn.close()
 
-    print(f"Sales forecast\n{result}")
-    return result
+    return res_dict
+
+def get_inventory_strategy(period):
+    # Create and Connect to SQLite database
+    conn = sqlite3.connect("src\database\ibsys2.db")
+
+     # SQL Query statement
+    query = "SELECT * from Strategie_Lagerbestand WHERE Periode = :p"
+
+    for art in lookup.p_e_list:
+           
+
+    
+    return
 
 def get_parts_inventory(period):
     return

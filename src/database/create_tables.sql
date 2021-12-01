@@ -12,13 +12,13 @@ CREATE TABLE IF NOT EXISTS Absatzprognose(
    PRIMARY KEY (Periode, Artikel)
 );
 
-CREATE TABLE IF NOT EXISTS Absatzprognose_Neu(
-   Periode INT,
-   P1 INT,
-   P2 INT,
-   P3 INT,
-   PRIMARY KEY (Periode)
-);
+--CREATE TABLE IF NOT EXISTS Absatzprognose_Neu(
+--   Periode INT,
+--   P1 INT,
+--   P2 INT,
+--   P3 INT,
+--   PRIMARY KEY (Periode)
+--);
 
 CREATE TABLE IF NOT EXISTS Strategie_Lagerbestand(
    Periode INT,

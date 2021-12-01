@@ -3,7 +3,7 @@
 --ATTACH DATABASE 'ibsys2.db' As 'IBSYS2';
 
 DROP TABLE IF EXISTS Absatzprognose;
-DROP TABLE IF EXISTS Absatzprognose_Neu;
+--DROP TABLE IF EXISTS Absatzprognose_Neu;
 DROP TABLE IF EXISTS Strategie_Lagerbestand;
 DROP TABLE IF EXISTS Produktion;
 DROP TABLE IF EXISTS Verbrauch;

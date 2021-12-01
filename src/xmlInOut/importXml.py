@@ -89,20 +89,20 @@ def create_vertriebswunsch():
 
     return vertriebswunsch_arr
 
-def create_vertriebswunsch_neu():
-    vertriebswunsch_arr = []
-    vertriebswunsch_arr.append({'Periode': 1, 'P1': 150, 'P2': 150, 'P3': 150}) # erste Periode manuell hinzufügen
+# def create_vertriebswunsch_neu():
+#     vertriebswunsch_arr = []
+#     vertriebswunsch_arr.append({'Periode': 1, 'P1': 150, 'P2': 150, 'P3': 150}) # erste Periode manuell hinzufügen
 
-    for i, root in enumerate(root_arr):
-        forecast = root.find('forecast')
-        vertriebswunsch_arr.append({
-            'Periode': int(root.get('period'))+1,
-            'P1': forecast.get('p1'),
-            'P2': forecast.get('p2'),
-            'P3': forecast.get('p3')
-        })
+#     for i, root in enumerate(root_arr):
+#         forecast = root.find('forecast')
+#         vertriebswunsch_arr.append({
+#             'Periode': int(root.get('period'))+1,
+#             'P1': forecast.get('p1'),
+#             'P2': forecast.get('p2'),
+#             'P3': forecast.get('p3')
+#         })
 
-    return vertriebswunsch_arr
+#     return vertriebswunsch_arr
 
 #p1_val = vertriebswunsch_arr[0]['p1']
 #print(p1_val)
