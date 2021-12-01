@@ -91,23 +91,23 @@ CREATE TABLE IF NOT EXISTS Warteschlangen(
    Periode INT,
    Artikel CHAR(10),
    Menge INT, 
-   Stationen INT,
-   PRIMARY KEY (Periode, Artikel, Stationen)
+   Station INT,
+   PRIMARY KEY (Periode, Artikel, Station)
 );
 
 CREATE TABLE IF NOT EXISTS In_Bearbeitung(
    Periode INT,
    Artikel CHAR(10),
    Menge INT, -- default: 10
-   Stationen INT,
-   PRIMARY KEY (Periode, Artikel, Stationen)
+   Station INT,
+   PRIMARY KEY (Periode, Artikel, Station)
 );
 
 CREATE TABLE IF NOT EXISTS Fehlmaterial(
    Periode INT,
    Artikel CHAR(10),
    Menge INT,
-   Stationen INT,
+   Station INT,
    Fehlmaterial CHAR(20), -- Fehlende Artikel die für diesen Artikel benötigt werden
-   PRIMARY KEY (Periode, Artikel, Stationen, Fehlmaterial)
+   PRIMARY KEY (Periode, Artikel, Station, Fehlmaterial)
 );

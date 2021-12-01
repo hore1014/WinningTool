@@ -151,7 +151,7 @@ def create_in_bearbeitung():
                 'Periode': i+2,
                 'Artikel': workplace.get('item'),
                 'Menge': workplace.get('amount'),
-                'Stationen': workplace.get('id')
+                'Station': workplace.get('id')
             })
     return in_bearbeitung_arr
 
@@ -167,11 +167,11 @@ def create_warteschlangen():
                         'Periode': i+2,
                         'Artikel': waitinglist.get('item'),
                         'Menge': waitinglist.get('amount'),
-                        'Stationen': workplace.get('id')
+                        'Station': workplace.get('id')
                     })
     # Zeilen nach Artikel aggregieren (Mengen gleicher Artikel summieren)
     df = pd.DataFrame(warteschlangen_arr)
-    warteschlangen_arr_aggreg = df.groupby(['Periode', 'Artikel', 'Stationen']).agg(sum).reset_index().to_dict('records')
+    warteschlangen_arr_aggreg = df.groupby(['Periode', 'Artikel', 'Station']).agg(sum).reset_index().to_dict('records')
     #TODO Stationen in Listen zusammenfassen
     return warteschlangen_arr_aggreg
 
@@ -187,7 +187,7 @@ def create_fehlmaterial():
                     'Periode': i+2,
                     'Artikel': waitinglist.get('item'),
                     'Menge': waitinglist.get('amount'),
-                    'Stationen': workplace.get('id'),
+                    'Station': workplace.get('id'),
                     'Fehlmaterial': missingpart.get('id')
                 })
     return fehlmaterial_arr

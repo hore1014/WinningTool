@@ -104,7 +104,7 @@ db_warteschlangen = Table(
     Column('Periode', Integer, primary_key = True),
     Column('Artikel', String, primary_key = True),
     Column('Menge', Integer),
-    Column('Stationen', Integer, primary_key=True)
+    Column('Station', Integer, primary_key=True)
 )
 
 db_in_bearbeitung = Table(
@@ -112,7 +112,7 @@ db_in_bearbeitung = Table(
     Column('Periode', Integer, primary_key = True),
     Column('Artikel', String, primary_key = True),
     Column('Menge', Integer),
-    Column('Stationen', Integer, primary_key = True)
+    Column('Station', Integer, primary_key = True)
 )
 
 db_fehlmaterial = Table(
@@ -120,7 +120,7 @@ db_fehlmaterial = Table(
     Column('Periode', Integer, primary_key = True),
     Column('Artikel', String, primary_key = True),
     Column('Menge', Integer),
-    Column('Stationen', Integer, primary_key = True),
+    Column('Station', Integer, primary_key = True),
     Column('Fehlmaterial', String, primary_key = True) #Fehlende Artikel, die für diesen Artiekl benötigt werden
 )
 
@@ -174,53 +174,116 @@ def init_db():
     return
 
 
-
 # Retrieve data from DB
-def get_sales_forecast(period):
-
-    res_dict = {}
-
-    # SQL Query statements
-    query = "SELECT * from Absatzprognose WHERE Periode = :p"
-    
+# Helper function for specific get-methods
+def get_all_from_db(period, table):
     # Create and Connect to SQLite database
     conn = sqlite3.connect("src\database\ibsys2.db")
 
+    # SQL Query statement
+    query = f"SELECT * from {table} WHERE Periode = :p"
+
     # Execute SQL command
     result = conn.execute(str(query), str(period)).fetchall()
-    for row in result:
-        # Add values to dictionary
-        res_dict[row[1]] = (row[2], row[3], row[4], row[5])
 
     # Close connection to database
     conn.close()
 
-    return res_dict
+    return result
 
-def get_inventory_strategy(period):
+# Helper function for specific get-methods
+def get_agg_from_db(period, table):
     # Create and Connect to SQLite database
     conn = sqlite3.connect("src\database\ibsys2.db")
 
-     # SQL Query statement
-    query = "SELECT * from Strategie_Lagerbestand WHERE Periode = :p"
+    # SQL Query statement
+    query = f"SELECT Artikel, SUM(Menge) from {table} WHERE Periode = :p GROUP BY Artikel"
 
-    for art in lookup.p_e_list:
-           
+    # Execute SQL command
+    result = conn.execute(str(query), str(period)).fetchall()
 
-    
-    return
+    # Close connection to database
+    conn.close()
 
-def get_parts_inventory(period):
-    return
+    return result
+
+
+def get_sales_forecast(period):
+    res_dict = {}
+    result = get_all_from_db(period, "Absatzprognose")
+
+    for row in result:
+        # Add values to dictionary
+        # (Periode, Artikel, Aktuell_0, Aktuell_1, Aktuell_2, Aktuell_3)
+        res_dict[row[1]] = (row[2], row[3], row[4], row[5])
+
+    return res_dict
 
 def get_inventory_strategy(period):
-    return
+    res_dict = {}
+    result = get_all_from_db(period, "Strategie_Lagerbestand")
+    
+    for row in result:
+        # Add values to dictionary
+        # (Periode, Artikel, Aktuell_0, Aktuell_1, Aktuell_2, Aktuell_3)
+        res_dict[row[1]] = (row[2], row[3], row[4], row[5])        
+    
+    return res_dict
+
+def get_parts_inventory(period):
+    res_dict = {}
+    result = get_all_from_db(period, "Lagerbestand")
+
+    for row in result:
+        # (Periode, Artikel, Anfangsbestand, Endbestand, Wert)
+        # Convert number to official notation
+        art = lookup.p_e_k_list[int(row[1])-1]
+        # Add values to dictionary
+        res_dict[art] = row[2]
+        
+    return res_dict
 
 def get_parts_processing(period):
-    return
+    res_dict = {}
+    # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated
+    result = get_agg_from_db(period, "In_Bearbeitung")
+
+    for row in result:
+        # (Artikel, Menge)
+        # Convert number to official notation
+        art = lookup.p_e_k_list[int(row[0])-1]
+        # Add values to dictionary
+        res_dict[art] = row[1]
+        
+    return res_dict
 
 def get_parts_in_queue(period):
-    return
+    res_dict = {}
+    # Parts in queues can 
+    result = get_agg_from_db(period, "Warteschlangen")
+
+    for row in result:
+        # (Artikel, Menge)
+        # Convert number to official notation
+        art = lookup.p_e_k_list[int(row[0])-1]
+        # Add values to dictionary
+        res_dict[art] = row[1]
+
+    return res_dict
+
+def get_missing_parts(period):
+    res_dict = {}
+    # Parts in queues can 
+    result = get_agg_from_db(period, "Fehlmaterial")
+
+    for row in result:
+        # (Artikel, Menge)
+        # Convert number to official notation
+        art = lookup.p_e_k_list[int(row[0])-1]
+        # Add values to dictionary
+        res_dict[art] = row[1]
+
+    return res_dict
 
 def get_parts_trade(period):
     return
