@@ -1,4 +1,4 @@
-from database import db_mock as mock, db_init as db
+from database import db_mock as mock, db
 from production import production as prod
 from production import consumption as cons
 from capacity import capacity as cap
@@ -17,7 +17,7 @@ planned_parts = mock.get_inventory_strategy(1)
 parts_processing = db.get_parts_processing(1)
 parts_in_queue = db.get_parts_in_queue(1)
 missing_parts = db.get_missing_parts(1)
-parts_traded = mock.get_parts_trade(1)
+parts_traded = db.get_parts_trade(1)
 
 production = prod.calculate_production(
     sales_forecast,

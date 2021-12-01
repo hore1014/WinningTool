@@ -259,7 +259,7 @@ def get_parts_processing(period):
 
 def get_parts_in_queue(period):
     res_dict = {}
-    # Parts in queues can 
+    # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated
     result = get_agg_from_db(period, "Warteschlangen")
 
     for row in result:
@@ -273,7 +273,7 @@ def get_parts_in_queue(period):
 
 def get_missing_parts(period):
     res_dict = {}
-    # Parts in queues can 
+    # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated 
     result = get_agg_from_db(period, "Fehlmaterial")
 
     for row in result:
@@ -286,4 +286,13 @@ def get_missing_parts(period):
     return res_dict
 
 def get_parts_trade(period):
-    return
+    res_dict = {}
+
+    result = get_all_from_db(period, "Handel")
+
+    # (Periode, Artikel, Direktkauf, Direktverkauf, Preis)
+    for row in result:
+        #TODO: User needs to input trade values with preceeding letter! (P, E or K)
+        res_dict[row[1]] = (row[2], row[3], row[4])
+
+    return res_dict
