@@ -148,7 +148,7 @@ def create_in_bearbeitung():
     for i, root in enumerate(root_arr):
         for workplace in root.find('ordersinwork').iter('workplace'):
             in_bearbeitung_arr.append({
-                'Periode': i+2,
+                'Periode': i+2,  # iterator starts from 0, first period is 1, we want to store start values of subsequent period (2)
                 'Artikel': workplace.get('item'),
                 'Menge': workplace.get('amount'),
                 'Station': workplace.get('id')
@@ -166,7 +166,7 @@ def create_warteschlangen():
                     warteschlangen_arr.append({
                         'Periode': i+2,
                         'Artikel': waitinglist.get('item'),
-                        'Menge': waitinglist.get('amount'),
+                        'Menge': int(waitinglist.get('amount')),
                         'Station': workplace.get('id')
                     })
     # Zeilen nach Artikel aggregieren (Mengen gleicher Artikel summieren)
