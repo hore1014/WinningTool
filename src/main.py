@@ -8,10 +8,9 @@ from functools import reduce
 
 # Initialize (create and populate) database from XML input data
 db.init_db()
-db.get_sales_forecast(1)
 
 # load all necessary data for production calculation from database
-sales_forecast = mock.get_sales_forecast(1)
+sales_forecast = db.get_sales_forecast(1)
 current_parts = mock.get_parts_inventory(1)
 planned_parts = mock.get_inventory_strategy(1)
 parts_processing = mock.get_parts_processing(1)

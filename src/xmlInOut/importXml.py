@@ -39,25 +39,25 @@ def create_vertriebswunsch():
         'Periode': 1, 
         'Artikel': 'P1', 
         'Aktuell_0': 150, 
-        'Aktuell_1': "", 
-        'Aktuell_2': "", 
-        'Aktuell_3': ""
+        'Aktuell_1': "0", 
+        'Aktuell_2': "0", 
+        'Aktuell_3': "0"
     })
     vertriebswunsch_arr.append({
         'Periode': 1, 
         'Artikel': 'P2', 
         'Aktuell_0': 150, 
-        'Aktuell_1': "", 
-        'Aktuell_2': "", 
-        'Aktuell_3': ""
+        'Aktuell_1': "0", 
+        'Aktuell_2': "0", 
+        'Aktuell_3': "0"
     })
     vertriebswunsch_arr.append({
         'Periode': 1, 
         'Artikel': 'P3', 
         'Aktuell_0': 150, 
-        'Aktuell_1': "", 
-        'Aktuell_2': "", 
-        'Aktuell_3': ""
+        'Aktuell_1': "0", 
+        'Aktuell_2': "0", 
+        'Aktuell_3': "0"
     })
 
     for i, root in enumerate(root_arr):
@@ -66,25 +66,25 @@ def create_vertriebswunsch():
             'Periode': int(root.get('period'))+1, # forecast of period i concerns period i+1
             'Artikel': 'P1',
             'Aktuell_0': forecast.get('p1'),
-            'Aktuell_1': "",
-            'Aktuell_2': "",
-            'Aktuell_3': "",
+            'Aktuell_1': "0",
+            'Aktuell_2': "0",
+            'Aktuell_3': "0",
         })
         vertriebswunsch_arr.append({
             'Periode': int(root.get('period'))+1,
             'Artikel': 'P2',
             'Aktuell_0': forecast.get('p2'),
-            'Aktuell_1': "",
-            'Aktuell_2': "",
-            'Aktuell_3': "",
+            'Aktuell_1': "0",
+            'Aktuell_2': "0",
+            'Aktuell_3': "0",
         })
         vertriebswunsch_arr.append({
             'Periode': int(root.get('period'))+1,
             'Artikel': 'P3',
             'Aktuell_0': forecast.get('p3'),
-            'Aktuell_1': "",
-            'Aktuell_2': "",
-            'Aktuell_3': "",
+            'Aktuell_1': "0",
+            'Aktuell_2': "0",
+            'Aktuell_3': "0",
         })
 
     return vertriebswunsch_arr

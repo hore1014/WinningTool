@@ -174,24 +174,28 @@ def init_db():
     return
 
 # Retrieve data from DB
-# TODO general function for select statement with given table
-# TODO static variable, or something, that saves all ibsys articles in dict
 def get_sales_forecast(period):
 
     # Select * from Absatzprognose
-    query = "SELECT * from Absatzprognose WHERE Periode = :p"
+    query_p1 = "SELECT Aktuell_0, Aktuell_1, Aktuell_2, AKtuell_3 from Absatzprognose WHERE Periode = :p AND Artikel = 'P1'"
+    query_p2 = "SELECT Aktuell_0, Aktuell_1, Aktuell_2, AKtuell_3 from Absatzprognose WHERE Periode = :p AND Artikel = 'P2'"
+    query_p3 = "SELECT Aktuell_0, Aktuell_1, Aktuell_2, AKtuell_3 from Absatzprognose WHERE Periode = :p AND Artikel = 'P3'"
     #query = db_absatzprognose.select().where(db_absatzprognose.c.Periode == period)
 
     # Create and Connect to SQLite database
     conn = sqlite3.connect("src\database\ibsys2.db")
     # Execute SQL command
-    result = conn.execute(str(query), str(period))
-    for row in result:
-        print(row)
+    result = {
+        "P1": conn.execute(str(query_p1), str(period)).fetchone(),
+        "P2": conn.execute(str(query_p2), str(period)).fetchone(),
+        "P3": conn.execute(str(query_p3), str(period)).fetchone(),
+        }
+
     # Close connection to database
     conn.close()
 
-    return
+    print(f"Sales forecast\n{result}")
+    return result
 
 def get_parts_inventory(period):
     return
