@@ -11,13 +11,13 @@ db.init_db()
 
 # load all necessary data for production calculation from database
 #TODO period is user input
-sales_forecast = db.get_sales_forecast(2)
-current_parts = db.get_parts_inventory(2)
-planned_parts = db.get_inventory_strategy(2)
-parts_processing = db.get_parts_processing(2)
-parts_in_queue = db.get_parts_in_queue(2)
-missing_parts = db.get_missing_parts(2)
-parts_traded = mock.get_parts_trade(2)
+sales_forecast = db.get_sales_forecast(1)
+current_parts = db.get_parts_inventory(1)
+planned_parts = mock.get_inventory_strategy(1)
+parts_processing = db.get_parts_processing(1)
+parts_in_queue = db.get_parts_in_queue(1)
+missing_parts = db.get_missing_parts(1)
+parts_traded = mock.get_parts_trade(1)
 
 production = prod.calculate_production(
     sales_forecast,

@@ -114,7 +114,7 @@ def create_lagerbestand():
         for article in root.iter('article'):
 
             lagerbestand_arr.append({
-                'Periode': i+2, # iterator starts from 0, data of first period (1) refers to subsequent period (2)
+                'Periode': i+1, # iterator starts from 0, first period is 1
                 'Artikel': article.get('id'), 
                 'Anfangsbestand': article.get('startamount'), 
                 'Endbestand': article.get('amount'), 
@@ -132,9 +132,9 @@ def create_wareneingang():
     for i, root in enumerate(root_arr):
         for order in root.find('inwardstockmovement').iter('order'):
             wareneingang_arr.append({
-                'Periode': i+2, 
+                'Periode': i+1, # iterator starts from 0, first period is 1
                 'Artikel': order.get('article'),
-                'Menge': order.get('amount')
+                'Menge': int(order.get('amount'))
             })
     # Mengen gleicher Artikel summieren (da ansonsten UNIQUE constraint verletzt ist)
     df = pd.DataFrame(wareneingang_arr)
