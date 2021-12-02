@@ -39,25 +39,25 @@ def create_vertriebswunsch():
         'Periode': 1, 
         'Artikel': 'P1', 
         'Aktuell_0': 150, 
-        'Aktuell_1': "0", 
-        'Aktuell_2': "0", 
-        'Aktuell_3': "0"
+        'Aktuell_1': 150, 
+        'Aktuell_2': 150, 
+        'Aktuell_3': 150
     })
     vertriebswunsch_arr.append({
         'Periode': 1, 
         'Artikel': 'P2', 
         'Aktuell_0': 150, 
-        'Aktuell_1': "0", 
-        'Aktuell_2': "0", 
-        'Aktuell_3': "0"
+        'Aktuell_1': 100, 
+        'Aktuell_2': 100, 
+        'Aktuell_3': 50
     })
     vertriebswunsch_arr.append({
         'Periode': 1, 
         'Artikel': 'P3', 
         'Aktuell_0': 150, 
-        'Aktuell_1': "0", 
-        'Aktuell_2': "0", 
-        'Aktuell_3': "0"
+        'Aktuell_1': 100, 
+        'Aktuell_2': 50, 
+        'Aktuell_3': 50
     })
 
     for i, root in enumerate(root_arr):
