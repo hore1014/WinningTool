@@ -183,13 +183,14 @@ def init_db():
 
 
 # Retrieve data from DB
+
 # Helper function for specific get-methods
-def get_all_from_db(period, table):
+def get_all_from_db(period, table, period_column_name = "Periode"):
     # Create and Connect to SQLite database
     conn = sqlite3.connect("src\database\ibsys2.db")
 
     # SQL Query statement
-    query = f"SELECT * from {table} WHERE Periode = :p"
+    query = f"SELECT * from {table} WHERE {period_column_name} = :p"
 
     # Execute SQL command
     result = conn.execute(str(query), str(period)).fetchall()
@@ -245,7 +246,7 @@ def get_parts_inventory(period):
     for row in result:
         # (Periode, Artikel, Anfangsbestand, Endbestand, Wert)
         # Convert number to official notation
-        art = lookup.p_e_k_list[int(row[1])-1]
+        art = lookup.p_e_k_list[int(row[1]) - 1]
         # Add values to dictionary
         res_dict[art] = row[2]
         
@@ -259,7 +260,7 @@ def get_parts_processing(period):
     for row in result:
         # (Artikel, Menge)
         # Convert number to official notation
-        art = lookup.p_e_k_list[int(row[0])-1]
+        art = lookup.p_e_k_list[int(row[0]) - 1]
         # Add values to dictionary
         res_dict[art] = row[1]
         
@@ -273,7 +274,7 @@ def get_parts_in_queue(period):
     for row in result:
         # (Artikel, Menge)
         # Convert number to official notation
-        art = lookup.p_e_k_list[int(row[0])-1]
+        art = lookup.p_e_k_list[int(row[0]) - 1]
         # Add values to dictionary
         res_dict[art] = row[1]
 
@@ -287,7 +288,7 @@ def get_missing_parts(period):
     for row in result:
         # (Artikel, Menge)
         # Convert number to official notation
-        art = lookup.p_e_k_list[int(row[0])-1]
+        art = lookup.p_e_k_list[int(row[0]) - 1]
         # Add values to dictionary
         res_dict[art] = row[1]
 
@@ -307,5 +308,16 @@ def get_parts_trade(period):
 
 def get_orders_in_transit(period):
     res_dict = {}
+    result = get_all_from_db(period, "Wareneingaenge_Ausstehend", "Bestellperiode")
 
+    for row in result:
+        # (Bestellperiode, Artikel, Menge, Bestellart)
+        art = lookup.p_e_k_list[int(row[1]) - 1]
+        val = (row[0], row[2], row[3]) #tuple
+        if art in res_dict:
+            # Gleiche Artikel zusammenfassen:
+            res_dict[art].append(val)
+        else:
+            res_dict[art] = [val, ] #list of tuples
+    print(res_dict)
     return res_dict
