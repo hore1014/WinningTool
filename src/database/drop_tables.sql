@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS Kapazitaet;
 DROP TABLE IF EXISTS Einkauf;
 DROP TABLE IF EXISTS Handel;
 DROP TABLE IF EXISTS Wareneingaenge;
+DROP TABLE IF EXISTS Wareneingaenge_Ausstehend;
 DROP TABLE IF EXISTS Warteschlangen;
 DROP TABLE IF EXISTS In_Bearbeitung;
 DROP TABLE IF EXISTS Fehlmaterial;

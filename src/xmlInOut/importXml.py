@@ -145,13 +145,19 @@ def create_wareneingang():
 # Noch ausstehende Wareneingänge für Bestellungen, die bereits getätigt wurden
 def create_ausstehende_lieferungen():
     orders_arr = []
-    for i, root in enumerate(root_arr):
+    for root in root_arr:
         for order in root.find('futureinwardstockmovement').iter('order'):
-            orders_arr.append({
-                int(order.get('article')): [int(order.get('orderperiod')), int(order.get('amount')), int(order.get('mode'))]
-            })
-        # Gleiche Artikel zusammenfassen
-
+            dict_element = {
+                'Bestellperiode': int(order.get('orderperiod')),
+                'Artikel': int(order.get('article')),
+                'Menge': int(order.get('amount')),
+                'Bestellart': int(order.get('mode')) # Normal (4) - oder Eilbestellung (5)
+            }
+            # Ausstehende Bestellunge können auch in der Folgeperiode noch auf der Warteliste stehen
+            # und werden dort daher nochmal aufgeführt.
+            # Diese sollen nicht nochmal extrahiert werden, da sonst das UNIQUE constraint der DB verletzt wird!
+            if dict_element not in orders_arr:
+                orders_arr.append(dict_element)
 
     return orders_arr
 

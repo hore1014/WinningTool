@@ -87,6 +87,14 @@ CREATE TABLE IF NOT EXISTS Wareneingaenge(
    PRIMARY KEY (Periode, Artikel)
 );
 
+CREATE TABLE IF NOT EXISTS Wareneingaenge_Ausstehend(
+   Bestellperiode INT,
+   Artikel CHAR(10),
+   Menge INT,
+   Bestellart INT,
+   PRIMARY KEY (Bestellperiode, Artikel, Bestellart)
+);
+
 CREATE TABLE IF NOT EXISTS Warteschlangen(
    Periode INT,
    Artikel CHAR(10),

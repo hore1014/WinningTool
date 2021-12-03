@@ -99,6 +99,14 @@ db_wareneingaenge = Table(
     Column('Menge', Integer)  
 )
 
+db_wareneingaenge_ausstehend = Table(
+    'Wareneingaenge_Ausstehend', meta,
+    Column('Bestellperiode', Integer, primary_key = True),
+    Column('Artikel', String, primary_key = True),
+    Column('Menge', Integer),
+    Column('Bestellart', Integer, primary_key = True)  
+)
+
 db_warteschlangen = Table(
     'Warteschlangen', meta,
     Column('Periode', Integer, primary_key = True),
@@ -153,6 +161,9 @@ def init_db():
     for el in create_wareneingang():
         conn.execute(str(db_wareneingaenge.insert()), el)
 
+    for el in create_ausstehende_lieferungen():
+        conn.execute(str(db_wareneingaenge_ausstehend.insert()), el)
+
     for el in create_in_bearbeitung():
         conn.execute(str(db_in_bearbeitung.insert()), el)
 
@@ -164,12 +175,6 @@ def init_db():
 
     for el in create_vertriebswunsch():
         conn.execute(str(db_absatzprognose.insert()), el)
-
-    for el in create_ausstehende_lieferungen():
-        print(el)
-
-    # for el in create_vertriebswunsch_neu():
-    #     conn.execute(str(db_absatzprognose_neu.insert()), el)
 
     conn.commit()
     conn.close()
