@@ -62,24 +62,24 @@ shifts = cap.calculate_shifts(capacity)
 # TODO: calculate inventory at end of period and check if inventory worth is below 250.000€
 
 # print the results with sums for control purposes
-print(f"Produktion:\n{json.dumps(production, indent=4)}")
-print(f"Summe: {reduce(lambda x, value: x + value, production.values(), 0)}\n")
+#print(f"Produktion:\n{json.dumps(production, indent=4)}")
+#print(f"Summe: {reduce(lambda x, value: x + value, production.values(), 0)}\n")
 
-print(f"Verbrauch:\n{json.dumps(consumption, indent=4)}")
-print(f"Summe: {reduce(lambda x, value: x + value, consumption.values(), 0)}\n")
+#print(f"Verbrauch:\n{json.dumps(consumption, indent=4)}")
+#print(f"Summe: {reduce(lambda x, value: x + value, consumption.values(), 0)}\n")
 
-print(f"Kapazität:\n{json.dumps(capacity, indent=4)}")
-print(f"Summe: {reduce(lambda x, value: x + value, capacity.values(), 0)}\n")
+#print(f"Kapazität:\n{json.dumps(capacity, indent=4)}")
+#print(f"Summe: {reduce(lambda x, value: x + value, capacity.values(), 0)}\n")
 
-print("Schichten:\n{")
-for station in shifts:
-    print(
-        f"\t\"{station}\": ({shifts[station][0]}, {shifts[station][1]/5})")
-print("}\n" +
-      f"Summe Mehrarbeit: {reduce(lambda x, value: x + value[1], shifts.values(), 0)}\n")
+#print("Schichten:\n{")
+#for station in shifts:
+#    print(
+#        f"\t\"{station}\": ({shifts[station][0]}, {shifts[station][1]/5})")
+#print("}\n" +
+#      f"Summe Mehrarbeit: {reduce(lambda x, value: x + value[1], shifts.values(), 0)}\n")
 
-print("Bestellungen:\n{")
-for article in orders:
-    print(
-        f"\t\"{article}\": Normalbestellung: {orders[article][0]},\tEilbestellung: {orders[article][1]},\tReichweite: {orders[article][2]} Tage")
-print("}\n")
+#print("Bestellungen:\n{")
+#for article in orders:
+#    print(
+#        f"\t\"{article}\": Normalbestellung: {orders[article][0]},\tEilbestellung: {orders[article][1]},\tReichweite: {orders[article][2]} Tage")
+#print("}\n")

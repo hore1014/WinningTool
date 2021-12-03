@@ -142,6 +142,20 @@ def create_wareneingang():
 
     return wareneingang_arr_aggreg
 
+# Noch ausstehende Wareneingänge für Bestellungen, die bereits getätigt wurden
+def create_ausstehende_lieferungen():
+    orders_arr = []
+    for i, root in enumerate(root_arr):
+        for order in root.find('futureinwardstockmovement').iter('order'):
+            orders_arr.append({
+                int(order.get('article')): [int(order.get('orderperiod')), int(order.get('amount')), int(order.get('mode'))]
+            })
+        # Gleiche Artikel zusammenfassen
+
+
+    return orders_arr
+
+
 # Hole die Werte für die Artikel in Bearbeitung
 def create_in_bearbeitung():
     in_bearbeitung_arr = []

@@ -165,6 +165,9 @@ def init_db():
     for el in create_vertriebswunsch():
         conn.execute(str(db_absatzprognose.insert()), el)
 
+    for el in create_ausstehende_lieferungen():
+        print(el)
+
     # for el in create_vertriebswunsch_neu():
     #     conn.execute(str(db_absatzprognose_neu.insert()), el)
 
@@ -294,5 +297,10 @@ def get_parts_trade(period):
     for row in result:
         #TODO: User needs to input trade values with preceeding letter! (P, E or K)
         res_dict[row[1]] = (row[2], row[3], row[4])
+
+    return res_dict
+
+def get_orders_in_transit(period):
+    res_dict = {}
 
     return res_dict
