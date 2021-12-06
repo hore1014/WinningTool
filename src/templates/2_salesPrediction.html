@@ -38,7 +38,7 @@
 
     <div class="container">
       <h3>
-        Geben Sie die Absatzprognosen für die aktuelle und der darauffolgenden
+        Geben Sie die Absatzprognosen für die aktuelle und die darauffolgenden
         Perioden an.
       </h3>
       <table>
@@ -54,45 +54,62 @@
         <tbody>
           <tr>
             <td>P1</td>
-            <td class="editable" contenteditable="true">100</td>
-            <td class="editable" contenteditable="true">100</td>
-            <td class="editable" contenteditable="true">100</td>
-            <td class="editable" contenteditable="true">100</td>
+            <td id="1-1" class="editable" contenteditable="true" onblur="calculate(1)">{{ data_1_1 }}</td>
+            <td id="1-2" class="editable" contenteditable="true" onblur="calculate(2)">{{ data_1_2 }}</td>
+            <td id="1-3" class="editable" contenteditable="true" onblur="calculate(3)">{{ data_1_3 }}</td>
+            <td id="1-4" class="editable" contenteditable="true" onblur="calculate(4)">{{ data_1_4 }}</td>
           </tr>
           <tr>
             <td>P2</td>
-            <td class="editable" contenteditable="true">100</td>
-            <td class="editable" contenteditable="true">100</td>
-            <td class="editable" contenteditable="true">100</td>
-            <td class="editable" contenteditable="true">100</td>
+            <td id="2-1" class="editable" contenteditable="true" onblur="calculate(1)">{{ data_2_1 }}</td>
+            <td id="2-2" class="editable" contenteditable="true" onblur="calculate(2)">{{ data_2_2 }}</td>
+            <td id="2-3" class="editable" contenteditable="true" onblur="calculate(3)">{{ data_2_3 }}</td>
+            <td id="2-4" class="editable" contenteditable="true" onblur="calculate(4)">{{ data_2_4 }}</td>
           </tr>
           <tr>
             <td>P3</td>
-            <td class="editable" contenteditable="true">100</td>
-            <td class="editable" contenteditable="true">100</td>
-            <td class="editable" contenteditable="true">100</td>
-            <td class="editable" contenteditable="true">100</td>
+            <td id="3-1" class="editable" contenteditable="true" onblur="calculate(1)">{{ data_2_1 }}</td>
+            <td id="3-2" class="editable" contenteditable="true" onblur="calculate(2)">{{ data_2_1 }}</td>
+            <td id="3-3" class="editable" contenteditable="true" onblur="calculate(3)">{{ data_2_1 }}</td>
+            <td id="3-4" class="editable" contenteditable="true" onblur="calculate(4)">{{ data_2_1 }}</td>
           </tr>
           <tr>
             <td><em>Summe</em></td>
-            <td>cell2_4</td>
-            <td>cell3_4</td>
-            <td>cell4_4</td>
-            <td>cell5_4</td>
+            <td id="sum1"></td>
+            <td id="sum2"></td>
+            <td id="sum3"></td>
+            <td id="sum4"></td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <button
+    <form method="post">
+      <button
       class="continue-button"
       type="submit"
       value="Upload"
       onclick="location.href='3_stockPlaner.html'"
     >
+    </form>
+
       Weiter
       <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png')}}" />
     </button>
+    <script>
+      function calculate(column) {
+        var number1 = parseInt(document.getElementById("1-"+column).innerHTML)
+        let number2 = parseInt(document.getElementById("2-"+column).innerHTML)
+        let number3 = parseInt(document.getElementById("3-"+column).innerHTML)
+        console.log(number1 + ", " + number2 + ", " + number3)
+
+        let result = document.getElementById("sum" + column)
+        result.textContent = number1 + number2 + number3
+      }
+      for (let x = 1; x < 5; x++) {
+        window.onload = calculate(x)
+      }
+    </script>
   </body>
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
