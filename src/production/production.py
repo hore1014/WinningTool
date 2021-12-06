@@ -8,13 +8,14 @@ basic_results = {"P1": 0, "P2": 0, "P3": 0, "E4": 0, "E5": 0, "E6": 0, "E7": 0, 
                  "E16": 0, "E17": 0, "E18": 0, "E19": 0, "E20": 0, "E26": 0, "E29": 0, "E30": 0, "E31": 0, "E49": 0, "E50": 0, "E51": 0, "E54": 0, "E55": 0, "E56": 0}
 
 
-def calculate_production(sales, current, planned, processing, queued, trade):
+def calculate_production(sales, current, planned, processing, missing, queued, trade):
     results = basic_results.copy()
 
     for article in calculation_sequence:
         production = 0
         processing_article = processing[article] if article in processing else 0
         queued_article = queued[article] if article in queued else 0
+        missing_article = missing[article] if article in missing else 0
         purchase_article = trade[article][0] if article in trade else 0
         sell_article = trade[article][1] if article in trade else 0
         # for every part look up the parts that need this specific part and the amount of it to get assembled
@@ -31,6 +32,7 @@ def calculate_production(sales, current, planned, processing, queued, trade):
                     current[article] - \
                     processing_article - \
                     queued_article - \
+                    missing_article - \
                     purchase_article + \
                     sell_article
             case _:
@@ -40,6 +42,7 @@ def calculate_production(sales, current, planned, processing, queued, trade):
                     current[article] - \
                     processing_article - \
                     queued_article - \
+                    missing_article - \
                     purchase_article + \
                     sell_article
 
