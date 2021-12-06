@@ -11,12 +11,15 @@ def get_average_inventory_worth(current, production, consumption, processing, qu
         queued_article = queued[key] if key in queued else 0
         missing_article = missing[key] if key in missing else 0
         trade_article = trade[key] if key in trade else (0, 0, 0)
-
+        # if float separator is ',' substitute it with '.'
+        current_price = float(".".join(current[key][1].split(",")) if len(
+            current[key][1].split(",")) == 2 else current[key][1])
         period_end = current[key][0] + production_article - consumption[key] + \
             processing_article + queued_article + \
             missing_article + trade_article[0] - trade_article[1]
-        current_worth = current[key][0] * current[key][1]
-        period_end_worth = period_end * current[key][1]
+
+        current_worth = current[key][0] * current_price
+        period_end_worth = period_end * current_price
         results[key] = round((current_worth + period_end_worth) * 0.5, 2)
         # results are the average inventory worths for every article
 

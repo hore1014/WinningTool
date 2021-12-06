@@ -12,16 +12,16 @@ db.init_db()
 
 # load all necessary data for production calculation from database
 # TODO period is user input
-current_period = 2
+current_period = 1
 
-sales_forecast = mock.get_sales_forecast(current_period)
-current_parts = mock.get_parts_inventory(current_period)
+sales_forecast = db.get_sales_forecast(current_period)
+current_parts = db.get_parts_inventory(current_period)
 planned_parts = mock.get_inventory_strategy(current_period)
-parts_processing = mock.get_parts_processing(current_period)
-parts_in_queue = mock.get_parts_in_queue(current_period)
-missing_parts = mock.get_missing_parts(current_period)
-parts_traded = mock.get_parts_trade(current_period)
-parts_ordered = mock.get_orders_in_transit(
+parts_processing = db.get_parts_processing(current_period)
+parts_in_queue = db.get_parts_in_queue(current_period)
+missing_parts = db.get_missing_parts(current_period)
+parts_traded = db.get_parts_trade(current_period)
+parts_ordered = db.get_orders_in_transit(
     current_period-1) if current_period > 1 else {}
 
 production = prod.calculate_production(
