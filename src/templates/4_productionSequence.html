@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="HTML, CSS" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <meta
+      name="description"
+      content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
+    />
+    <title>Stock Planer</title>
+  </head>
+  <body>
+    <nav>
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Vorherige Periode</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html">Absatz Prognosen</a>
+        </li>
+        <li class="active"><a href="3_stockPlaner.html">Lager</a></li>
+        <li class="active">
+          <a href="4_productionSequence.html"
+            >Produktionsreihenfolge und Losgrößen</a
+          >
+        </li>
+        <li><a href="5_orders_purchase.html">Bestellungen</a></li>
+        <li><a href="6_capacity.html">Kapazität</a></li>
+        <li><a href="7_finances.html">Finanzen</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <h3>Tragen Sie die Produktionsreihenfolge ein.</h3>
+      <p>
+        Das was zuerst steht wird zuerst produziert. <br />
+        Artikelnummern:
+      </p>
+      <div
+        class="horizontal-scrollable-table-wrapper"
+        id="horizontal-scrollable-table-wrapper"
+      >
+        <table class="production-order-table">
+          <tbody>
+            <tr id="production-order-row"></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <script>
+        var row = document.getElementById("production-order-row");
+
+        for (var count = 0; count < 29; count++) {
+          row.innerHTML += '<td class="editable" contenteditable="true"></td>';
+        }
+
+        /*horizontales Scrollen */
+        const scrollContainer = document.getElementById(
+          "horizontal-scrollable-table-wrapper"
+        );
+        scrollContainer.addEventListener("wheel", (evt) => {
+          evt.preventDefault();
+          scrollContainer.scrollLeft += evt.deltaY;
+        });
+      </script>
+
+      <br />
+
+      <h3>Geben Sie hier die Produktionslosgröße ein.</h3>
+      <p>
+        Wenn nichts angegeben wird, dann werden die Artikel komplett am Stück
+        produziert.
+      </p>
+      <table class="production-order-table">
+        <tbody>
+          <tr id="production-order-row">
+            <td class="editable" class="allow-number" contenteditable="true">
+              10
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='5_orders_purchase.html'"
+    >
+      Weiter
+      <img id="continue-icon" src="img/continueArrow.png" />
+    </button>
+  </body>
+  <footer>
+    © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
+  </footer>
+</html>

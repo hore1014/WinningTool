@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="HTML, CSS" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <meta
+      name="description"
+      content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
+    />
+    <title>Stock Planer</title>
+  </head>
+  <body>
+    <nav>
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Vorherige Periode</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html">Absatz Prognosen</a>
+        </li>
+        <li class="active"><a href="3_stockPlaner.html">Lager</a></li>
+        <li>
+          <a href="4_productionSequence.html"
+            >Produktionsreihenfolge und Losgrößen</a
+          >
+        </li>
+        <li><a href="5_orders_purchase.html">Bestellungen</a></li>
+        <li><a href="6_capacity.html">Kapazität</a></li>
+        <li><a href="7_finances.html">Finanzen</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <h3>Geben Sie den Planlagerbestand jeder Artikel an.</h3>
+      <div class="vertical-scrollable-table-wrapper">
+        <table id="stock-table">
+          <thead>
+            <tr>
+              <th>Artikel</th>
+              <th>Planlagerbestand</th>
+              <th>Produktion</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+
+      <script>
+        /* Pseudo-Artikel */
+        var body = document.getElementById("table-body");
+
+        for (var count = 0; count < 20; count++) {
+          body.innerHTML +=
+            '<tr><td name="article">Artikel</td><td class="editable" contenteditable="true" name="stock">150</td><td name="production">?</td></tr>';
+        }
+      </script>
+    </div>
+
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='4_productionSequence.html'"
+    >
+      Weiter
+      <img id="continue-icon" src="img/continueArrow.png" />
+    </button>
+  </body>
+  <footer>
+    © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
+  </footer>
+</html>

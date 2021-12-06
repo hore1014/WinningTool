@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <meta
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
@@ -45,16 +45,16 @@
         <li class="active"><a href="1_lastPeriod.html">Vorherige Periode</a></li>
         <li><a href="2_salesPrediction.html">Absatz Prognosen</a></li>
         <li><a href="3_stockPlaner.html">Lager</a></li>
-        <li><a href="4_productionSequence">Produktionsreihenfolge und Losgrößen</a></li>    
-        <li><a href="5_orders.html">Bestellungen</a></li> 
+        <li><a href="4_productionSequence.html">Produktionsreihenfolge und Losgrößen</a></li>    
+        <li><a href="5_orders_purchase.html">Bestellungen</a></li> 
         <li><a href="6_capacity.html">Kapazität</a></li> 
         <li><a href="7_finances.html">Finanzen</a></li>
       </ul>
     </nav>
 
-    <form method="post" enctype="multipart/form-data">
+    <form action="fileUploader.php" method="post" enctype="multipart/form-data">
       <div class="upload-container">
-        <img id="file-upload" src="{{ url_for('static', filename='img/FileUpload.png')}}" />
+        <img id="file-upload" src="img/FileUpload.png" />
         <h2>Endwerte der vorherigen Periode hochladen</h2>
         <p>
           Laden Sie die Endwerte der vorherigen Periode in Form einer XML-Datei
@@ -79,7 +79,7 @@
       value="Upload" 
       onclick="location.href='2_salesPrediction.html'">
       Weiter
-      <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png')}}" />
+      <img id="continue-icon" src="img/continueArrow.png" />
     </button>
   </body>
   <footer>

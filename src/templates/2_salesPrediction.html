@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="HTML, CSS" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <meta
+      name="description"
+      content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
+    />
+    <title>Sales Prediction</title>
+  </head>
+  <body>
+    <nav>
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Vorherige Periode</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html">Absatz Prognosen</a>
+        </li>
+        <li><a href="3_stockPlaner.html">Lager</a></li>
+        <li>
+          <a href="4_productionSequence.html"
+            >Produktionsreihenfolge und Losgrößen</a
+          >
+        </li>
+        <li><a href="5_orders_purchase.html">Bestellungen</a></li>
+        <li><a href="6_capacity.html">Kapazität</a></li>
+        <li><a href="7_finances.html">Finanzen</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <h3>
+        Geben Sie die Absatzprognosen für die aktuelle und der darauffolgenden
+        Perioden an.
+      </h3>
+      <table id="sales-table">
+        <thead>
+          <tr>
+            <th>Produkte</th>
+            <th>Aktuelle Periode</th>
+            <th>Aktuell +1</th>
+            <th>Aktuell +2</th>
+            <th>Aktuell +3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>P1</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-0"
+              type="number"
+            >
+              110
+            </td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-1"
+            >
+              100
+            </td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-2"
+            >
+              150
+            </td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-3"
+            >
+              200
+            </td>
+          </tr>
+          <tr>
+            <td>P2</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-0"
+            >
+              200
+            </td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-1"
+            >
+              150
+            </td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-2"
+            >
+              250
+            </td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-3"
+            >
+              100
+            </td>
+          </tr>
+          <tr>
+            <td>P3</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-0"
+            >
+              150
+            </td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-1"
+            >
+              50
+            </td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-2"
+            >
+              100
+            </td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              name="sales-3"
+            >
+              250
+            </td>
+          </tr>
+          <tr>
+            <td><em>Summe</em></td>
+            <td id="sum-0">0</td>
+            <td id="sum-1">1</td>
+            <td id="sum-2">2</td>
+            <td id="sum-3">3</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      calculateSums();
+
+      document.addEventListener("keyup", function (event) {
+        calculateSums();
+      });
+
+      /* Calculate sums of table */
+      function calculateSums() {
+        var table = document.getElementById("sales-table");
+
+        for (var column = 0; column < 4; column++) {
+          var sum = 0;
+
+          for (var row = 1; row < table.rows.length - 1; row++) {
+            sum += parseInt(table.rows[row].cells[column + 1].innerHTML);
+          }
+          document.getElementById("sum-" + column).innerHTML = sum;
+        }
+      }
+    </script>
+
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='3_stockPlaner.html'"
+    >
+      Weiter
+      <img id="continue-icon" src="img/continueArrow.png" />
+    </button>
+  </body>
+  <footer>
+    © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
+  </footer>
+</html>
