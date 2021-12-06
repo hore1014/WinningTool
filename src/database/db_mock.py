@@ -239,6 +239,16 @@ def get_parts_in_queue(period):
             "E9": 100,
             "E12": 180,
             "E15": 80,
+        }
+
+
+def get_missing_parts(period):
+    if(period == 1):
+        return {
+            # "P1": 30
+        }
+    else:
+        return {
             "E20": 180,
         }
 
