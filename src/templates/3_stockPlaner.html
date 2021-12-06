@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
     <meta
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
@@ -62,15 +62,17 @@
       </script>
     </div>
 
-    <button
-      class="continue-button"
-      type="submit"
-      value="Upload"
-      onclick="location.href='4_productionSequence.html'"
-    >
-      Weiter
-      <img id="continue-icon" src="img/continueArrow.png" />
-    </button>
+    <form method="post">
+      <button
+        class="continue-button"
+        type="submit"
+        value="Upload"
+        onclick="location.href='4_productionSequence.html'"
+      >
+        Weiter
+        <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+      </button>
+    </form>
   </body>
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021

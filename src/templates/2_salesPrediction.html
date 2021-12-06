@@ -61,7 +61,7 @@
               name="sales-0"
               type="number"
             >
-              110
+              {{ sales_1_0 }}
             </td>
             <td
               class="editable"
@@ -69,7 +69,7 @@
               contenteditable="true"
               name="sales-1"
             >
-              100
+            {{ sales_1_1 }}
             </td>
             <td
               class="editable"
@@ -77,7 +77,7 @@
               contenteditable="true"
               name="sales-2"
             >
-              150
+            {{ sales_1_2 }}
             </td>
             <td
               class="editable"
@@ -85,7 +85,7 @@
               contenteditable="true"
               name="sales-3"
             >
-              200
+            {{ sales_1_3 }}
             </td>
           </tr>
           <tr>
@@ -96,7 +96,7 @@
               contenteditable="true"
               name="sales-0"
             >
-              200
+            {{ sales_2_0 }}
             </td>
             <td
               class="editable"
@@ -104,7 +104,7 @@
               contenteditable="true"
               name="sales-1"
             >
-              150
+            {{ sales_2_1 }}
             </td>
             <td
               class="editable"
@@ -112,7 +112,7 @@
               contenteditable="true"
               name="sales-2"
             >
-              250
+            {{ sales_2_2 }}
             </td>
             <td
               class="editable"
@@ -120,7 +120,7 @@
               contenteditable="true"
               name="sales-3"
             >
-              100
+            {{ sales_2_3 }}
             </td>
           </tr>
           <tr>
@@ -131,7 +131,7 @@
               contenteditable="true"
               name="sales-0"
             >
-              150
+            {{ sales_3_0 }}
             </td>
             <td
               class="editable"
@@ -139,7 +139,7 @@
               contenteditable="true"
               name="sales-1"
             >
-              50
+            {{ sales_3_1 }}
             </td>
             <td
               class="editable"
@@ -147,7 +147,7 @@
               contenteditable="true"
               name="sales-2"
             >
-              100
+            {{ sales_3_2 }}
             </td>
             <td
               class="editable"
@@ -155,7 +155,7 @@
               contenteditable="true"
               name="sales-3"
             >
-              250
+            {{ sales_3_3 }}
             </td>
           </tr>
           <tr>
@@ -198,11 +198,10 @@
         value="Upload"
         onclick="location.href='3_stockPlaner.html'"
       >
+        Weiter
+        <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+      </button>
     </form>
-
-      Weiter
-      <img id="continue-icon" src="img/continueArrow.png" />
-    </button>
   </body>
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021

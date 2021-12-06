@@ -39,12 +39,29 @@ def upload_file():
 
 @app.route("/2_salesPrediction.html")
 def salesPrediction():
-    return render_template("2_salesPrediction.html", data_1_1=100, data_1_2=100, data_1_3=100, data_1_4=100, data_2_1=100, data_2_2=100, data_2_3=100, data_2_4=100, data_3_1=100, data_3_2=100, data_3_3=100, data_3_4=100)
+    return render_template("2_salesPrediction.html", sales_1_0=110, sales_1_1=100, sales_1_2=150, sales_1_3=200, sales_2_0=200, sales_2_1=150, sales_2_2=250, sales_2_3=100, sales_3_0=150, sales_3_1=50, sales_3_2=100, sales_3_3=250)
 
 
 @app.route("/2_salesPrediction.html", methods=["POST"])
 def upload_prediction():
-    pass
+    # TODO: Absatzprognose in die DB schreiben
+    return render_template("3_stockPlaner.html")
+
+
+@app.route("/3_stockPlaner.html")
+def stockPlaner():
+    return render_template("3_stockPlaner.html")
+
+
+@app.route("/3_stockPlaner.html", methods=["POST"])
+def upload_plan():
+    # TODO: Lagerstrategie in die DB schreiben
+    return render_template("4_productionSequence.html")
+
+
+@app.route("/4_productionSequence.html")
+def productionSequence():
+    return render_template("4_productionSequence.html")
 
 
 if __name__ == "__main__":

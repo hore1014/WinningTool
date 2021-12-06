@@ -52,7 +52,7 @@
       </ul>
     </nav>
 
-    <form action="fileUploader.php" method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
       <div class="upload-container">
         <img id="file-upload" src="{{ url_for('static', filename='img/FileUpload.png') }}" />
         <h2>Endwerte der vorherigen Periode hochladen</h2>
@@ -82,7 +82,7 @@
       value="Upload" 
       onclick="location.href='2_salesPrediction.html'">
       Weiter
-      <img id="continue-icon" src="img/continueArrow.png" />
+      <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
     </button>
   </body>
   <footer>
