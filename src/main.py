@@ -18,10 +18,14 @@ current_parts = mock.get_parts_inventory(current_period)
 planned_parts = mock.get_inventory_strategy(current_period)
 parts_processing = mock.get_parts_processing(current_period)
 parts_in_queue = mock.get_parts_in_queue(current_period)
-# missing_parts = db.get_missing_parts(current_period)
+missing_parts = mock.get_missing_parts(current_period)
 parts_traded = mock.get_parts_trade(current_period)
-parts_ordered = db.get_orders_in_transit(
+parts_ordered = mock.get_orders_in_transit(
     current_period-1) if current_period > 1 else {}
+
+print(f"\nIn Bearbeitung: {parts_processing}")
+print(f"Warteschlange: {parts_in_queue}")
+print(f"Fehlteile: {missing_parts}\n")
 
 production = prod.calculate_production(
     sales_forecast,
@@ -29,6 +33,7 @@ production = prod.calculate_production(
     planned_parts,
     parts_processing,
     parts_in_queue,
+    missing_parts,
     parts_traded,
 )
 
@@ -55,7 +60,8 @@ tooling_factors = {"Station_1": 1.25, "Station_2": 1.25, "Station_3": 1, "Statio
                    "Station_8": 1.5, "Station_9": 1, "Station_10": 1.25, "Station_11": 1.25, "Station_12": 1, "Station_13": 1, "Station_14": 1, "Station_15": 2, }
 
 # TODO: take a look at capacity calculation because results are off for stations 6 - 13
-capacity = cap.calculate_capacity(production, tooling_factors)
+capacity = cap.calculate_capacity(
+    production, parts_processing, parts_in_queue, missing_parts, tooling_factors)
 
 shifts = cap.calculate_shifts(capacity)
 
