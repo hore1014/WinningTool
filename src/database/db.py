@@ -248,7 +248,7 @@ def get_parts_inventory(period):
         # Convert number to official notation
         art = lookup.p_e_k_list[int(row[1]) - 1]
         # Add values to dictionary
-        res_dict[art] = row[2]
+        res_dict[art] = (row[2], row[4])
         
     return res_dict
 

@@ -1,8 +1,6 @@
 from capacity import lookupCapacityDemand as cd
 from math import ceil
 
-import production
-
 
 def calculate_article_assembly_time(production, processing, queued, missing):
     article_assembly_times = {

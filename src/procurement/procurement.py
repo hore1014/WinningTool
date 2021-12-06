@@ -19,21 +19,21 @@ def calculate_procurement(inventory, forecast0, forecast1, forecast2, forecast3,
         order = int(ceil(average_consumption * order_factor / 10) * 10)
 
         # check in which period inventory goes to 0 and then find exact day to calulate inventory reach
-        if (inventory[article] - forecast0[article] <= 0):
+        if (inventory[article][0] - forecast0[article] <= 0):
             inventory_reach = floor(
-                0 + (inventory[article]) / (forecast0[article]/5))
+                0 + (inventory[article][0]) / (forecast0[article]/5))
 
-        elif (inventory[article] - forecast0[article] - forecast1[article] <= 0):
+        elif (inventory[article][0] - forecast0[article] - forecast1[article] <= 0):
             inventory_reach = floor(
-                5 + (inventory[article] - forecast0[article]) / (forecast1[article]/5))
+                5 + (inventory[article][0] - forecast0[article]) / (forecast1[article]/5))
 
-        elif (inventory[article] - forecast0[article] - forecast1[article] - forecast2[article] <= 0):
+        elif (inventory[article][0] - forecast0[article] - forecast1[article] - forecast2[article] <= 0):
             inventory_reach = floor(
-                10 + (inventory[article] - forecast0[article] - forecast1[article]) / (forecast2[article]/5))
+                10 + (inventory[article][0] - forecast0[article] - forecast1[article]) / (forecast2[article]/5))
 
-        elif (inventory[article] - forecast0[article] - forecast1[article] - forecast2[article] - forecast3[article] <= 0):
+        elif (inventory[article][0] - forecast0[article] - forecast1[article] - forecast2[article] - forecast3[article] <= 0):
             inventory_reach = floor(
-                15 + (inventory[article] - forecast0[article] - forecast1[article] - forecast2[article]) / (forecast3[article]/5))
+                15 + (inventory[article][0] - forecast0[article] - forecast1[article] - forecast2[article]) / (forecast3[article]/5))
 
         else:
             inventory_reach = 20

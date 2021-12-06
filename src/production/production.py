@@ -29,7 +29,7 @@ def calculate_production(sales, current, planned, processing, missing, queued, t
                     sales[article][0] + \
                     production + \
                     planned[article][0] - \
-                    current[article] - \
+                    current[article][0] - \
                     processing_article - \
                     queued_article - \
                     missing_article - \
@@ -39,7 +39,7 @@ def calculate_production(sales, current, planned, processing, missing, queued, t
                 results[article] = \
                     production + \
                     planned[article][0] - \
-                    current[article] - \
+                    current[article][0] - \
                     processing_article - \
                     queued_article - \
                     missing_article - \
