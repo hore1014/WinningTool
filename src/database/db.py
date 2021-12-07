@@ -133,7 +133,7 @@ db_fehlmaterial = Table(
 )
 
 # Initialize (create and populate) database from XML input data
-def init_db():
+def init_db(root_arr: list):
 
     # Read SQL files
     file = open("src\database\drop_tables.sql", "r")
@@ -155,25 +155,25 @@ def init_db():
     conn.executescript(create_cmd)
 
     # Insert statements
-    for el in create_lagerbestand(): 
+    for el in create_lagerbestand(root_arr): 
         conn.execute(str(db_lagerbestand.insert()), el)
 
-    for el in create_wareneingang():
+    for el in create_wareneingang(root_arr):
         conn.execute(str(db_wareneingaenge.insert()), el)
 
-    for el in create_ausstehende_lieferungen():
+    for el in create_ausstehende_lieferungen(root_arr):
         conn.execute(str(db_wareneingaenge_ausstehend.insert()), el)
 
-    for el in create_in_bearbeitung():
+    for el in create_in_bearbeitung(root_arr):
         conn.execute(str(db_in_bearbeitung.insert()), el)
 
-    for el in create_warteschlangen():
+    for el in create_warteschlangen(root_arr):
         conn.execute(str(db_warteschlangen.insert()), el)
 
-    for el in create_fehlmaterial():
+    for el in create_fehlmaterial(root_arr):
         conn.execute(str(db_fehlmaterial.insert()), el)
 
-    for el in create_vertriebswunsch():
+    for el in create_vertriebswunsch(root_arr):
         conn.execute(str(db_absatzprognose.insert()), el)
 
     conn.commit()

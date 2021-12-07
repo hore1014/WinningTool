@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 port = 5000  # default
+filename = ""
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
 app.config["UPLOAD_EXTENSIONS"] = [".xml"]

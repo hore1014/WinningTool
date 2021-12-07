@@ -6,9 +6,13 @@ from procurement import procurement as proc
 from financial import inventory as inv
 import json
 from functools import reduce
+from xmlInOut import importXml as xml
+
+# Read all xml files
+root_arr = xml.parse_all_xml('src//data//')
 
 # Initialize (create and populate) database from XML input data
-db.init_db()
+db.init_db(root_arr)
 
 # load all necessary data for production calculation from database
 # TODO period is user input
