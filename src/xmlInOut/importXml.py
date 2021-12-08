@@ -29,7 +29,9 @@ def parse_all_xml(path: str):
     return root_arr
 
 # Finde die aktuelle Periode anhand der hochgeladenen XML files
-def get_current_period(root_arr):
+def get_current_period(root_arr: list):
+    if(len(root_arr) == 0):
+        return 1
     periods = []
     for root in root_arr:
         periods.append(int(root.get('period'))+1)

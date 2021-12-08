@@ -37,19 +37,26 @@ def upload_file():
     if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
         abort(415)
     uploaded_file.save(os.path.join(app.config["UPLOAD_PATH"], filename))
+    
     # TODO: Meldung bei erfolgreichem hochladen
-    # TODO: hier muss ggf. bereits veranlasst werden, dass die xml datei eingelesen wird
+    
+    # Einlesen der XML files
+    main.parse_all_xml()
+    global period
+    period = main.get_current_period()
+
     return redirect(url_for("salesPrediction"))
 
 
 @app.route("/2_salesPrediction.html")
 def salesPrediction():
-    return render_template("2_salesPrediction.html", period=period, sales_1_0=110, sales_1_1=100, sales_1_2=150, sales_1_3=200, sales_2_0=200, sales_2_1=150, sales_2_2=250, sales_2_3=100, sales_3_0=150, sales_3_1=50, sales_3_2=100, sales_3_3=250)
+    # init database
+    main.init_db()
+    return render_template("2_salesPrediction.html", period=period, sales_P1_0=110, sales_P1_1=100, sales_P1_2=150, sales_P1_3=200, sales_P2_0=200, sales_P2_1=150, sales_P2_2=250, sales_P2_3=100, sales_P3_0=150, sales_P3_1=50, sales_P3_2=100, sales_P3_3=250)
 
 
 @app.route("/2_salesPrediction.html", methods=["POST"])
 def upload_prediction():
-    # TODO: Absatzprognose in die DB schreiben
     data = [
         {
             'Periode': period,
@@ -76,17 +83,45 @@ def upload_prediction():
             'Aktuell_3': request.form.get('sales_P3_3'),
         },
     ]
+    # TODO: Absatzprognose in die DB schreiben
     print(data)
     return render_template("3_stockPlaner.html", period=period)
 
 
 @app.route("/3_stockPlaner.html")
 def stockPlaner():
-    return render_template("3_stockPlaner.html", period=period)
+    return render_template("3_stockPlaner.html", period=period,  stock_P1_0=110, stock_P1_1=100, stock_P1_2=150, stock_P1_3=200, stock_P2_0=200, stock_P2_1=150, stock_P2_2=250, stock_P2_3=100, stock_P3_0=150, stock_P3_1=50, stock_P3_2=100, stock_P3_3=250)
 
 
 @app.route("/3_stockPlaner.html", methods=["POST"])
 def upload_plan():
+    data = [
+        {
+            'Periode': period,
+            'Artikel': 'P1',
+            'Aktuell_0': request.form.get('stock_P1_0'),
+            'Aktuell_1': request.form.get('stock_P1_1'),
+            'Aktuell_2': request.form.get('stock_P1_2'),
+            'Aktuell_3': request.form.get('stock_P1_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P2',
+            'Aktuell_0': request.form.get('stock_P2_0'),
+            'Aktuell_1': request.form.get('stock_P2_1'),
+            'Aktuell_2': request.form.get('stock_P2_2'),
+            'Aktuell_3': request.form.get('stock_P2_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P3',
+            'Aktuell_0': request.form.get('stock_P3_0'),
+            'Aktuell_1': request.form.get('stock_P3_1'),
+            'Aktuell_2': request.form.get('stock_P3_2'),
+            'Aktuell_3': request.form.get('stock_P3_3'),
+        },
+    ]
+    print(data)
     # TODO: Lagerstrategie in die DB schreiben
     return render_template("4_productionSequence.html", period=period)
 
