@@ -7,7 +7,7 @@ from xmlInOut.importXml import get_current_period
 app = Flask(__name__)
 port = 5000  # default
 filename = ""
-period = 0
+period = 1 # default
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
 app.config["UPLOAD_EXTENSIONS"] = [".xml"]
@@ -55,26 +55,26 @@ def upload_prediction():
         {
             'Periode': period,
             'Artikel': 'P1',
-            'Aktuell_0': request.form.get('sales_1_0'),
-            'Aktuell_1': request.form.get('sales_1_1'),
-            'Aktuell_2': request.form.get('sales_1_2'),
-            'Aktuell_3': request.form.get('sales_1_3'),
+            'Aktuell_0': request.form.get('sales_P1_0'),
+            'Aktuell_1': request.form.get('sales_P1_1'),
+            'Aktuell_2': request.form.get('sales_P1_2'),
+            'Aktuell_3': request.form.get('sales_P1_3'),
         },
         {
             'Periode': period,
             'Artikel': 'P2',
-            'Aktuell_0': request.form.get('sales_2_0'),
-            'Aktuell_1': request.form.get('sales_2_1'),
-            'Aktuell_2': request.form.get('sales_2_2'),
-            'Aktuell_3': request.form.get('sales_2_3'),
+            'Aktuell_0': request.form.get('sales_P2_0'),
+            'Aktuell_1': request.form.get('sales_P2_1'),
+            'Aktuell_2': request.form.get('sales_P2_2'),
+            'Aktuell_3': request.form.get('sales_P2_3'),
         },
         {
             'Periode': period,
             'Artikel': 'P3',
-            'Aktuell_0': request.form.get('sales_3_0'),
-            'Aktuell_1': request.form.get('sales_3_1'),
-            'Aktuell_2': request.form.get('sales_3_2'),
-            'Aktuell_3': request.form.get('sales_3_3'),
+            'Aktuell_0': request.form.get('sales_P3_0'),
+            'Aktuell_1': request.form.get('sales_P3_1'),
+            'Aktuell_2': request.form.get('sales_P3_2'),
+            'Aktuell_3': request.form.get('sales_P3_3'),
         },
     ]
     print(data)
