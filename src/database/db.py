@@ -343,13 +343,14 @@ def get_orders_in_transit(period: int):
     return res_dict
 
 # Write data from user input
-def write_input_to_db(data: list, db_name: str):
+# TODO How to overwrite rows?
+def write_input_to_db(data: list, table_name: str):
      # Connect to SQLite database
     conn = sqlite3.connect(db_dir)
 
     # Insert statements
     for el in data: 
-        conn.execute(str(tables[db_name].insert()), el)
+        conn.execute(str(tables[table_name].insert()), el)
 
     conn.commit()
     conn.close()
