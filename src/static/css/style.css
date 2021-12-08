@@ -35,7 +35,7 @@ Inhalt dieser css-Datei:
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  max-width: 1200px;
+  max-width: 1000px;
   text-align: center;
   max-height: 600px;
   /*overflow-y: scroll;*/
@@ -43,15 +43,19 @@ Inhalt dieser css-Datei:
 
 .big-container {
   margin: 0;
-  margin-top: 430px;
+  margin-top: 700px;
+  padding-bottom: 200px;
   position: absolute;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  max-width: 1200px;
+  max-width: 1300px;
   text-align: center;
-  max-height: 600px;
   /*overflow-y: scroll;*/
+}
+
+.spacing {
+  height: 50px;
 }
 
 p {
@@ -136,17 +140,18 @@ h3 {
   bottom: 60px;
   right: 3%;
   border: none;
+  border-radius: 50px;
+  padding: 10px;
   color: #707070;
   text-align: center;
-  background-color: white;
-  background: none;
+  background-color: rgba(255, 255, 255, 0.747);
+  box-shadow: 0px 0px 50px #ffffff;
   font-size: 30px;
   cursor: pointer;
 }
 
 .continue-button:hover {
   color: #525252;
-  background: none;
 }
 
 #continue-icon {
