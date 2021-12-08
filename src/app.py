@@ -7,7 +7,7 @@ from xmlInOut.importXml import get_current_period
 app = Flask(__name__)
 port = 5000  # default
 filename = ""
-period = 1 # default
+period = 1  # default
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
 app.config["UPLOAD_EXTENSIONS"] = [".xml"]
@@ -22,7 +22,7 @@ def home():
 
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
-    return render_template("1_lastPeriod.html", error=False)
+    return render_template("1_lastPeriod.html", error=False, message=False)
 
 
 @app.route("/1_lastPeriod.html", methods=["POST"])
@@ -32,27 +32,31 @@ def upload_file():
     uploaded_file = request.files["file"]
     filename = secure_filename(uploaded_file.filename)
     if filename == "":
-        return render_template("1_lastPeriod.html", error=True)
+        return render_template("1_lastPeriod.html", error=True, message=False)
     file_ext = os.path.splitext(filename)[1]
     if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
         abort(415)
     uploaded_file.save(os.path.join(app.config["UPLOAD_PATH"], filename))
-    
+
     # TODO: Meldung bei erfolgreichem hochladen
-    
+
     # Einlesen der XML files
     main.parse_all_xml()
     global period
     period = main.get_current_period()
 
-    return redirect(url_for("salesPrediction"))
+    return render_template("1_lastPeriod.html", error=False, message=True)
 
 
 @app.route("/2_salesPrediction.html")
 def salesPrediction():
     # init database
     main.init_db()
-    return render_template("2_salesPrediction.html", period=period, sales_P1_0=110, sales_P1_1=100, sales_P1_2=150, sales_P1_3=200, sales_P2_0=200, sales_P2_1=150, sales_P2_2=250, sales_P2_3=100, sales_P3_0=150, sales_P3_1=50, sales_P3_2=100, sales_P3_3=250)
+    return render_template(
+        "2_salesPrediction.html", period=period,
+        sales_P1_0=100, sales_P1_1=100, sales_P1_2=100, sales_P1_3=100, sales_P2_0=100, sales_P2_1=100, sales_P2_2=100, sales_P2_3=100, sales_P3_0=100, sales_P3_1=100, sales_P3_2=100, sales_P3_3=100,
+        stock_P1_0=100, stock_P1_1=100, stock_P1_2=100, stock_P1_3=100, stock_P2_0=100, stock_P2_1=100, stock_P2_2=100, stock_P2_3=100, stock_P3_0=100, stock_P3_1=100, stock_P3_2=100, stock_P3_3=100
+    )
 
 
 @app.route("/2_salesPrediction.html", methods=["POST"])
