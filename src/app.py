@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 port = 5000  # default
 filename = ""
-period = 0
+period = 1
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
 app.config["UPLOAD_EXTENSIONS"] = [".xml"]
@@ -42,20 +42,17 @@ def upload_file():
 
 @app.route("/2_salesPrediction.html")
 def salesPrediction():
-    period = 1  # main.current_period
-    return render_template("2_salesPrediction.html", period=period, sales_1_0=110, sales_1_1=100, sales_1_2=150, sales_1_3=200, sales_2_0=200, sales_2_1=150, sales_2_2=250, sales_2_3=100, sales_3_0=150, sales_3_1=50, sales_3_2=100, sales_3_3=250)
+    return render_template(
+        "2_salesPrediction.html", period=period,
+        sales_P1_0=100, sales_P1_1=100, sales_P1_2=100, sales_P1_3=100, sales_P2_0=100, sales_P2_1=100, sales_P2_2=100, sales_P2_3=100, sales_P3_0=100, sales_P3_1=100, sales_P3_2=100, sales_P3_3=100,
+        stock_P1_0=100, stock_P1_1=100, stock_P1_2=100, stock_P1_3=100, stock_P2_0=100, stock_P2_1=100, stock_P2_2=100, stock_P2_3=100, stock_P3_0=100, stock_P3_1=100, stock_P3_2=100, stock_P3_3=100
+    )
 
 
 @app.route("/2_salesPrediction.html", methods=["POST"])
 def upload_prediction():
     # TODO: Absatzprognose in die DB schreiben
-    data = [
-        {
-            'Periode': period,
-            'Artikel': 'P1',
-            'Aktuell_0': request.form.get('sales_1_0'),
-        }
-    ]
+    data = request.form
     print(data)
     return render_template("3_stockPlaner.html", period=period)
 
