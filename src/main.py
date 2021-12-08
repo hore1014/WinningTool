@@ -11,6 +11,8 @@ from xmlInOut import importXml as xml
 # Read all xml files
 root_arr = xml.parse_all_xml('src//data//')
 
+# TODO: alle Schritte in eigene Funktion packen
+
 # Initialize (create and populate) database from XML input data
 db.init_db(root_arr)
 
