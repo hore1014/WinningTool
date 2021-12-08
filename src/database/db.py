@@ -136,6 +136,7 @@ db_fehlmaterial = Table(
 def init_db(root_arr: list):
 
     # Read SQL files
+    #TODO Das soll nur explizit vom User ausgeführt werden!
     file = open("src\database\drop_tables.sql", "r")
     drop_cmd = file.read()
     file.close()
