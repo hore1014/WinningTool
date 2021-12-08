@@ -67,6 +67,11 @@ p {
   text-align: center;
 }
 
+.success {
+  color: #7aeb57;
+  text-align: center;
+}
+
 /* TITEL -----------------------------------------------*/
 
 h1 {

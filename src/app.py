@@ -21,7 +21,7 @@ def home():
 
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
-    return render_template("1_lastPeriod.html", error=False)
+    return render_template("1_lastPeriod.html", error=False, message=False)
 
 
 @app.route("/1_lastPeriod.html", methods=["POST"])
@@ -31,14 +31,13 @@ def upload_file():
     uploaded_file = request.files["file"]
     filename = secure_filename(uploaded_file.filename)
     if filename == "":
-        return render_template("1_lastPeriod.html", error=True)
+        return render_template("1_lastPeriod.html", error=True, message=False)
     file_ext = os.path.splitext(filename)[1]
     if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
         abort(415)
     uploaded_file.save(os.path.join(app.config["UPLOAD_PATH"], filename))
-    # TODO: Meldung bei erfolgreichem hochladen
     # TODO: hier muss ggf. bereits veranlasst werden, dass die xml datei eingelesen wird
-    return redirect(url_for("salesPrediction"))
+    return render_template("1_lastPeriod.html", error=False, message=True)
 
 
 @app.route("/2_salesPrediction.html")
