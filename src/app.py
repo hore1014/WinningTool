@@ -89,6 +89,9 @@ def upload_prediction():
     ]
     # TODO: Absatzprognose in die DB schreiben
     print(data)
+    main.write_input_to_db(data)
+    print("data has been written to database")
+
     return render_template("3_stockPlaner.html", period=period)
 
 

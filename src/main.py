@@ -31,9 +31,12 @@ def init_db():
     print("Initializing database")
     db.init_db(root_arr)
 
+# Write user input into db
+def write_input_to_db(data: list):
+    db.write_sales_forecast(data, "Absatzprognose")
 
 # load all necessary data for production calculation from database
-current_period = 1
+#current_period = 1
 
 # global variables
 sales_forecast = {}
@@ -75,7 +78,7 @@ def get_all_from_db(current_period):
 def calc_prod_forecast(period):
     return prod.calculate_production_forecast(sales_forecast, planned_parts, period)
 
-def calculate_all_data():
+def calculate_all_data(current_period):
     global production
     production = prod.calculate_production(
         sales_forecast,

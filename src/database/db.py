@@ -11,6 +11,9 @@ sys.path.append(os.path.abspath(os.curdir))
 from src.xmlInOut.importXml import *
 from . import lookupArticles as lookup
 
+# The database directory
+db_dir = "src\database\ibsys2.db"
+
 # Define ORM for database tables
 meta = MetaData()
 
@@ -50,7 +53,7 @@ db_produktion = Table(
     Column('Produktionsmenge', Integer)    
 )
 
-db_Verbrauch = Table(
+db_verbrauch = Table(
     'Verbrauch', meta,
     Column('Periode', Integer, primary_key = True),
     Column('Artikel', String, primary_key = True),
@@ -132,10 +135,27 @@ db_fehlmaterial = Table(
     Column('Fehlmaterial', String, primary_key = True) #Fehlende Artikel, die für diesen Artiekl benötigt werden
 )
 
+tables = {
+   "Absatzprognose": db_absatzprognose,
+   "Strategie_Lagerbestand": db_strategie_Lagerbestand,
+   "Produktion": db_produktion,
+   "Verbrauch": db_verbrauch,
+   "Lagerbestand": db_lagerbestand,
+   "Kapazitaet": db_kapazitaet,
+   "Einkauf": db_einkauf,
+   "Handel": db_handel,
+   "Wareneingaenge": db_wareneingaenge,
+   "Wareneingaenge_Ausstehend": db_wareneingaenge_ausstehend,
+   "Warteschlangen": db_warteschlangen,
+   "In_Bearbeitung": db_in_bearbeitung,
+   "Fehlmaterial": db_fehlmaterial
+}
+
 # Initialize (create and populate) database from XML input data
 def init_db(root_arr: list):
 
     # Read SQL files
+    #TODO Das soll nur explizit vom User ausgeführt werden!
     file = open("src\database\drop_tables.sql", "r")
     drop_cmd = file.read()
     file.close()
@@ -145,7 +165,7 @@ def init_db(root_arr: list):
     file.close()
 
     # Create and Connect to SQLite database
-    conn = sqlite3.connect("src\database\ibsys2.db")
+    conn = sqlite3.connect(db_dir)
     #engine = create_engine('sqlite:///src/database/ibsys2.db', echo = True)
 
     # Drop existing tables
@@ -185,9 +205,9 @@ def init_db(root_arr: list):
 # Retrieve data from DB
 
 # Helper function for specific get-methods
-def get_all_from_db(period, table, period_column_name = "Periode"):
+def get_all_from_db(period: int, table: str, period_column_name = "Periode"):
     # Create and Connect to SQLite database
-    conn = sqlite3.connect("src\database\ibsys2.db")
+    conn = sqlite3.connect(db_dir)
 
     # SQL Query statement
     query = f"SELECT * from {table} WHERE {period_column_name} = :p"
@@ -201,9 +221,9 @@ def get_all_from_db(period, table, period_column_name = "Periode"):
     return result
 
 # Helper function for specific get-methods
-def get_agg_from_db(period, table):
+def get_agg_from_db(period: int, table: str):
     # Create and Connect to SQLite database
-    conn = sqlite3.connect("src\database\ibsys2.db")
+    conn = sqlite3.connect(db_dir)
 
     # SQL Query statement
     query = f"SELECT Artikel, SUM(Menge) from {table} WHERE Periode = :p GROUP BY Artikel"
@@ -217,7 +237,7 @@ def get_agg_from_db(period, table):
     return result
 
 
-def get_sales_forecast(period):
+def get_sales_forecast(period: int):
     res_dict = {}
     result = get_all_from_db(period, "Absatzprognose")
 
@@ -228,7 +248,7 @@ def get_sales_forecast(period):
 
     return res_dict
 
-def get_inventory_strategy(period):
+def get_inventory_strategy(period: int):
     res_dict = {}
     result = get_all_from_db(period, "Strategie_Lagerbestand")
     
@@ -239,7 +259,7 @@ def get_inventory_strategy(period):
     
     return res_dict
 
-def get_parts_inventory(period):
+def get_parts_inventory(period: int):
     res_dict = {}
     result = get_all_from_db(period, "Lagerbestand")
 
@@ -252,7 +272,7 @@ def get_parts_inventory(period):
         
     return res_dict
 
-def get_parts_processing(period):
+def get_parts_processing(period: int):
     res_dict = {}
     # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated
     result = get_agg_from_db(period, "In_Bearbeitung")
@@ -266,7 +286,7 @@ def get_parts_processing(period):
         
     return res_dict
 
-def get_parts_in_queue(period):
+def get_parts_in_queue(period: int):
     res_dict = {}
     # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated
     result = get_agg_from_db(period, "Warteschlangen")
@@ -280,7 +300,7 @@ def get_parts_in_queue(period):
 
     return res_dict
 
-def get_missing_parts(period):
+def get_missing_parts(period: int):
     res_dict = {}
     # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated 
     result = get_agg_from_db(period, "Fehlmaterial")
@@ -294,7 +314,7 @@ def get_missing_parts(period):
 
     return res_dict
 
-def get_parts_trade(period):
+def get_parts_trade(period: int):
     res_dict = {}
 
     result = get_all_from_db(period, "Handel")
@@ -306,7 +326,7 @@ def get_parts_trade(period):
 
     return res_dict
 
-def get_orders_in_transit(period):
+def get_orders_in_transit(period: int):
     res_dict = {}
     result = get_all_from_db(period, "Wareneingaenge_Ausstehend", "Bestellperiode")
 
@@ -321,3 +341,17 @@ def get_orders_in_transit(period):
             res_dict[art] = [val, ] #list of tuples
     print(res_dict)
     return res_dict
+
+# Write data from user input
+def write_input_to_db(data: list, db_name: str):
+     # Connect to SQLite database
+    conn = sqlite3.connect(db_dir)
+
+    # Insert statements
+    for el in data: 
+        conn.execute(str(tables[db_name].insert()), el)
+
+    conn.commit()
+    conn.close()
+
+    return
