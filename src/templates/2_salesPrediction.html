@@ -320,13 +320,15 @@
       /* Calculate sums in forecast table */
       function calculateForecastSums() {
         var table = document.getElementById("sales-table");
+        var cell = 0;
+        var sum = 0;
 
         for (var column = 0; column < 4; column++) {
-          var sum = 0;
-          var cell = 0;
+          sum = 0;
 
           for (var row = 1; row < table.rows.length - 1; row++) {
             cell = document.getElementsByName("sales_P" + row + "_" + column)[0].value;
+
             if (cell.length == 0) {
               sum += 0;
             }
@@ -346,13 +348,20 @@
         var stockCell = 0;
         var salesNumber = 0;
         var stockNumber = 0;
-        var productionNumber = 0;
+        var salesNumberBefore = 0;
 
         for (var column = 0; column < 4; column++) {
           
           for (var row = 1; row < salesTable.rows.length - 1; row++) {
             salesCell = document.getElementsByName("sales_P" + row + "_" + column)[0].value;
             stockCell = document.getElementsByName("stock_P" + row + "_" + column)[0].value;
+            if (column > 0) {
+              salesCellBefore = document.getElementsByName("stock_P" + row + "_" + (column - 1))[0].value;
+            }
+            else {
+              salesCellBefore = 0; /* add amount of stock in inventory at the beginning of this period */
+            }
+            
             if (salesCell.length == 0) {
               salesNumber = 0;
             }
@@ -365,7 +374,14 @@
             else {
               stockNumber = parseInt(stockCell);
             }
-            productionNumber
+            if (salesCellBefore.length == 0) {
+              salesNumberBefore = 0;
+            }
+            else {
+              salesNumberBefore = parseInt(salesCellBefore);
+            }
+
+            document.getElementById("production_P" + row + "_" + column).innerHTML = salesNumber + stockNumber - salesNumberBefore;
           }
         }
       }
@@ -373,23 +389,47 @@
       /* Calculate Production and Stock Sums in Table */
       function calculateStockAndProductionSums() {
         var table = document.getElementById("stock-and-production-table");
-        var period = 0;
+        var cell = 0;
+        var sum = 0;
 
-        for (var column = 1; column < 9; column++) {
-          var sum = 0;
+        for (var column = 0; column < 8; column++) {
+          sum = 0;
 
-          for (var row = 2; row < table.rows.length - 1; row++) {
-            sum += parseInt(table.rows[row].cells[column].innerHTML);
+          for (var row = 1; row < table.rows.length - 2; row++) {
+            if (column%2 == 0) {
+              /* sum up stock columns */
+              console.log("stock_P" + row + "_" + (column / 2))
+              cell = document.getElementsByName("stock_P" + row + "_" + (column / 2))[0].value;
+              console.log(cell)
+              if (cell.length == 0) {
+              sum += 0;
+              }
+              else {
+                sum += parseInt(cell);
+              }
+            }
+            else {
+              /* sum up production columns */
+              console.log("production_P" + row + "_" + ((column - 1) / 2))
+              cell = document.getElementById("production_P" + row + "_" + ((column - 1) / 2)).innerHTML;
+              console.log(cell)
+              if (cell.length == 0) {
+              sum += 0;
+              }
+              else {
+                sum += parseInt(cell);
+              }
+            }
           }
-          if (column % 2 == 1) {
-            document.getElementById("sum-stock-" + period).innerHTML = sum;
-          } else {
-            document.getElementById("sum-production-" + period).innerHTML =
-              sum;
-            period++;
+          if (column%2 == 0) {
+            document.getElementById("sum-stock-" + (column / 2)).innerHTML = sum;
+          }
+          else {
+            document.getElementById("sum-production-" + ((column - 1) / 2)).innerHTML = sum;
           }
         }
       }
+      
     </script>
 
   </body>
