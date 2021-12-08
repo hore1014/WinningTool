@@ -13,6 +13,7 @@ Inhalt dieser css-Datei:
 - VORHERIGE PERIODE SEITE
 - NAVIGATIONSLEISTE 
 - TABWIDGET
+- WARNING
 - FOOTER
 
 */
@@ -34,9 +35,22 @@ Inhalt dieser css-Datei:
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  max-width: 1000px;
+  max-width: 1200px;
   text-align: center;
-  max-height: 800px;
+  max-height: 600px;
+  /*overflow-y: scroll;*/
+}
+
+.big-container {
+  margin: 0;
+  margin-top: 430px;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  max-width: 1200px;
+  text-align: center;
+  max-height: 600px;
   /*overflow-y: scroll;*/
 }
 
@@ -44,7 +58,7 @@ p {
   font-size: 16px;
   color: #a49e9e;
   line-height: 1.5em;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   margin-top: 10px;
 }
 
@@ -66,7 +80,7 @@ h2 {
 h3 {
   color: #4d4d4d;
   margin-top: 50px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 /* BILDER -----------------------------------------------*/
@@ -114,18 +128,20 @@ h3 {
 
 .continue-button {
   position: fixed;
-  bottom: 7%;
+  bottom: 60px;
   right: 3%;
   border: none;
   color: #707070;
   text-align: center;
   background-color: white;
+  background: none;
   font-size: 30px;
   cursor: pointer;
 }
 
 .continue-button:hover {
   color: #525252;
+  background: none;
 }
 
 #continue-icon {
@@ -146,11 +162,17 @@ h3 {
   background-color: white;
   font-size: 30px;
   cursor: pointer;
+  background: none;
 }
 
 .finish-button:hover {
   color: #525252;
   border: 2px solid #525252;
+  background: none;
+}
+
+.inline-block-child {
+  display: flex;
 }
 
 /* TABELLEN -----------------------------------------------*/
@@ -167,7 +189,7 @@ table td {
   text-align: center;
   border-top: 1px solid #b4adad;
   border-left: 1px solid #b4adad;
-  padding: 25px 0px;
+  padding: 20px 0px;
   width: 200px;
 }
 
@@ -180,10 +202,12 @@ table th {
   border-left: 1px solid #b4adad;
   text-align: center;
   padding: 20px 40px;
+  border-bottom: 1px solid #b4adad;
 }
 
 table th:first-child {
   border-left: none;
+  border-right: 1px solid #b4adad;
 }
 
 table tbody td {
@@ -235,6 +259,7 @@ table td em.warning {
 .vertical-scrollable-table-wrapper table {
   box-shadow: none;
   margin: 0;
+  width: 100%;
 }
 
 .vertical-scrollable-table-wrapper thead {
@@ -279,8 +304,9 @@ nav {
   width: 100%;
   padding: 20px;
   background: #f3f3f3;
-  /* box-shadow: 0px -13px 30px rgb(83, 83, 83); */
+  box-shadow: 0px 0px 10px rgb(201, 201, 201);
   text-align: center;
+  z-index: 9999;
 }
 
 .progressbar {
@@ -361,7 +387,7 @@ nav {
 .upload-container {
   margin: 0;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -406,7 +432,41 @@ label[for="file-selector"]:hover {
 }
 
 .tab-content .vertical-scrollable-table-wrapper {
-  max-height: 400px;
+  max-height: 350px;
+}
+
+.tab {
+  padding: 15px;
+  border: none;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  min-width: 100px;
+  text-align: center;
+  font-size: 1em;
+}
+
+.tab.active {
+  background: #abc4d2;
+}
+
+.tab.active:hover {
+  background: #9fb5c2;
+}
+
+.tab.inactive {
+  background: #efefef;
+}
+
+.tab.inactive:hover {
+  background: #e0e0e0;
+}
+
+/* WARNING ---------------------------------------------- */
+.warning-container {
+  width: 200px;
+  position: fixed;
+  top: 25%;
+  right: 50px;
 }
 
 /* FOOTER -----------------------------------------------*/
