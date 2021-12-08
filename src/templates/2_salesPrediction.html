@@ -8,7 +8,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
     <meta
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
@@ -76,7 +80,7 @@
               contenteditable="true"
               name="sales-1"
             >
-            {{ sales_1_1 }}
+              {{ sales_1_1 }}
             </td>
             <td
               class="editable"
@@ -84,7 +88,7 @@
               contenteditable="true"
               name="sales-2"
             >
-            {{ sales_1_2 }}
+              {{ sales_1_2 }}
             </td>
             <td
               class="editable"
@@ -92,7 +96,7 @@
               contenteditable="true"
               name="sales-3"
             >
-            {{ sales_1_3 }}
+              {{ sales_1_3 }}
             </td>
           </tr>
           <tr>
@@ -103,7 +107,7 @@
               contenteditable="true"
               name="sales-0"
             >
-            {{ sales_2_0 }}
+              {{ sales_2_0 }}
             </td>
             <td
               class="editable"
@@ -111,7 +115,7 @@
               contenteditable="true"
               name="sales-1"
             >
-            {{ sales_2_1 }}
+              {{ sales_2_1 }}
             </td>
             <td
               class="editable"
@@ -119,7 +123,7 @@
               contenteditable="true"
               name="sales-2"
             >
-            {{ sales_2_2 }}
+              {{ sales_2_2 }}
             </td>
             <td
               class="editable"
@@ -127,7 +131,7 @@
               contenteditable="true"
               name="sales-3"
             >
-            {{ sales_2_3 }}
+              {{ sales_2_3 }}
             </td>
           </tr>
           <tr>
@@ -138,7 +142,7 @@
               contenteditable="true"
               name="sales-0"
             >
-            {{ sales_3_0 }}
+              {{ sales_3_0 }}
             </td>
             <td
               class="editable"
@@ -146,7 +150,7 @@
               contenteditable="true"
               name="sales-1"
             >
-            {{ sales_3_1 }}
+              {{ sales_3_1 }}
             </td>
             <td
               class="editable"
@@ -154,7 +158,7 @@
               contenteditable="true"
               name="sales-2"
             >
-            {{ sales_3_2 }}
+              {{ sales_3_2 }}
             </td>
             <td
               class="editable"
@@ -162,7 +166,7 @@
               contenteditable="true"
               name="sales-3"
             >
-            {{ sales_3_3 }}
+              {{ sales_3_3 }}
             </td>
           </tr>
           <tr>
@@ -174,250 +178,250 @@
           </tr>
         </tbody>
       </table>
-    </div>
 
-    <script>
-      calculateSums();
-
-      document.addEventListener("keyup", function (event) {
+      <script>
         calculateSums();
-      });
 
-      /* Calculate sums of table */
-      function calculateSums() {
-        var table = document.getElementById("sales-table");
+        document.addEventListener("keyup", function (event) {
+          calculateSums();
+        });
 
-        for (var column = 0; column < 4; column++) {
-          var sum = 0;
+        /* Calculate sums of table */
+        function calculateSums() {
+          var table = document.getElementById("sales-table");
 
-          for (var row = 1; row < table.rows.length - 1; row++) {
-            sum += parseInt(table.rows[row].cells[column + 1].innerHTML);
+          for (var column = 0; column < 4; column++) {
+            var sum = 0;
+
+            for (var row = 1; row < table.rows.length - 1; row++) {
+              sum += parseInt(table.rows[row].cells[column + 1].innerHTML);
+            }
+            document.getElementById("sum-" + column).innerHTML = sum;
           }
-          document.getElementById("sum-" + column).innerHTML = sum;
         }
-      }
-    </script>
-    
-    <!-- Lagerbestände und Produktion -->
+      </script>
 
-    <h3>Geben Sie die Planendlagerbestände der Hauptprodukte an.</h3>
-    <p>Daraus ergibt sich der Produktionsplan.</p>
-    <table id="stock-and-production-table">
-      <col />
-      <colgroup span="2"></colgroup>
-      <colgroup span="2"></colgroup>
-      <thead>
-        <tr>
-          <th rowspan="2">Produkte</th>
-          <th colspan="2">Aktuelle Periode</th>
-          <th colspan="2">Aktuell +1</th>
-          <th colspan="2">Aktuell +2</th>
-          <th colspan="2">Aktuell +3</th>
-        </tr>
-        <tr>
-          <th>Lager</th>
-          <th>Produktion</th>
-          <th>Lager</th>
-          <th>Produktion</th>
-          <th>Lager</th>
-          <th>Produktion</th>
-          <th>Lager</th>
-          <th>Produktion</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>P1</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P1-0"
-            type="number"
-          >
-            110
-          </td>
-          <td id="production-P1-0">?</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P1-1"
-          >
-            100
-          </td>
-          <td id="production-P1-1">?</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P1-2"
-          >
-            150
-          </td>
-          <td id="production-P1-2">?</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P1-3"
-          >
-            200
-          </td>
-          <td id="production-P1-3">?</td>
-        </tr>
-        <tr>
-          <td>P2</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P2-0"
-          >
-            200
-          </td>
-          <td id="production-P2-0">?</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P2-1"
-          >
-            150
-          </td>
-          <td id="production-P2-1">?</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P2-2"
-          >
-            250
-          </td>
-          <td id="production-P2-2">?</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P2-3"
-          >
-            100
-          </td>
-          <td id="production-P2-3">?</td>
-        </tr>
-        <tr>
-          <td>P3</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P3-0"
-          >
-            150
-          </td>
-          <td id="production-P3-0">?</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P3-1"
-          >
-            50
-          </td>
-          <td id="production-P3-1">?</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P3-2"
-          >
-            100
-          </td>
-          <td id="production-P3-2">?</td>
-          <td
-            class="editable"
-            class="allow-number"
-            contenteditable="true"
-            id="stock-P3-3"
-          >
-            250
-          </td>
-          <td id="production-P3-3">?</td>
-        </tr>
-        <tr>
-          <td><em>Summe</em></td>
-          <td id="sum-stock-0">0</td>
-          <td id="sum-production-0">0</td>
-          <td id="sum-stock-1">0</td>
-          <td id="sum-production-1">0</td>
-          <td id="sum-stock-2">0</td>
-          <td id="sum-production-2">0</td>
-          <td id="sum-stock-3">0</td>
-          <td id="sum-production-3">0</td>
-        </tr>
-      </tbody>
-    </table>
+      <!-- Lagerbestände und Produktion -->
 
-    <script>
-      calculateProductions();
-      calculateStockAndProductionSums();
+      <h3>Geben Sie die Planendlagerbestände der Hauptprodukte an.</h3>
+      <p>Daraus ergibt sich der Produktionsplan.</p>
+      <table id="stock-and-production-table">
+        <col />
+        <colgroup span="2"></colgroup>
+        <colgroup span="2"></colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2">Produkte</th>
+            <th colspan="2">Aktuelle Periode</th>
+            <th colspan="2">Aktuell +1</th>
+            <th colspan="2">Aktuell +2</th>
+            <th colspan="2">Aktuell +3</th>
+          </tr>
+          <tr>
+            <th>Lager</th>
+            <th>Produktion</th>
+            <th>Lager</th>
+            <th>Produktion</th>
+            <th>Lager</th>
+            <th>Produktion</th>
+            <th>Lager</th>
+            <th>Produktion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>P1</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P1-0"
+              type="number"
+            >
+              110
+            </td>
+            <td id="production-P1-0">?</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P1-1"
+            >
+              100
+            </td>
+            <td id="production-P1-1">?</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P1-2"
+            >
+              150
+            </td>
+            <td id="production-P1-2">?</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P1-3"
+            >
+              200
+            </td>
+            <td id="production-P1-3">?</td>
+          </tr>
+          <tr>
+            <td>P2</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P2-0"
+            >
+              200
+            </td>
+            <td id="production-P2-0">?</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P2-1"
+            >
+              150
+            </td>
+            <td id="production-P2-1">?</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P2-2"
+            >
+              250
+            </td>
+            <td id="production-P2-2">?</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P2-3"
+            >
+              100
+            </td>
+            <td id="production-P2-3">?</td>
+          </tr>
+          <tr>
+            <td>P3</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P3-0"
+            >
+              150
+            </td>
+            <td id="production-P3-0">?</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P3-1"
+            >
+              50
+            </td>
+            <td id="production-P3-1">?</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P3-2"
+            >
+              100
+            </td>
+            <td id="production-P3-2">?</td>
+            <td
+              class="editable"
+              class="allow-number"
+              contenteditable="true"
+              id="stock-P3-3"
+            >
+              250
+            </td>
+            <td id="production-P3-3">?</td>
+          </tr>
+          <tr>
+            <td><em>Summe</em></td>
+            <td id="sum-stock-0">0</td>
+            <td id="sum-production-0">0</td>
+            <td id="sum-stock-1">0</td>
+            <td id="sum-production-1">0</td>
+            <td id="sum-stock-2">0</td>
+            <td id="sum-production-2">0</td>
+            <td id="sum-stock-3">0</td>
+            <td id="sum-production-3">0</td>
+          </tr>
+        </tbody>
+      </table>
 
-      document.addEventListener("keyup", function (event) {
+      <script>
         calculateProductions();
         calculateStockAndProductionSums();
-      });
 
-      /* Calculate Production Numbers in Table */
-      function calculateProductions() {
-        var salesTable = document.getElementById("sales-table");
-        var stockAndProductionTable = document.getElementById(
-          "stock-and-production-table"
-        );
+        document.addEventListener("keyup", function (event) {
+          calculateProductions();
+          calculateStockAndProductionSums();
+        });
 
-        var period = 0;
+        /* Calculate Production Numbers in Table */
+        function calculateProductions() {
+          var salesTable = document.getElementById("sales-table");
+          var stockAndProductionTable = document.getElementById(
+            "stock-and-production-table"
+          );
 
-        for (var column = 2; column < 9; column += 2) {
-          var productionNumber = 0;
+          var period = 0;
 
-          for (var row = 2; row < 5; row++) {
-            var salesNumber = parseInt(
-              salesTable.rows[row - 1].cells[column / 2].innerHTML
-            );
-            var stockNumber = parseInt(
-              stockAndProductionTable.rows[row].cells[column - 1].innerHTML
-            );
+          for (var column = 2; column < 9; column += 2) {
+            var productionNumber = 0;
 
-            productionNumber = salesNumber + stockNumber;
-            document.getElementById(
-              "production-P" + (row - 1) + "-" + period
-            ).innerHTML = productionNumber;
-          }
-          period++;
-        }
-      }
+            for (var row = 2; row < 5; row++) {
+              var salesNumber = parseInt(
+                salesTable.rows[row - 1].cells[column / 2].innerHTML
+              );
+              var stockNumber = parseInt(
+                stockAndProductionTable.rows[row].cells[column - 1].innerHTML
+              );
 
-      /* Calculate Production and Stock Sums in Table */
-      function calculateStockAndProductionSums() {
-        var table = document.getElementById("stock-and-production-table");
-        var period = 0;
-
-        for (var column = 1; column < 9; column++) {
-          var sum = 0;
-
-          for (var row = 2; row < table.rows.length - 1; row++) {
-            sum += parseInt(table.rows[row].cells[column].innerHTML);
-          }
-          if (column % 2 == 1) {
-            document.getElementById("sum-stock-" + period).innerHTML = sum;
-          } else {
-            document.getElementById("sum-production-" + period).innerHTML =
-              sum;
+              productionNumber = salesNumber + stockNumber;
+              document.getElementById(
+                "production-P" + (row - 1) + "-" + period
+              ).innerHTML = productionNumber;
+            }
             period++;
           }
         }
-      }
-    </script>
 
+        /* Calculate Production and Stock Sums in Table */
+        function calculateStockAndProductionSums() {
+          var table = document.getElementById("stock-and-production-table");
+          var period = 0;
+
+          for (var column = 1; column < 9; column++) {
+            var sum = 0;
+
+            for (var row = 2; row < table.rows.length - 1; row++) {
+              sum += parseInt(table.rows[row].cells[column].innerHTML);
+            }
+            if (column % 2 == 1) {
+              document.getElementById("sum-stock-" + period).innerHTML = sum;
+            } else {
+              document.getElementById("sum-production-" + period).innerHTML =
+                sum;
+              period++;
+            }
+          }
+        }
+      </script>
+    </div>
+    <br />
     <br />
     <br />
     <br />
@@ -430,7 +434,10 @@
         onclick="location.href='3_stockPlaner.html'"
       >
         Weiter
-        <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+        <img
+          id="continue-icon"
+          src="{{ url_for('static', filename='img/continueArrow.png') }}"
+        />
       </button>
     </form>
   </body>
