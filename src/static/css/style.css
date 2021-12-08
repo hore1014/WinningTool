@@ -62,6 +62,11 @@ p {
   margin-top: 10px;
 }
 
+.error {
+  color: #eb6157;
+  text-align: center;
+}
+
 /* TITEL -----------------------------------------------*/
 
 h1 {
