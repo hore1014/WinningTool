@@ -205,7 +205,7 @@ def init_db(root_arr: list):
 # Retrieve data from DB
 
 # Helper function for specific get-methods
-def get_all_from_db(period: int, table: str, period_column_name = "Periode"):
+def get_all_from_db(period: int, table: str, period_column_name = "Periode"): 
     # Create and Connect to SQLite database
     conn = sqlite3.connect(db_dir)
 
@@ -213,7 +213,7 @@ def get_all_from_db(period: int, table: str, period_column_name = "Periode"):
     query = f"SELECT * from {table} WHERE {period_column_name} = :p"
 
     # Execute SQL command
-    result = conn.execute(str(query), str(period)).fetchall()
+    result = conn.execute(str(query), (str(period), )).fetchall() #period needs to be a tuple with one int (as str), in order to prevent incorrect number of bindins error in sqlite3, i.e.: (str(period), )
 
     # Close connection to database
     conn.close()
@@ -229,7 +229,7 @@ def get_agg_from_db(period: int, table: str):
     query = f"SELECT Artikel, SUM(Menge) from {table} WHERE Periode = :p GROUP BY Artikel"
 
     # Execute SQL command
-    result = conn.execute(str(query), str(period)).fetchall()
+    result = conn.execute(str(query), (str(period), )).fetchall() #period needs to be a tuple with one int (as str), in order to prevent incorrect number of bindins error in sqlite3, i.e.: (str(period), )
 
     # Close connection to database
     conn.close()
