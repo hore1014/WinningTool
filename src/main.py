@@ -7,6 +7,8 @@ from financial import inventory as inv
 import json
 from functools import reduce
 
+# TODO: alle Schritte in eigene Funktion packen
+
 # Initialize (create and populate) database from XML input data
 db.init_db()
 
