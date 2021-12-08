@@ -1,7 +1,8 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from werkzeug.utils import secure_filename
-# import main
+import main
+from xmlInOut.importXml import get_current_period
 
 app = Flask(__name__)
 port = 5000  # default
@@ -43,7 +44,7 @@ def upload_file():
 
 @app.route("/2_salesPrediction.html")
 def salesPrediction():
-    period = 1  # main.current_period
+    period = 1
     return render_template("2_salesPrediction.html", period=period, sales_1_0=110, sales_1_1=100, sales_1_2=150, sales_1_3=200, sales_2_0=200, sales_2_1=150, sales_2_2=250, sales_2_3=100, sales_3_0=150, sales_3_1=50, sales_3_2=100, sales_3_3=250)
 
 
@@ -55,7 +56,26 @@ def upload_prediction():
             'Periode': period,
             'Artikel': 'P1',
             'Aktuell_0': request.form.get('sales_1_0'),
-        }
+            'Aktuell_1': request.form.get('sales_1_1'),
+            'Aktuell_2': request.form.get('sales_1_2'),
+            'Aktuell_3': request.form.get('sales_1_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P2',
+            'Aktuell_0': request.form.get('sales_2_0'),
+            'Aktuell_1': request.form.get('sales_2_1'),
+            'Aktuell_2': request.form.get('sales_2_2'),
+            'Aktuell_3': request.form.get('sales_2_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P3',
+            'Aktuell_0': request.form.get('sales_3_0'),
+            'Aktuell_1': request.form.get('sales_3_1'),
+            'Aktuell_2': request.form.get('sales_3_2'),
+            'Aktuell_3': request.form.get('sales_3_3'),
+        },
     ]
     print(data)
     return render_template("3_stockPlaner.html", period=period)
