@@ -6,14 +6,20 @@ from procurement import procurement as proc
 from financial import inventory as inv
 import json
 from functools import reduce
+from xmlInOut import importXml as xml
+
+# Read all xml files
+root_arr = xml.parse_all_xml('src//data//')
 
 # TODO: alle Schritte in eigene Funktion packen
 
 # Initialize (create and populate) database from XML input data
-db.init_db()
+db.init_db(root_arr)
 
 # load all necessary data for production calculation from database
-# TODO period is user input
+current_period = xml.get_current_period(root_arr)
+print(f"Current period: {current_period}")
+# TODO: Error for period != 1?
 current_period = 1
 
 sales_forecast = db.get_sales_forecast(current_period)
