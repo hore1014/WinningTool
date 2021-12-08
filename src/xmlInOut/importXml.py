@@ -127,10 +127,12 @@ def create_wareneingang(root_arr):
                 'Menge': int(order.get('amount'))
             })
     # Mengen gleicher Artikel summieren (da ansonsten UNIQUE constraint verletzt ist)
-    df = pd.DataFrame(wareneingang_arr)
-    wareneingang_arr_aggreg = df.groupby(['Periode', 'Artikel']).agg(sum).reset_index().to_dict('records')
+    if not len(root_arr) == 0:
+        df = pd.DataFrame(wareneingang_arr)
+        wareneingang_arr_aggreg = df.groupby(['Periode', 'Artikel']).agg(sum).reset_index().to_dict('records')
 
-    return wareneingang_arr_aggreg
+        return wareneingang_arr_aggreg
+    return wareneingang_arr
 
 # Noch ausstehende Wareneingänge für Bestellungen, die bereits getätigt wurden
 def create_ausstehende_lieferungen(root_arr):
@@ -180,10 +182,12 @@ def create_warteschlangen(root_arr):
                         'Station': workplace.get('id')
                     })
     # Zeilen nach Artikel aggregieren (Mengen gleicher Artikel summieren)
-    df = pd.DataFrame(warteschlangen_arr)
-    warteschlangen_arr_aggreg = df.groupby(['Periode', 'Artikel', 'Station']).agg(sum).reset_index().to_dict('records')
-    #TODO Stationen in Listen zusammenfassen
-    return warteschlangen_arr_aggreg
+    if not len(root_arr) == 0:
+        df = pd.DataFrame(warteschlangen_arr)
+        warteschlangen_arr_aggreg = df.groupby(['Periode', 'Artikel', 'Station']).agg(sum).reset_index().to_dict('records')
+        #TODO Stationen in Listen zusammenfassen
+        return warteschlangen_arr_aggreg
+    return warteschlangen_arr
 
 # Hole die Werte für die fehlenden Artikel
 def create_fehlmaterial(root_arr):
