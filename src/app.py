@@ -1,12 +1,13 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from werkzeug.utils import secure_filename
-# import main
+import main
+from xmlInOut.importXml import get_current_period
 
 app = Flask(__name__)
 port = 5000  # default
 filename = ""
-period = 1
+period = 1  # default
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
 app.config["UPLOAD_EXTENSIONS"] = [".xml"]
@@ -36,12 +37,21 @@ def upload_file():
     if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
         abort(415)
     uploaded_file.save(os.path.join(app.config["UPLOAD_PATH"], filename))
-    # TODO: hier muss ggf. bereits veranlasst werden, dass die xml datei eingelesen wird
+
+    # TODO: Meldung bei erfolgreichem hochladen
+
+    # Einlesen der XML files
+    main.parse_all_xml()
+    global period
+    period = main.get_current_period()
+
     return render_template("1_lastPeriod.html", error=False, message=True)
 
 
 @app.route("/2_salesPrediction.html")
 def salesPrediction():
+    # init database
+    main.init_db()
     return render_template(
         "2_salesPrediction.html", period=period,
         sales_P1_0=100, sales_P1_1=100, sales_P1_2=100, sales_P1_3=100, sales_P2_0=100, sales_P2_1=100, sales_P2_2=100, sales_P2_3=100, sales_P3_0=100, sales_P3_1=100, sales_P3_2=100, sales_P3_3=100,
@@ -51,19 +61,71 @@ def salesPrediction():
 
 @app.route("/2_salesPrediction.html", methods=["POST"])
 def upload_prediction():
+    data = [
+        {
+            'Periode': period,
+            'Artikel': 'P1',
+            'Aktuell_0': request.form.get('sales_P1_0'),
+            'Aktuell_1': request.form.get('sales_P1_1'),
+            'Aktuell_2': request.form.get('sales_P1_2'),
+            'Aktuell_3': request.form.get('sales_P1_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P2',
+            'Aktuell_0': request.form.get('sales_P2_0'),
+            'Aktuell_1': request.form.get('sales_P2_1'),
+            'Aktuell_2': request.form.get('sales_P2_2'),
+            'Aktuell_3': request.form.get('sales_P2_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P3',
+            'Aktuell_0': request.form.get('sales_P3_0'),
+            'Aktuell_1': request.form.get('sales_P3_1'),
+            'Aktuell_2': request.form.get('sales_P3_2'),
+            'Aktuell_3': request.form.get('sales_P3_3'),
+        },
+    ]
     # TODO: Absatzprognose in die DB schreiben
-    data = request.form
     print(data)
     return render_template("3_stockPlaner.html", period=period)
 
 
 @app.route("/3_stockPlaner.html")
 def stockPlaner():
-    return render_template("3_stockPlaner.html", period=period)
+    return render_template("3_stockPlaner.html", period=period,  stock_P1_0=110, stock_P1_1=100, stock_P1_2=150, stock_P1_3=200, stock_P2_0=200, stock_P2_1=150, stock_P2_2=250, stock_P2_3=100, stock_P3_0=150, stock_P3_1=50, stock_P3_2=100, stock_P3_3=250)
 
 
 @app.route("/3_stockPlaner.html", methods=["POST"])
 def upload_plan():
+    data = [
+        {
+            'Periode': period,
+            'Artikel': 'P1',
+            'Aktuell_0': request.form.get('stock_P1_0'),
+            'Aktuell_1': request.form.get('stock_P1_1'),
+            'Aktuell_2': request.form.get('stock_P1_2'),
+            'Aktuell_3': request.form.get('stock_P1_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P2',
+            'Aktuell_0': request.form.get('stock_P2_0'),
+            'Aktuell_1': request.form.get('stock_P2_1'),
+            'Aktuell_2': request.form.get('stock_P2_2'),
+            'Aktuell_3': request.form.get('stock_P2_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P3',
+            'Aktuell_0': request.form.get('stock_P3_0'),
+            'Aktuell_1': request.form.get('stock_P3_1'),
+            'Aktuell_2': request.form.get('stock_P3_2'),
+            'Aktuell_3': request.form.get('stock_P3_3'),
+        },
+    ]
+    print(data)
     # TODO: Lagerstrategie in die DB schreiben
     return render_template("4_productionSequence.html", period=period)
 
