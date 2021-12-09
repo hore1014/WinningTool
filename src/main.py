@@ -28,9 +28,9 @@ def get_current_period():
 def init_db():
     # TODO: Exception Handling! Es werden hässliche Fehlermeldungen
     # auf der Seite angezeigt
-    print("Initializing database")
     db.init_db(root_arr)
-
+    print("Datenbank wurde initialisiert")
+    
 # Write user input into db
 def write_input_to_db(data: list, table_name: str):
     db.write_input_to_db(data, table_name)

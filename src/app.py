@@ -96,8 +96,7 @@ def upload_prediction():
             'Aktuell_3': request.form.get('sales_P3_3'),
         },
     ]
-    # TODO: Absatzprognose in die DB schreiben
-    print(data)
+    #Absatzprognose in die DB schreiben
     main.write_input_to_db(data, "Absatzprognose")
     print("Daten für Absatzprognose wurden in die Datenbank geschrieben")
 
