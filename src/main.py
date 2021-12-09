@@ -96,7 +96,7 @@ def get_orders_in_transit(current_period):
     return db.get_orders_in_transit(current_period-1) if current_period > 1 else {}
 
 
-def get_production(current_period):
+def get_production():
     global sales_forecast
     global current_parts
     global planned_parts
@@ -105,13 +105,13 @@ def get_production(current_period):
     global missing_parts
     global parts_traded
 
-    sales_forecast = db.get_sales_forecast(current_period)
-    current_parts = db.get_parts_inventory(current_period)
+    sales_forecast = mock.get_sales_forecast(current_period)
+    current_parts = mock.get_parts_inventory(current_period)
     planned_parts = mock.get_inventory_strategy(current_period)
-    parts_processing = db.get_parts_processing(current_period)
-    parts_in_queue = db.get_parts_in_queue(current_period)
-    missing_parts = db.get_missing_parts(current_period)
-    parts_traded = db.get_parts_trade(current_period)
+    parts_processing = mock.get_parts_processing(current_period)
+    parts_in_queue = mock.get_parts_in_queue(current_period)
+    missing_parts = mock.get_missing_parts(current_period)
+    parts_traded = mock.get_parts_trade(current_period)
 
     global production
     production = prod.calculate_production(
@@ -218,7 +218,8 @@ def get_average_inventory_worth():
 
 
 # Testing
-get_production(1)
+get_production()
+get_capacity()
 
 
 # print the results with sums for control purposes
