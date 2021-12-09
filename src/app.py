@@ -158,7 +158,7 @@ def upload_plan():
             'Aktuell_3': 0
         })
 
-    print(data)
+    #print(data)
     # Daten in die DB schreiben
     main.write_input_to_db(data, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der E-Teile wurden in die Datenbank geschrieben")
