@@ -66,9 +66,40 @@
         /* Pseudo-Artikel */
         var body = document.getElementById("table-body");
 
-        for (var count = 0; count < 20; count++) {
+        /* Array mit Artikeln */
+        const articleList = [
+            "E4",
+            "E5",
+            "E6",
+            "E7",
+            "E8",
+            "E9",
+            "E10",
+            "E11",
+            "E12",
+            "E13",
+            "E14",
+            "E15",
+            "E16",
+            "E17",
+            "E18",
+            "E19",
+            "E20",
+            "E26",
+            "E29",
+            "E30",
+            "E31",
+            "E49",
+            "E50",
+            "E51",
+            "E54",
+            "E55",
+            "E56"
+          ];
+
+        for (var count = 0; count < articleList.length; count++) {
           body.innerHTML +=
-            '<tr><td name="article">Artikel</td><td class="editable" contenteditable="true" name="stock">150</td><td name="production">?</td></tr>';
+            `<tr><td name="article">${articleList[count]}</td><td class="editable" contenteditable="true" name="stock_${articleList[count]}">150</td><td name="production">?</td></tr>`;
         }
       </script>
     </div>
