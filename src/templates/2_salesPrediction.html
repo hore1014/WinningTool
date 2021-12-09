@@ -50,7 +50,7 @@
       <div class="big-container">
         <!-- Absatz-Prognosen -->
         <h3>
-          Geben Sie die Absatzprognosen für die aktuelle und die darauffolgenden
+          Geben Sie die Absatzprognosen für die aktuelle Periode (Periode {{ period }}) und die darauffolgenden
           Perioden an.
         </h3>
         <table id="sales-table">
@@ -398,9 +398,8 @@
           for (var row = 1; row < table.rows.length - 2; row++) {
             if (column%2 == 0) {
               /* sum up stock columns */
-              console.log("stock_P" + row + "_" + (column / 2))
               cell = document.getElementsByName("stock_P" + row + "_" + (column / 2))[0].value;
-              console.log(cell)
+
               if (cell.length == 0) {
               sum += 0;
               }
@@ -410,9 +409,8 @@
             }
             else {
               /* sum up production columns */
-              console.log("production_P" + row + "_" + ((column - 1) / 2))
               cell = document.getElementById("production_P" + row + "_" + ((column - 1) / 2)).innerHTML;
-              console.log(cell)
+
               if (cell.length == 0) {
               sum += 0;
               }
