@@ -5,6 +5,7 @@
 Inhalt dieser css-Datei:
 
 - TITEL
+- CONTAINER
 - BILDER
 - BUTTONS
 - TABELLEN
@@ -27,6 +28,66 @@ Inhalt dieser css-Datei:
   text-align: left;
 }
 
+p {
+  font-size: 16px;
+  color: #a49e9e;
+  line-height: 1.5em;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+span {
+  font-weight: bold;
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #707070;
+  line-height: 1.5em;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.error {
+  color: #eb6157;
+  text-align: center;
+}
+
+input[type="text"] {
+  font-size: 16px;
+  margin: 20px;
+  padding: 20px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #a49e9e;
+  background-color: #ffffff;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+input[type="text"]:focus {
+  background-color: #efefef;
+}
+
+input[type="number"] {
+  margin: 0;
+  padding: 20px 0px;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #dce4e9;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* CONTAINER ------------------------------------------------------- */
+
 /* Webpage-Inhalt in der Mitte zentriert */
 .container {
   margin: 0;
@@ -41,7 +102,16 @@ Inhalt dieser css-Datei:
   /*overflow-y: scroll;*/
 }
 
-.big-container {
+.centered-container {
+  margin: 0 auto;
+  left: 50%;
+  max-width: 1000px;
+  text-align: center;
+  max-height: 600px;
+  margin-bottom: 60px;
+}
+
+.big-vertical-container {
   margin: 0;
   margin-top: 700px;
   padding-bottom: 200px;
@@ -49,31 +119,31 @@ Inhalt dieser css-Datei:
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  max-width: 1300px;
+  max-width: 100%;
   text-align: center;
   /*overflow-y: scroll;*/
 }
 
+.big-horizontal-container {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  text-align: center;
+  /*overflow-y: scroll;*/
+}
+
+.delete-box {
+  border: 1px solid #707070;
+  content: "";
+  padding: 20px;
+}
+
 .spacing {
   height: 50px;
-}
-
-p {
-  font-size: 16px;
-  color: #a49e9e;
-  line-height: 1.5em;
-  margin-bottom: 20px;
-  margin-top: 10px;
-}
-
-.error {
-  color: #eb6157;
-  text-align: center;
-}
-
-.success {
-  color: #7aeb57;
-  text-align: center;
 }
 
 /* TITEL -----------------------------------------------*/
@@ -104,9 +174,23 @@ h3 {
   vertical-align: middle;
 }
 
+.grey-icon {
+  color: #a79e9e;
+  vertical-align: middle;
+}
+
+.material-icons {
+  user-select: none;
+  pointer-events: none;
+}
+
 #file-upload {
   height: 200px;
   margin: 15px;
+}
+
+.drag-handle {
+  height: 25px;
 }
 
 /* BUTTONS -----------------------------------------------*/
@@ -186,6 +270,20 @@ h3 {
   background: none;
 }
 
+.delete-button {
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.delete-button span:hover {
+  margin: 0;
+  border: none;
+  background: none;
+  color: #3d3d3d;
+}
+
 .inline-block-child {
   display: flex;
 }
@@ -195,8 +293,6 @@ h3 {
 table {
   background-color: #ffffff;
   border-collapse: collapse;
-  margin-top: 10px;
-  margin-bottom: 10px;
   box-shadow: 3px 0px 30px #d3d2d2;
 }
 
@@ -204,7 +300,7 @@ table td {
   text-align: center;
   border-top: 1px solid #b4adad;
   border-left: 1px solid #b4adad;
-  /* padding: 20px 0px; */
+  padding: 20px 0px;
   width: 200px;
 }
 
@@ -230,7 +326,6 @@ table tbody td {
 }
 
 table thead {
-  border-bottom: 1px solid #b4adad;
   background: #efefef;
   background: -moz-linear-gradient(top, #f3f3f3 0%, #f0f0f0 66%, #efefef 100%);
   background: -webkit-linear-gradient(
@@ -310,6 +405,93 @@ table td em.warning {
   border-top: none;
   width: 100px;
   min-width: 70px;
+}
+
+/* Drag and Drop Table -------------------------------*/
+
+#table {
+  padding: 0px;
+  margin-right: 20px;
+}
+
+#table-header {
+  padding: 0px;
+  border: none;
+  margin-right: 1px;
+  min-height: 100%;
+}
+
+#table-header th {
+  padding: 10px 10px;
+}
+
+#last-header {
+  border-bottom: none;
+  height: 47px;
+}
+
+#empty-header {
+  height: 45px;
+}
+
+.table-container {
+  box-shadow: none;
+  padding: none;
+}
+
+.td-container {
+  border: none;
+  padding: none;
+  margin-left: 20px;
+}
+
+.draggable-table td,
+.draggable-table th {
+  padding: 10px 10px;
+}
+
+.draggable {
+  cursor: move;
+  user-select: none;
+  border-top: none;
+}
+.placeholder {
+  background-color: #edf2f7;
+  border: 2px dashed #cbd5e0;
+}
+.clone-list {
+  border: none;
+  box-shadow: 3px 0px 30px #d3d2d2;
+  display: flex;
+}
+
+.clone-list .draggable {
+  margin: 0px;
+}
+.clone-table {
+  border-collapse: collapse;
+  border: none;
+  box-shadow: none;
+}
+.clone-table th,
+.clone-table td {
+  border: 1px solid #ccc;
+  top: 0px;
+  padding: 10px 10px;
+  border-left: none;
+  border-top: none;
+}
+
+.clone-table th {
+  background-color: #efefef;
+  border-top: none;
+}
+
+.dragging {
+  background: #fff;
+  border-left: 1px solid #ccc;
+  margin: 0;
+  z-index: 999;
 }
 
 /* PROGRESSBAR -----------------------------------------------*/
@@ -422,21 +604,6 @@ input[type="file"] {
 
 input[type="file"]:focus + label[for="files"] {
   border: 1px solid #85e5ff;
-}
-
-input[type="number"] {
-  text-align: center;
-  margin: 0;
-  padding: 20px 0px;
-  width: 100%;
-  height: 100%;
-  border: none;
-  background-color: #dce4e9;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
 }
 
 label[for="file-selector"] {

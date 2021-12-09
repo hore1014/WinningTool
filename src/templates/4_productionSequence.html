@@ -8,7 +8,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
     <meta
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
@@ -42,56 +46,225 @@
       </ul>
     </nav>
 
-    <div class="container">
-      <h3>Tragen Sie die Produktionsreihenfolge ein.</h3>
-      <p>
-        Die Produktion erfolgt entsprechend der gewählten Reihenfolge. <br />
-        Artikelnummern:
-      </p>
-      <div
-        class="horizontal-scrollable-table-wrapper"
-        id="horizontal-scrollable-table-wrapper"
-      >
-        <table class="production-order-table">
-          <tbody>
-            <tr id="production-order-row"></tr>
-          </tbody>
-        </table>
+    <div class="big-horizontal-container">
+      <div class="centered-container">
+        <h3>
+          Bringen Sie die Aufträge in Ihre gewünschte Produktionsreihenfolge und
+          geben Sie die zu produzierende Anzahl ein.
+        </h3>
+        <p>
+          Das was zuerst steht wird zuerst produziert.
+          <br />
+          Sie können auch neue Zellen über das "Plus"-Zeichen hinzufügen, um
+          einen Auftrag zu splitten.
+        </p>
       </div>
 
-      <script>
-        var row = document.getElementById("production-order-row");
-
-        for (var count = 0; count < 29; count++) {
-          row.innerHTML += '<td class="editable" contenteditable="true"></td>';
-        }
-
-        /*horizontales Scrollen */
-        const scrollContainer = document.getElementById(
-          "horizontal-scrollable-table-wrapper"
-        );
-        scrollContainer.addEventListener("wheel", (evt) => {
-          evt.preventDefault();
-          scrollContainer.scrollLeft += evt.deltaY;
-        });
-      </script>
-
-      <br />
-
-      <h3>Geben Sie hier die Produktionslosgröße ein.</h3>
-      <p>
-        Wenn nichts angegeben wird, dann werden die Artikel komplett am Stück
-        produziert.
-      </p>
-      <table class="production-order-table">
+      <table class="table-container">
         <tbody>
-          <tr id="production-order-row">
-            <td class="editable" class="allow-number" contenteditable="true">
-              10
+          <tr>
+            <td class="td-container">
+              <table id="table-header">
+                <thead>
+                  <tr id="empty-header">
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th>Artikel</th>
+                  </tr>
+                  <tr>
+                    <th>Anzahl</th>
+                  </tr>
+                  <tr>
+                    <th id="last-header"></th>
+                  </tr>
+                </thead>
+              </table>
+            </td>
+            <td class="td-container">
+              <table id="table" class="draggable-table">
+                <thead>
+                  <tr id="drag-handles"></tr>
+                </thead>
+                <tbody>
+                  <tr id="articles">
+                    <td>E4</td>
+                    <td>E5</td>
+                    <td>E6</td>
+                    <td>E7</td>
+                    <td>E8</td>
+                    <td>E9</td>
+                    <td>E10</td>
+                    <td>E11</td>
+                    <td>E12</td>
+                    <td>E13</td>
+                    <td>E14</td>
+                    <td>E15</td>
+                    <td>E16</td>
+                    <td>E17</td>
+                    <td>E18</td>
+                    <td>E19</td>
+                    <td>E20</td>
+                    <td>E26</td>
+                    <td>E29</td>
+                    <td>E30</td>
+                    <td>E31</td>
+                    <td>E49</td>
+                    <td>E50</td>
+                    <td>E51</td>
+                    <td>E54</td>
+                    <td>E55</td>
+                    <td>E56</td>
+                    <td>P1</td>
+                    <td>P2</td>
+                    <td>P3</td>
+                  </tr>
+                  <tr id="production-numbers"></tr>
+                  <tr id="delete-buttons"></tr>
+                </tbody>
+              </table>
             </td>
           </tr>
         </tbody>
       </table>
+      <script>
+        /* Tabelle mit Daten füllen */
+        var tableColumns =
+          document.getElementById("table").rows[1].cells.length;
+
+        // Drag-Handles
+        var dragHandlesRow = document.getElementById("drag-handles");
+        for (var count = 0; count < tableColumns; count++) {
+          dragHandlesRow.innerHTML +=
+            '<th><span class="material-icons grey-icon">drag_indicator</span></th>';
+        }
+
+        // Produktionsanzahl
+        var productionNumbersRow =
+          document.getElementById("production-numbers");
+        for (var count = 0; count < tableColumns; count++) {
+          productionNumbersRow.innerHTML +=
+            '<td data-type="number" class="editable" contenteditable="true">100</td>';
+        }
+
+        // Delete-Button-Cells
+        var deleteRow = document.getElementById("delete-buttons");
+        for (var count = 0; count < tableColumns; count++) {
+          deleteRow.innerHTML += "<td></td>";
+        }
+
+        // Müssen aktualisiert werden, wenn die Spalten umhergeschoben werden,
+        // damit falls welche gelöscht werden auch die richtigen gelöscht werden
+        function remakeDeleteButtons() {
+          const table = document.getElementById("table");
+
+          //Müssen zuerst "geleert" werden
+          document
+            .getElementById("delete-buttons")
+            .childNodes.forEach((td, i) => (td.innerHTML = ``));
+          document
+            .getElementById("delete-buttons")
+            .childNodes.forEach(
+              (td, i) =>
+                (td.innerHTML += ` <sup><a href="#" data-idx="${i}" class="del" ><span class="material-icons grey-icon delete-icon"> delete </span></a></sup>`)
+            );
+        }
+
+        window.addEventListener("DOMContentLoaded", remakeDeleteButtons());
+
+        table.addEventListener("click", function (e) {
+          const target = e.target.closest("a");
+          if (target && target.classList.contains("del")) {
+            const idx = target.dataset.idx;
+            [...table.rows].forEach((row) => row.cells[idx].remove());
+          }
+          //Remake delete Buttons (for the idx)
+          remakeDeleteButtons();
+        });
+      </script>
+
+      <div class="centered-container">
+        <form class="new-column-form">
+          <span>Neuer Produktionsauftrag <em>(Splitting)</em> :</span>
+          <input
+            type="text"
+            id="article-name"
+            name="article-name"
+            placeholder="Artikelname"
+          />
+          <button type="button" id="addColumnButton" class="accent-button">
+            <span class="material-icons white-icon"> add </span> Neue Spalte
+            hinzufügen
+          </button>
+
+          <script>
+            /* add Column Functionality */
+            const articleList = [
+              "E4",
+              "E5",
+              "E6",
+              "E7",
+              "E8",
+              "E9",
+              "E10",
+              "E11",
+              "E12",
+              "E13",
+              "E14",
+              "E15",
+              "E16",
+              "E17",
+              "E18",
+              "E19",
+              "E20",
+              "E26",
+              "E29",
+              "E30",
+              "E31",
+              "E49",
+              "E50",
+              "E51",
+              "E54",
+              "E55",
+              "E56",
+              "P1",
+              "P2",
+              "P3",
+            ];
+
+            function addColumn() {
+              var listOfRows = document.querySelectorAll("#table tr");
+              const articleName = document.getElementById("article-name").value;
+
+              if (articleName == "" || articleName == undefined) {
+                alert("Geben Sie einen Artikel an.");
+              } else if (!articleList.includes(articleName)) {
+                alert("Der angegebene Artikel existiert nicht.");
+                document.getElementById("article-name").value = "";
+              } else {
+                document.getElementById("drag-handles").innerHTML +=
+                  '<th class="draggable"><span class="material-icons grey-icon"> drag_indicator</span></th>';
+                document.getElementById("articles").innerHTML +=
+                  "<td>" + articleName + "</td>";
+                document.getElementById("production-numbers").innerHTML +=
+                  '<td data-type="number" class="editable" contenteditable="true"></td>';
+
+                var table = document.getElementById("table");
+                var newColumnNumber =
+                  document.getElementById("delete-buttons").childNodes.length;
+                document.getElementById("delete-buttons").innerHTML +=
+                  '<td><sup><a href="#" data-idx="' +
+                  newColumnNumber +
+                  '" class="del" ><span class="material-icons grey-icon delete-icon"> delete </span></a></sup></td>';
+                document.getElementById("article-name").value = "";
+                activateDragAndDrop();
+              }
+            }
+
+            document.getElementById("addColumnButton").onclick = addColumn;
+          </script>
+        </form>
+      </div>
     </div>
 
     <form method="post">
@@ -102,10 +275,230 @@
         onclick="location.href='5_orders_purchase.html'"
       >
         Weiter
-        <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+        <img
+          id="continue-icon"
+          src="{{ url_for('static', filename='img/continueArrow.png') }}"
+        />
       </button>
     </form>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", activateDragAndDrop());
+
+    function activateDragAndDrop() {
+      const table = document.getElementById("table");
+
+      let draggingEle;
+      let draggingColumnIndex;
+      let placeholder;
+      let list;
+      let isDraggingStarted = false;
+
+      // The current position of mouse relative to the dragging element
+      let x = 0;
+      let y = 0;
+
+      // Swap two nodes
+      const swap = function (nodeA, nodeB) {
+        const parentA = nodeA.parentNode;
+        const siblingA =
+          nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
+
+        // Move `nodeA` to before the `nodeB`
+        nodeB.parentNode.insertBefore(nodeA, nodeB);
+
+        // Move `nodeB` to before the sibling of `nodeA`
+        parentA.insertBefore(nodeB, siblingA);
+      };
+
+      // Check if `nodeA` is on the left of `nodeB`
+      const isOnLeft = function (nodeA, nodeB) {
+        // Get the bounding rectangle of nodes
+        const rectA = nodeA.getBoundingClientRect();
+        const rectB = nodeB.getBoundingClientRect();
+
+        return rectA.left + rectA.width / 2 < rectB.left + rectB.width / 2;
+      };
+
+      const cloneTable = function () {
+        const rect = table.getBoundingClientRect();
+
+        list = document.createElement("div");
+        list.classList.add("clone-list");
+        list.style.position = "absolute";
+        //list.style.left = `${rect.left}px`;
+        //list.style.top = `${rect.top}px`;
+        table.parentNode.insertBefore(list, table);
+
+        // Hide the original table
+        table.style.visibility = "hidden";
+
+        // Get all cells
+        const originalCells = [].slice.call(table.querySelectorAll("tbody td"));
+
+        const originalHeaderCells = [].slice.call(table.querySelectorAll("th"));
+        const numColumns = originalHeaderCells.length;
+
+        // Loop through the header cells
+        originalHeaderCells.forEach(function (headerCell, headerIndex) {
+          const width = parseInt(window.getComputedStyle(headerCell).width);
+
+          // Create a new table from given row
+          const item = document.createElement("div");
+          item.classList.add("draggable");
+
+          const newTable = document.createElement("table");
+          newTable.setAttribute("class", "clone-table");
+          newTable.style.width = `${width}px`;
+
+          // Header
+          const th = headerCell.cloneNode(true);
+          let newRow = document.createElement("tr");
+          newRow.appendChild(th);
+          newTable.appendChild(newRow);
+
+          const cells = originalCells.filter(function (c, idx) {
+            return (idx - headerIndex) % numColumns === 0;
+          });
+          cells.forEach(function (cell) {
+            const newCell = cell.cloneNode(true);
+            newCell.style.width = `${width}px`;
+            newRow = document.createElement("tr");
+            newRow.appendChild(newCell);
+            newTable.appendChild(newRow);
+          });
+
+          item.appendChild(newTable);
+          list.appendChild(item);
+        });
+      };
+
+      const mouseDownHandler = function (e) {
+        draggingColumnIndex = [].slice
+          .call(table.querySelectorAll("th"))
+          .indexOf(e.target);
+
+        // Determine the mouse position
+        x = e.clientX - e.target.offsetLeft;
+        y = e.clientY - e.target.offsetTop;
+
+        // Attach the listeners to `document`
+        document.addEventListener("mousemove", mouseMoveHandler);
+        document.addEventListener("mouseup", mouseUpHandler);
+      };
+
+      const mouseMoveHandler = function (e) {
+        if (!isDraggingStarted) {
+          isDraggingStarted = true;
+
+          cloneTable();
+
+          draggingEle = [].slice.call(list.children)[draggingColumnIndex];
+          draggingEle.classList.add("dragging");
+
+          // Let the placeholder take the height of dragging element
+          // So the next element won't move to the left or right
+          // to fill the dragging element space
+          placeholder = document.createElement("div");
+          placeholder.classList.add("placeholder");
+          draggingEle.parentNode.insertBefore(
+            placeholder,
+            draggingEle.nextSibling
+          );
+          placeholder.style.width = `${draggingEle.offsetWidth}px`;
+        }
+
+        // Set position for dragging element
+        draggingEle.style.position = "absolute";
+        draggingEle.style.top = `${draggingEle.offsetTop + e.clientY - y}px`;
+        draggingEle.style.left = `${draggingEle.offsetLeft + e.clientX - x}px`;
+
+        // Reassign the position of mouse
+        x = e.clientX;
+        y = e.clientY;
+
+        // The current order
+        // prevEle
+        // draggingEle
+        // placeholder
+        // nextEle
+        const prevEle = draggingEle.previousElementSibling;
+        const nextEle = placeholder.nextElementSibling;
+
+        // // The dragging element is above the previous element
+        // // User moves the dragging element to the left
+        if (prevEle && isOnLeft(draggingEle, prevEle)) {
+          // The current order    -> The new order
+          // prevEle              -> placeholder
+          // draggingEle          -> draggingEle
+          // placeholder          -> prevEle
+          swap(placeholder, draggingEle);
+          swap(placeholder, prevEle);
+          return;
+        }
+
+        // The dragging element is below the next element
+        // User moves the dragging element to the bottom
+        if (nextEle && isOnLeft(nextEle, draggingEle)) {
+          // The current order    -> The new order
+          // draggingEle          -> nextEle
+          // placeholder          -> placeholder
+          // nextEle              -> draggingEle
+          swap(nextEle, placeholder);
+          swap(nextEle, draggingEle);
+        }
+      };
+
+      const mouseUpHandler = function () {
+        // // Remove the placeholder
+        placeholder && placeholder.parentNode.removeChild(placeholder);
+
+        draggingEle.classList.remove("dragging");
+        draggingEle.style.removeProperty("top");
+        draggingEle.style.removeProperty("left");
+        draggingEle.style.removeProperty("position");
+
+        // Get the end index
+        const endColumnIndex = [].slice
+          .call(list.children)
+          .indexOf(draggingEle);
+
+        isDraggingStarted = false;
+
+        // Remove the `list` element
+        list.parentNode.removeChild(list);
+
+        // Move the dragged column to `endColumnIndex`
+        table.querySelectorAll("tr").forEach(function (row) {
+          const cells = [].slice.call(row.querySelectorAll("th, td"));
+          draggingColumnIndex > endColumnIndex
+            ? cells[endColumnIndex].parentNode.insertBefore(
+                cells[draggingColumnIndex],
+                cells[endColumnIndex]
+              )
+            : cells[endColumnIndex].parentNode.insertBefore(
+                cells[draggingColumnIndex],
+                cells[endColumnIndex].nextSibling
+              );
+        });
+
+        // Bring back the table
+        table.style.removeProperty("visibility");
+
+        // Remove the handlers of `mousemove` and `mouseup`
+        document.removeEventListener("mousemove", mouseMoveHandler);
+        document.removeEventListener("mouseup", mouseUpHandler);
+
+        // Reindex the delete Buttons
+        remakeDeleteButtons();
+      };
+
+      table.querySelectorAll("th").forEach(function (headerCell) {
+        headerCell.classList.add("draggable");
+        headerCell.addEventListener("mousedown", mouseDownHandler);
+      });
+    }
+  </script>
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
   </footer>
