@@ -38,8 +38,6 @@ def upload_file():
         abort(415)
     uploaded_file.save(os.path.join(app.config["UPLOAD_PATH"], filename))
 
-    # TODO: Meldung bei erfolgreichem hochladen
-
     # Einlesen der XML files
     main.parse_all_xml()
     global period
@@ -61,7 +59,7 @@ def salesPrediction():
 
 @app.route("/2_salesPrediction.html", methods=["POST"])
 def upload_prediction():
-    data = [
+    salesData = [
         {
             'Periode': period,
             'Artikel': 'P1',
@@ -87,9 +85,33 @@ def upload_prediction():
             'Aktuell_3': request.form.get('sales_P3_3'),
         },
     ]
-    # TODO: Absatzprognose in die DB schreiben
-    print(data)
-    main.write_input_to_db(data)
+    stockData = [
+        {
+            'Periode': period,
+            'Artikel': 'P1',
+            'Aktuell_0': request.form.get('stock_P1_0'),
+            'Aktuell_1': request.form.get('stock_P1_1'),
+            'Aktuell_2': request.form.get('stock_P1_2'),
+            'Aktuell_3': request.form.get('stock_P1_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P2',
+            'Aktuell_0': request.form.get('stock_P2_0'),
+            'Aktuell_1': request.form.get('stock_P2_1'),
+            'Aktuell_2': request.form.get('stock_P2_2'),
+            'Aktuell_3': request.form.get('stock_P2_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P3',
+            'Aktuell_0': request.form.get('stock_P3_0'),
+            'Aktuell_1': request.form.get('stock_P3_1'),
+            'Aktuell_2': request.form.get('stock_P3_2'),
+            'Aktuell_3': request.form.get('stock_P3_3'),
+        },
+    ]
+    main.write_input_to_db(salesData, stockData)
     print("data has been written to database")
 
     return render_template("3_stockPlaner.html", period=period)

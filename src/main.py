@@ -12,33 +12,11 @@ from xmlInOut import importXml as xml
 # TODO Löschen von XML files aus dem Ordner per Button
 # TODO: alle Schritte in eigene Funktion packen
 
-root_arr = [] # global variable
+# global variables for Initialization
+root_arr = []
+current_period = 1
 
-# Read all xml files
-def parse_all_xml():
-    print("Parsing XML files")
-    global root_arr
-    root_arr = xml.parse_all_xml('src//data//')
-    return root_arr
-
-def get_current_period():
-    return xml.get_current_period(root_arr)
-
-# Initialize (create and populate) database from XML input data
-def init_db():
-    # TODO: Exception Handling! Es werden hässliche Fehlermeldungen
-    # auf der Seite angezeigt
-    print("Initializing database")
-    db.init_db(root_arr)
-
-# Write user input into db
-def write_input_to_db(data: list):
-    db.write_sales_forecast(data, "Absatzprognose")
-
-# load all necessary data for production calculation from database
-#current_period = 1
-
-# global variables
+# global variables for calculations
 sales_forecast = {}
 current_parts = {}
 planned_parts = {}
@@ -48,6 +26,7 @@ missing_parts = {}
 parts_traded = {}
 parts_ordered = {}
 
+# global variables for results
 production = {}
 consumption = {}
 orders = {}
@@ -55,15 +34,44 @@ capacity = {}
 shifts = {}
 average_inventory_worth = {}
 
-def get_all_from_db(current_period):
+
+# Read all xml files
+def parse_all_xml():
+    print("Parsing XML files")
+    global root_arr
+    root_arr = xml.parse_all_xml('src//data//')
+    return root_arr
+
+
+def get_current_period():
+    print("Setting current Period")
+    global current_period
+    current_period = xml.get_current_period(root_arr)
+    return current_period
+
+
+# Initialize (create and populate) database from XML input data
+def init_db():
+    # TODO: Exception Handling! Es werden hässliche Fehlermeldungen auf der Seite angezeigt
+    print("Initializing database")
+    db.init_db(root_arr)
+
+
+# Write user input into db
+def write_input_to_db(salesData: list, stockData: list):
+    # db.write_sales_forecast(salesData, "Absatzprognose")
+    # db.write_invetory_strategy(stockData)
+    pass
+
+
+def get_production():
     global sales_forecast
-    global current_parts 
-    global planned_parts 
-    global parts_processing 
+    global current_parts
+    global planned_parts
+    global parts_processing
     global parts_in_queue
-    global missing_parts 
-    global parts_traded 
-    global parts_ordered 
+    global missing_parts
+    global parts_traded
 
     sales_forecast = db.get_sales_forecast(current_period)
     current_parts = db.get_parts_inventory(current_period)
@@ -72,13 +80,7 @@ def get_all_from_db(current_period):
     parts_in_queue = db.get_parts_in_queue(current_period)
     missing_parts = db.get_missing_parts(current_period)
     parts_traded = db.get_parts_trade(current_period)
-    parts_ordered = db.get_orders_in_transit(
-        current_period-1) if current_period > 1 else {}
 
-def calc_prod_forecast(period):
-    return prod.calculate_production_forecast(sales_forecast, planned_parts, period)
-
-def calculate_all_data(current_period):
     global production
     production = prod.calculate_production(
         sales_forecast,
@@ -89,6 +91,22 @@ def calculate_all_data(current_period):
         missing_parts,
         parts_traded,
     )
+    return production
+
+
+def get_all_from_db(current_period):
+
+    global parts_ordered
+
+    parts_ordered = db.get_orders_in_transit(
+        current_period-1) if current_period > 1 else {}
+
+
+def calc_prod_forecast(period):
+    return prod.calculate_production_forecast(sales_forecast, planned_parts, period)
+
+
+def calculate_all_data(current_period):
 
     global consumption
     consumption = cons.calculate_consumption(production, sales_forecast)
@@ -108,7 +126,7 @@ def calculate_all_data(current_period):
 
     # TODO: calculate tooling factors for each period from average of pervious periods
     tooling_factors = {"Station_1": 1.25, "Station_2": 1.25, "Station_3": 1, "Station_4": 1.25, "Station_5": 0, "Station_6": 1, "Station_7": 2,
-                    "Station_8": 1.5, "Station_9": 1, "Station_10": 1.25, "Station_11": 1.25, "Station_12": 1, "Station_13": 1, "Station_14": 1, "Station_15": 2, }
+                       "Station_8": 1.5, "Station_9": 1, "Station_10": 1.25, "Station_11": 1.25, "Station_12": 1, "Station_13": 1, "Station_14": 1, "Station_15": 2, }
 
     global capacity
     capacity = cap.calculate_capacity(
@@ -122,22 +140,27 @@ def calculate_all_data(current_period):
         current_parts, production, consumption, parts_processing, parts_in_queue, missing_parts, parts_traded)
 
 # print the results with sums for control purposes
+
+
 def print_all_data():
     print(f"Produktion:\n{json.dumps(production, indent=4)}")
-    print(f"Summe: {reduce(lambda x, value: x + value, production.values(), 0)}\n")
+    print(
+        f"Summe: {reduce(lambda x, value: x + value, production.values(), 0)}\n")
 
     print(f"Verbrauch:\n{json.dumps(consumption, indent=4)}")
-    print(f"Summe: {reduce(lambda x, value: x + value, consumption.values(), 0)}\n")
+    print(
+        f"Summe: {reduce(lambda x, value: x + value, consumption.values(), 0)}\n")
 
     print(f"Kapazität:\n{json.dumps(capacity, indent=4)}")
-    print(f"Summe: {reduce(lambda x, value: x + value, capacity.values(), 0)}\n")
+    print(
+        f"Summe: {reduce(lambda x, value: x + value, capacity.values(), 0)}\n")
 
     print("Schichten:\n{")
     for station in shifts:
         print(
             f"\t\"{station}\": ({shifts[station][0]}, {shifts[station][1]/5})")
     print("}\n" +
-        f"Summe Mehrarbeit: {reduce(lambda x, value: x + value[1], shifts.values(), 0)}\n")
+          f"Summe Mehrarbeit: {reduce(lambda x, value: x + value[1], shifts.values(), 0)}\n")
 
     print("Bestellungen:\n{")
     for article in orders:
