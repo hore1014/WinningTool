@@ -10,7 +10,6 @@ from functools import reduce
 from xmlInOut import importXml as xml
 
 # TODO Löschen von XML files aus dem Ordner per Button
-# TODO: alle Schritte in eigene Funktion packen
 
 # global variables for Initialization
 root_arr = []
@@ -63,17 +62,6 @@ def init_db():
 def write_input_to_db(data: list, table_name: str):
     db.write_input_to_db(data, table_name)
 
-# load all necessary data for production calculation from database
-#current_period = 1
-
-# Write user input into db
-
-
-def write_input_to_db(salesData: list, stockData: list):
-    # db.write_sales_forecast(salesData, "Absatzprognose")
-    # db.write_invetory_strategy(stockData)
-    pass
-
 
 # get from DB methods
 def get_sales_forecast(current_period):
@@ -108,7 +96,7 @@ def get_orders_in_transit(current_period):
     return db.get_orders_in_transit(current_period-1) if current_period > 1 else {}
 
 
-def get_all_from_db(current_period):
+def get_production(current_period):
     global sales_forecast
     global current_parts
     global planned_parts

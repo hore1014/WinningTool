@@ -121,6 +121,7 @@ def upload_prediction():
         },
     ]
     # Absatzprognose in die DB schreiben
+    # TODO: Lagerstrategie auch mit einbinden
     main.write_input_to_db(salesData, "Absatzprognose")
     print("Daten für Absatzprognose wurden in die Datenbank geschrieben")
 
