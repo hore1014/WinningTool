@@ -96,7 +96,7 @@ def upload_prediction():
             'Aktuell_3': request.form.get('sales_P3_3'),
         },
     ]
-    #Absatzprognose in die DB schreiben
+    # Absatzprognose in die DB schreiben
     main.write_input_to_db(data, "Absatzprognose")
     print("Daten für Absatzprognose wurden in die Datenbank geschrieben")
 
@@ -107,9 +107,9 @@ def upload_prediction():
 def stockPlaner():
     return render_template(
         "3_stockPlaner.html", period=period,  
-        stock_P1_0=110, stock_P1_1=100, stock_P1_2=150, stock_P1_3=200, 
-        stock_P2_0=200, stock_P2_1=150, stock_P2_2=250, stock_P2_3=100, 
-        stock_P3_0=150, stock_P3_1=50, stock_P3_2=100, stock_P3_3=250
+        stock_P1_0=100, stock_P1_1=100, stock_P1_2=100, stock_P1_3=100, 
+        stock_P2_0=100, stock_P2_1=100, stock_P2_2=100, stock_P2_3=100, 
+        stock_P3_0=100, stock_P3_1=100, stock_P3_2=100, stock_P3_3=100
         )
 
 
@@ -142,7 +142,7 @@ def upload_plan():
         },
     ]
     print(data)
-    # TODO: Lagerstrategie in die DB schreiben
+    # Lagerstrategie in die DB schreiben
     main.write_input_to_db(data, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestand Strategie wurden in die Datenbank geschrieben")
     return render_template("4_productionSequence.html", period=period)
