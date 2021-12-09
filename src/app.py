@@ -50,10 +50,19 @@ def upload_file():
 def salesPrediction():
     # init database
     main.init_db()
+    # Get default values
+    sales = main.get_sales_forecast(period)
+
     return render_template(
         "2_salesPrediction.html", period=period,
-        sales_P1_0=100, sales_P1_1=100, sales_P1_2=100, sales_P1_3=100, sales_P2_0=100, sales_P2_1=100, sales_P2_2=100, sales_P2_3=100, sales_P3_0=100, sales_P3_1=100, sales_P3_2=100, sales_P3_3=100,
-        stock_P1_0=100, stock_P1_1=100, stock_P1_2=100, stock_P1_3=100, stock_P2_0=100, stock_P2_1=100, stock_P2_2=100, stock_P2_3=100, stock_P3_0=100, stock_P3_1=100, stock_P3_2=100, stock_P3_3=100
+
+        sales_P1_0=sales["P1"][0], sales_P1_1=sales["P1"][1], sales_P1_2=sales["P1"][2], sales_P1_3=sales["P1"][3],
+        sales_P2_0=sales["P2"][0], sales_P2_1=sales["P2"][1], sales_P2_2=sales["P2"][2], sales_P2_3=sales["P2"][3],
+        sales_P3_0=sales["P3"][0], sales_P3_1=sales["P3"][1], sales_P3_2=sales["P3"][2], sales_P3_3=sales["P3"][3],
+
+        stock_P1_0=100, stock_P1_1=100, stock_P1_2=100, stock_P1_3=100,
+        stock_P2_0=100, stock_P2_1=100, stock_P2_2=100, stock_P2_3=100,
+        stock_P3_0=100, stock_P3_1=100, stock_P3_2=100, stock_P3_3=100
     )
 
 
@@ -111,15 +120,21 @@ def upload_prediction():
             'Aktuell_3': request.form.get('stock_P3_3'),
         },
     ]
-    main.write_input_to_db(salesData, stockData)
-    print("data has been written to database")
+    # Absatzprognose in die DB schreiben
+    main.write_input_to_db(salesData, "Absatzprognose")
+    print("Daten für Absatzprognose wurden in die Datenbank geschrieben")
 
     return render_template("3_stockPlaner.html", period=period)
 
 
 @app.route("/3_stockPlaner.html")
 def stockPlaner():
-    return render_template("3_stockPlaner.html", period=period,  stock_P1_0=110, stock_P1_1=100, stock_P1_2=150, stock_P1_3=200, stock_P2_0=200, stock_P2_1=150, stock_P2_2=250, stock_P2_3=100, stock_P3_0=150, stock_P3_1=50, stock_P3_2=100, stock_P3_3=250)
+    return render_template(
+        "3_stockPlaner.html", period=period,
+        stock_P1_0=100, stock_P1_1=100, stock_P1_2=100, stock_P1_3=100,
+        stock_P2_0=100, stock_P2_1=100, stock_P2_2=100, stock_P2_3=100,
+        stock_P3_0=100, stock_P3_1=100, stock_P3_2=100, stock_P3_3=100
+    )
 
 
 @app.route("/3_stockPlaner.html", methods=["POST"])
@@ -151,7 +166,9 @@ def upload_plan():
         },
     ]
     print(data)
-    # TODO: Lagerstrategie in die DB schreiben
+    # Lagerstrategie in die DB schreiben
+    main.write_input_to_db(data, "Strategie_Lagerbestand")
+    print("Daten für die Lagerbestand Strategie wurden in die Datenbank geschrieben")
     return render_template("4_productionSequence.html", period=period)
 
 

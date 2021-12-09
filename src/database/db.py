@@ -205,7 +205,7 @@ def init_db(root_arr: list):
 # Retrieve data from DB
 
 # Helper function for specific get-methods
-def get_all_from_db(period: int, table: str, period_column_name = "Periode"):
+def get_all_from_db(period: int, table: str, period_column_name = "Periode"): 
     # Create and Connect to SQLite database
     conn = sqlite3.connect(db_dir)
 
@@ -213,7 +213,7 @@ def get_all_from_db(period: int, table: str, period_column_name = "Periode"):
     query = f"SELECT * from {table} WHERE {period_column_name} = :p"
 
     # Execute SQL command
-    result = conn.execute(str(query), str(period)).fetchall()
+    result = conn.execute(str(query), (str(period), )).fetchall() #period needs to be a tuple with one int (as str), in order to prevent incorrect number of bindins error in sqlite3, i.e.: (str(period), )
 
     # Close connection to database
     conn.close()
@@ -229,7 +229,7 @@ def get_agg_from_db(period: int, table: str):
     query = f"SELECT Artikel, SUM(Menge) from {table} WHERE Periode = :p GROUP BY Artikel"
 
     # Execute SQL command
-    result = conn.execute(str(query), str(period)).fetchall()
+    result = conn.execute(str(query), (str(period), )).fetchall() #period needs to be a tuple with one int (as str), in order to prevent incorrect number of bindins error in sqlite3, i.e.: (str(period), )
 
     # Close connection to database
     conn.close()
@@ -343,13 +343,16 @@ def get_orders_in_transit(period: int):
     return res_dict
 
 # Write data from user input
-def write_input_to_db(data: list, db_name: str):
+def write_input_to_db(data: list, table_name: str):
      # Connect to SQLite database
     conn = sqlite3.connect(db_dir)
 
-    # Insert statements
+    column_wildcard = '?' + (', ?' * (len(data[0])-1) )
+
+    # Insert statements, overwrite if necessary
     for el in data: 
-        conn.execute(str(tables[db_name].insert()), el)
+        conn.execute(f"INSERT OR REPLACE into {table_name} VALUES ({column_wildcard})", tuple(el.values()))
+        #conn.execute(str(tables[table_name].insert()), el)
 
     conn.commit()
     conn.close()

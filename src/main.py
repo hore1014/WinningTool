@@ -52,19 +52,63 @@ def get_current_period():
 
 # Initialize (create and populate) database from XML input data
 def init_db():
-    # TODO: Exception Handling! Es werden hässliche Fehlermeldungen auf der Seite angezeigt
-    print("Initializing database")
+    # TODO: Exception Handling! Es werden hässliche Fehlermeldungen
+    # auf der Seite angezeigt
     db.init_db(root_arr)
-
+    print("Datenbank wurde initialisiert")
 
 # Write user input into db
+
+
+def write_input_to_db(data: list, table_name: str):
+    db.write_input_to_db(data, table_name)
+
+# load all necessary data for production calculation from database
+#current_period = 1
+
+# Write user input into db
+
+
 def write_input_to_db(salesData: list, stockData: list):
     # db.write_sales_forecast(salesData, "Absatzprognose")
     # db.write_invetory_strategy(stockData)
     pass
 
 
-def get_production():
+# get from DB methods
+def get_sales_forecast(current_period):
+    return db.get_sales_forecast(current_period)
+
+
+def get_inventory_strategy(current_period):
+    return db.get_inventory_strategy(current_period)
+
+
+def get_parts_inventory(current_period):
+    return db.get_parts_inventory(current_period)
+
+
+def get_parts_processing(current_period):
+    return db.get_parts_processing(current_period)
+
+
+def get_parts_in_queue(current_period):
+    return db.get_parts_in_queue(current_period)
+
+
+def get_missing_parts(current_period):
+    return db.get_missing_parts(current_period)
+
+
+def get_parts_trade(current_period):
+    return db.get_parts_trade(current_period)
+
+
+def get_orders_in_transit(current_period):
+    return db.get_orders_in_transit(current_period-1) if current_period > 1 else {}
+
+
+def get_all_from_db(current_period):
     global sales_forecast
     global current_parts
     global planned_parts
