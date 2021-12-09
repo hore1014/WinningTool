@@ -126,7 +126,7 @@ def upload_prediction():
     print("Daten für Absatzprognose wurden in die Datenbank geschrieben")
 
     main.write_input_to_db(stockData, "Strategie_Lagerbestand")
-    print("Daten für die Lagerbestand Strategie wurden in die Datenbank geschrieben")
+    print("Daten für die Lagerbestand Strategie der P-Teile wurden in die Datenbank geschrieben")
     return render_template("3_stockPlaner.html", period=period)
 
 
@@ -171,7 +171,7 @@ def upload_plan():
     print(data)
     # Lagerstrategie in die DB schreiben
     main.write_input_to_db(data, "Strategie_Lagerbestand")
-    print("Daten für die Lagerbestand Strategie wurden in die Datenbank geschrieben")
+    print("Daten für die Lagerbestand Strategie der E-Teile wurden in die Datenbank geschrieben")
     return render_template("4_productionSequence.html", period=period)
 
 
