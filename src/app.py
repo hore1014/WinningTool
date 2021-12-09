@@ -70,7 +70,7 @@ def salesPrediction():
 
 @app.route("/2_salesPrediction.html", methods=["POST"])
 def upload_prediction():
-    data = [
+    sales_data = [
         {
             'Periode': period,
             'Artikel': 'P1',
@@ -96,10 +96,39 @@ def upload_prediction():
             'Aktuell_3': request.form.get('sales_P3_3'),
         },
     ]
-    # Absatzprognose in die DB schreiben
-    main.write_input_to_db(data, "Absatzprognose")
+
+    stock_data = [
+        {
+            'Periode': period,
+            'Artikel': 'P1',
+            'Aktuell_0': request.form.get('stock_P1_0'),
+            'Aktuell_1': request.form.get('stock_P1_1'),
+            'Aktuell_2': request.form.get('stock_P1_2'),
+            'Aktuell_3': request.form.get('stock_P1_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P2',
+            'Aktuell_0': request.form.get('stock_P2_0'),
+            'Aktuell_1': request.form.get('stock_P2_1'),
+            'Aktuell_2': request.form.get('stock_P2_2'),
+            'Aktuell_3': request.form.get('stock_P2_3'),
+        },
+        {
+            'Periode': period,
+            'Artikel': 'P3',
+            'Aktuell_0': request.form.get('stock_P3_0'),
+            'Aktuell_1': request.form.get('stock_P3_1'),
+            'Aktuell_2': request.form.get('stock_P3_2'),
+            'Aktuell_3': request.form.get('stock_P3_3'),
+        },
+    ]
+    # Daten in die DB schreiben
+    main.write_input_to_db(sales_data, "Absatzprognose")
     print("Daten für Absatzprognose wurden in die Datenbank geschrieben")
 
+    main.write_input_to_db(stock_data, "Strategie_Lagerbestand")
+    print("Daten für die Lagerbestand Strategie wurden in die Datenbank geschrieben")
     return render_template("3_stockPlaner.html", period=period)
 
 
