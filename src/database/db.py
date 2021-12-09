@@ -132,7 +132,7 @@ db_fehlmaterial = Table(
     Column('Artikel', String, primary_key = True),
     Column('Menge', Integer),
     Column('Station', Integer, primary_key = True),
-    Column('Fehlmaterial', String, primary_key = True) #Fehlende Artikel, die für diesen Artiekl benötigt werden
+    Column('Fehlmaterial', String, primary_key = True) #Fehlende Artikel, die für diesen Artikel benötigt werden
 )
 
 tables = {
@@ -153,6 +153,15 @@ tables = {
 
 # Initialize (create and populate) database from XML input data
 def init_db(root_arr: list):
+    """
+    Initializes the database. First, drops all tables in database `src\database\ibsys2.db` and creates them freshly.
+    Then, all the values of given xml files are parsed (if existing) and written to database.
+
+    Parameters
+    -----------
+    `root_arr`: list
+        list of xml-root objects that are created by `parse_all_xml()` method in `importXml.py`
+    """
 
     # Read SQL files
     #TODO Das soll nur explizit vom User ausgeführt werden!
@@ -206,6 +215,17 @@ def init_db(root_arr: list):
 
 # Helper function for specific get-methods
 def get_all_from_db(period: int, table: str, period_column_name = "Periode"): 
+    """
+    Helper function for get methods. 
+    Selects all values of given period in table.
+
+    Parameters
+    -----------
+    `period`: int
+    `table`: str
+    `period_column_name`: str
+        If you need data from `Wareneingaenge_Ausstehend``table, you need to set this parameter to "`Bestellperiode`"
+    """
     # Create and Connect to SQLite database
     conn = sqlite3.connect(db_dir)
 
@@ -222,6 +242,10 @@ def get_all_from_db(period: int, table: str, period_column_name = "Periode"):
 
 # Helper function for specific get-methods
 def get_agg_from_db(period: int, table: str):
+    """
+    Helper function for get methods.
+    Similar as `get_all_from_db` but aggregates/groups result by `Artikel`
+    """
     # Create and Connect to SQLite database
     conn = sqlite3.connect(db_dir)
 
@@ -236,8 +260,13 @@ def get_agg_from_db(period: int, table: str):
 
     return result
 
-
+# Get data from database and transform into required form
+# Which is one dictionary with all values of given period
 def get_sales_forecast(period: int):
+    """
+    Get data from database and transform into required form,
+    which is one dictionary with all values of given period
+    """
     res_dict = {}
     result = get_all_from_db(period, "Absatzprognose")
 
@@ -249,6 +278,10 @@ def get_sales_forecast(period: int):
     return res_dict
 
 def get_inventory_strategy(period: int):
+    """
+    Get data from database and transform into required form,
+    which is one dictionary with all values of given period
+    """
     res_dict = {}
     result = get_all_from_db(period, "Strategie_Lagerbestand")
     
@@ -260,6 +293,10 @@ def get_inventory_strategy(period: int):
     return res_dict
 
 def get_parts_inventory(period: int):
+    """
+    Get data from database and transform into required form,
+    which is one dictionary with all values of given period
+    """
     res_dict = {}
     result = get_all_from_db(period, "Lagerbestand")
 
@@ -273,6 +310,10 @@ def get_parts_inventory(period: int):
     return res_dict
 
 def get_parts_processing(period: int):
+    """
+    Get data from database and transform into required form,
+    which is one dictionary with all values of given period
+    """
     res_dict = {}
     # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated
     result = get_agg_from_db(period, "In_Bearbeitung")
@@ -287,6 +328,10 @@ def get_parts_processing(period: int):
     return res_dict
 
 def get_parts_in_queue(period: int):
+    """
+    Get data from database and transform into required form,
+    which is one dictionary with all values of given period
+    """
     res_dict = {}
     # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated
     result = get_agg_from_db(period, "Warteschlangen")
@@ -301,6 +346,10 @@ def get_parts_in_queue(period: int):
     return res_dict
 
 def get_missing_parts(period: int):
+    """
+    Get data from database and transform into required form,
+    which is one dictionary with all values of given period
+    """
     res_dict = {}
     # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated 
     result = get_agg_from_db(period, "Fehlmaterial")
@@ -315,6 +364,10 @@ def get_missing_parts(period: int):
     return res_dict
 
 def get_parts_trade(period: int):
+    """
+    Get data from database and transform into required form,
+    which is one dictionary with all values of given period
+    """
     res_dict = {}
 
     result = get_all_from_db(period, "Handel")
@@ -327,6 +380,10 @@ def get_parts_trade(period: int):
     return res_dict
 
 def get_orders_in_transit(period: int):
+    """
+    Get data from database and transform into required form,
+    which is one dictionary with all values of given period
+    """
     res_dict = {}
     result = get_all_from_db(period, "Wareneingaenge_Ausstehend", "Bestellperiode")
 
@@ -344,6 +401,17 @@ def get_orders_in_transit(period: int):
 
 # Write data from user input
 def write_input_to_db(data: list, table_name: str):
+    """
+    Writes data into given table name. If UNIQUE constraint is violated 
+    (e.g. if you want to insert data for already existing period and article), the rows are overwritten.
+
+    Parameters
+    -----------
+    `data`: list
+        Needs to be a list of dictionaries. Key-Value pairs have to be in the same order as table definitions (see above or `create_tables.sql` file)
+    `table_name`: str
+        The table name where the data is inserted or replaced. Needs to correspond to name as stored in database (case-sensitive).
+    """
      # Connect to SQLite database
     conn = sqlite3.connect(db_dir)
 
@@ -358,3 +426,34 @@ def write_input_to_db(data: list, table_name: str):
     conn.close()
 
     return
+
+# Delete statements
+def delete_stmt(table_name: str, period: int):
+    """
+    Helper function for delete methods
+    """
+    if(table_name=="Wareneingaenge_Ausstehend"):
+        return str(tables[table_name].delete().where(tables[table_name].c.Bestellperiode == period))
+    else:
+        return str(tables[table_name].delete().where(tables[table_name].c.Periode == period))
+
+def delete_from_table(table_name: str, period: int):
+    """
+    Deletes all rows of given period in given table
+    """
+    conn = sqlite3.connect(db_dir)
+    query = delete_stmt(table_name, period)
+    conn.execute(query)
+    conn.commit()
+    conn.close()
+
+def delete_from_all_tables(period: int):
+    """
+    Deletes all rows of given period in all tables
+    """
+    conn = sqlite3.connect(db_dir)
+    for table in tables:
+        query = delete_stmt(table, period)
+        conn.execute(query)
+    conn.commit()
+    conn.close()

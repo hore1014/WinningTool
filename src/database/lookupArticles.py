@@ -1,10 +1,7 @@
 import numpy as np
 
 # Helper list of articles for output of get methods
-p_e_list = [
-    "P1", 
-    "P2" , 
-    "P3", 
+e_list = [
     "E4", 
     "E5", 
     "E6", 

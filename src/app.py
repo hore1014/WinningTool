@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, abo
 from werkzeug.utils import secure_filename
 import main
 from xmlInOut.importXml import get_current_period
+from database import lookupArticles
 
 app = Flask(__name__)
 port = 5000  # default
@@ -94,6 +95,7 @@ def upload_prediction():
             'Aktuell_3': request.form.get('sales_P3_3'),
         },
     ]
+
     stockData = [
         {
             'Periode': period,
@@ -120,11 +122,12 @@ def upload_prediction():
             'Aktuell_3': request.form.get('stock_P3_3'),
         },
     ]
-    # Absatzprognose in die DB schreiben
-    # TODO: Lagerstrategie auch mit einbinden
+    # Daten in die DB schreiben
     main.write_input_to_db(salesData, "Absatzprognose")
     print("Daten für Absatzprognose wurden in die Datenbank geschrieben")
 
+    main.write_input_to_db(stockData, "Strategie_Lagerbestand")
+    print("Daten für die Lagerbestandstrategie der P-Teile wurden in die Datenbank geschrieben")
     return render_template("3_stockPlaner.html", period=period)
 
 
@@ -132,44 +135,33 @@ def upload_prediction():
 def stockPlaner():
     return render_template(
         "3_stockPlaner.html", period=period,
-        stock_P1_0=100, stock_P1_1=100, stock_P1_2=100, stock_P1_3=100,
-        stock_P2_0=100, stock_P2_1=100, stock_P2_2=100, stock_P2_3=100,
-        stock_P3_0=100, stock_P3_1=100, stock_P3_2=100, stock_P3_3=100
+        stock_E4=150, stock_E5=150, stock_E6=150, stock_E7=150, stock_E8=150,
+        stock_E9=150, stock_E10=150, stock_E11=150, stock_E12=150, stock_E13=150,
+        stock_E14=150, stock_E15=150, stock_E16=150, stock_E17=150, stock_E18=150,
+        stock_E19=150, stock_E20=150, stock_E26=150, stock_E29=150, stock_E30=150,
+        stock_E31=150, stock_E49=150, stock_E50=150, stock_E51=150, stock_E54=150,
+        stock_E55=150, stock_E56=150
     )
 
 
 @app.route("/3_stockPlaner.html", methods=["POST"])
 def upload_plan():
-    data = [
-        {
+
+    data = []
+    for article in lookupArticles.e_list:
+        data.append({
             'Periode': period,
-            'Artikel': 'P1',
-            'Aktuell_0': request.form.get('stock_P1_0'),
-            'Aktuell_1': request.form.get('stock_P1_1'),
-            'Aktuell_2': request.form.get('stock_P1_2'),
-            'Aktuell_3': request.form.get('stock_P1_3'),
-        },
-        {
-            'Periode': period,
-            'Artikel': 'P2',
-            'Aktuell_0': request.form.get('stock_P2_0'),
-            'Aktuell_1': request.form.get('stock_P2_1'),
-            'Aktuell_2': request.form.get('stock_P2_2'),
-            'Aktuell_3': request.form.get('stock_P2_3'),
-        },
-        {
-            'Periode': period,
-            'Artikel': 'P3',
-            'Aktuell_0': request.form.get('stock_P3_0'),
-            'Aktuell_1': request.form.get('stock_P3_1'),
-            'Aktuell_2': request.form.get('stock_P3_2'),
-            'Aktuell_3': request.form.get('stock_P3_3'),
-        },
-    ]
-    print(data)
-    # Lagerstrategie in die DB schreiben
+            'Artikel': article,
+            'Aktuell_0': request.form.get(f'stock_{article}'),
+            'Aktuell_1': 0,
+            'Aktuell_2': 0,
+            'Aktuell_3': 0
+        })
+
+    #print(data)
+    # Daten in die DB schreiben
     main.write_input_to_db(data, "Strategie_Lagerbestand")
-    print("Daten für die Lagerbestand Strategie wurden in die Datenbank geschrieben")
+    print("Daten für die Lagerbestandstrategie der E-Teile wurden in die Datenbank geschrieben")
     return render_template("4_productionSequence.html", period=period)
 
 
