@@ -278,6 +278,7 @@
       </form>
     </div>
 
+    {% if calculated %}
     <button
       class="continue-button"
       type="submit"
@@ -287,6 +288,7 @@
       Weiter
       <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
     </button>
+    {% endif %}
   </body>
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021

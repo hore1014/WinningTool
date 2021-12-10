@@ -40,19 +40,20 @@ def upload_file():
 
     if filename == "":
         return render_template("1_lastPeriod.html", error=True, message=False)
-    
+
     # Prüfen, ob es sich um ein xml file handelt
     file_ext = os.path.splitext(filename)[1]
     if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
         abort(415)
     uploaded_file.save(full_filename)
-    
+
     # Periode des Files bestimmen
     file_period = main.get_period_by_file(full_filename)
-    new_filename = app.config["UPLOAD_PATH"] + f'ergebnis_periode{file_period}.xml'
+    new_filename = app.config["UPLOAD_PATH"] + \
+        f'ergebnis_periode{file_period}.xml'
 
     # Dateiname umbenennen für einheitliche Struktur, falls Name bereits existiert ggf. überschreiben
-    dataOverwritten = False # default
+    dataOverwritten = False  # default
     if(os.path.exists(new_filename)):
         os.remove(new_filename)
         dataOverwritten = True
@@ -178,7 +179,7 @@ def stockPlaner():
 def upload_plan():
 
     stock_data = []
-    # User Eingaben für Planlagerbestand einlesen 
+    # User Eingaben für Planlagerbestand einlesen
     for article in lookupArticles.e_list:
         stock_data.append({
             'Periode': period,
@@ -197,7 +198,7 @@ def upload_plan():
     prod_data = main.get_production()
 
     return render_template(
-        "3_stockPlaner.html", period=period,
+        "3_stockPlaner.html", period=period, calculated=True,
         stock_P1=stock_P1, stock_P2=stock_P2, stock_P3=stock_P3,
         stock_E4=stock_data[0]["Aktuell_0"], stock_E5=stock_data[1]["Aktuell_0"], stock_E6=stock_data[2]["Aktuell_0"],
         stock_E7=stock_data[3]["Aktuell_0"], stock_E8=stock_data[4]["Aktuell_0"], stock_E9=stock_data[5]["Aktuell_0"],
