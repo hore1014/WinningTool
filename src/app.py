@@ -12,6 +12,7 @@ period = 1  # default
 stock_P1 = 0
 stock_P2 = 0
 stock_P3 = 0
+sequence = []
 
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
@@ -55,7 +56,7 @@ def upload_file():
     # Dateiname umbenennen für einheitliche Struktur, falls Name bereits existiert ggf. überschreiben
     dataOverwritten = False  # default
     if(os.path.exists(new_filename)):
-        if(full_filename!=new_filename):
+        if(full_filename != new_filename):
             os.remove(new_filename)
         dataOverwritten = True
     os.rename(src=full_filename, dst=new_filename)
@@ -205,16 +206,37 @@ def upload_plan():
 
 @app.route("/4_productionSequence.html")
 def production_sequence():
+    global sequence
     sequence = ["E16", "E7", "E8", "E9", "E13", "E14", "E15", "E18", "E19", "E20", "E4", "E5", "E6", "E10",
                 "E11", "E12", "E29", "E49", "E54", "E17", "E30", "E50", "E55", "E26", "E31", "E51", "E56", "P1", "P3", "P2"]
     production = main.production
 
-    return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production)
+    return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error=False)
 
 
 @app.route("/4_productionSequence.html", methods=["POST"])
 def upload_Sequence():
-    return render_template("4_productionSequence.html", period=period)
+    production = main.production
+    data = request.form.to_dict(flat=False)
+
+    # test if sum of part orders is equal to calculated order
+    for article, item in data.items():
+        if (article == "results_list"):
+            continue
+        sum = 0
+        for amount in item:
+            sum += int(amount) if amount != "" else 0
+        if (production[article]["sum"] != sum):
+            print("Error detected!")
+            return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error=True)
+
+    # get the items out while preserving the order
+    results = request.form.get("results_list").split(",")
+    print(results)
+    # TODO: gesplitete Artikel werden noch nicht erkannt
+    # TODO: Liste in korrektes Format bringen
+
+    return render_template("index.html", period=period)
 
 
 if __name__ == "__main__":

@@ -124,7 +124,7 @@
                 document.getElementById("articles").innerHTML +=
                   "<td>" + articleName + "</td>";
                 document.getElementById("production-numbers").innerHTML +=
-                  '<td data-type="number" class="editable" contenteditable="true"></td>';
+                  `<td class="editable"><input type="number" name="${articleName}" value=""></td>`;
 
                 var table = document.getElementById("table");
                 var newColumnNumber =
@@ -143,62 +143,104 @@
         </form>
       </div>
 
-      <table class="table-container">
-        <tbody>
-          <tr>
-            <td class="td-container">
-              <table id="table-header">
-                <thead>
-                  <tr id="empty-header">
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th>Artikel</th>
-                  </tr>
-                  <tr>
-                    <th>Anzahl</th>
-                  </tr>
-                  <tr>
-                    <th id="last-header"></th>
-                  </tr>
-                </thead>
-              </table>
-            </td>
-            <td class="td-container">
-              <table id="table" class="draggable-table">
-                <thead>
-                  <tr id="drag-handles"></tr>
-                </thead>
-                <tbody>
-                  <tr id="articles">
-                    {% for article in range(0, len) %}
-                    <td>{{ sequence[article] }}</td>
-                    {% endfor %}
-                  </tr>
-                  <tr id="production-numbers">
-                    {% for article in range(0, len) %}
-                    <td data-type="number" class="editable" name="production_"+sequence[article] contenteditable="true">{{ production[sequence[article]]["sum"] }}</td>
-                    {% endfor %}
-                  </tr>
-                  <tr id="delete-buttons"></tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      {% if error %}
+      <p class="error">Die Mengen der aufgeteilten Produkte müssen in Summe der Ausgangsmenge entsprechen! </p>
+      {% endif %}
+
+      <form method="post">
+        <table class="table-container">
+          <tbody>
+            <tr>
+              <td class="td-container">
+                <table id="table-header">
+                  <thead>
+                    <tr id="empty-header">
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <th>Artikel</th>
+                    </tr>
+                    <tr>
+                      <th>Anzahl</th>
+                    </tr>
+                    <tr>
+                      <th id="last-header"></th>
+                    </tr>
+                  </thead>
+                </table>
+              </td>
+              <td class="td-container">
+                <table id="table" class="draggable-table">
+                  <thead>
+                    <tr id="drag-handles"></tr>
+                  </thead>
+                  <tbody>
+                    <tr id="articles">
+                      {% for article in range(0, len) %}
+                      <td>{{ sequence[article] }}</td>
+                      {% endfor %}
+                    </tr>
+                    <tr id="production-numbers">
+                      {% for article in range(0, len) %}
+                      <td class="editable">
+                        <input type="number" name="{{ sequence[article] }}" value="{{ production[sequence[article]]['sum'] }}">
+                      </td>
+                      <!--
+                      <td data-type="number" class="editable" name="{{ 'production_'+sequence[article] }}" contenteditable="true">{{ production[sequence[article]]["sum"] }}</td>
+                      -->
+                      {% endfor %}
+                    </tr>
+                    <tr id="delete-buttons"></tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div hidden>
+          <input type="text" name="results_list" value="{{ results_list }}">
+        </div>
+
+        <button
+          class="continue-button"
+          type="submit"
+          value="Upload"
+          onclick="location.href='5_orders_purchase.html'"
+        >
+          Weiter
+          <img
+            id="continue-icon"
+            src="{{ url_for('static', filename='img/continueArrow.png') }}"
+          />
+        </button>
+      </form>
+
       <script>
         /* Tabelle mit Daten füllen */
         var tableColumns =
           document.getElementById("table").rows[1].cells.length;
-        console.log(document.getElementById("table").rows[1].cells.length)
-        console.log(document.getElementById("table").rows[2].cells.length)
+
         // Drag-Handles
         var dragHandlesRow = document.getElementById("drag-handles");
         for (var count = 0; count < tableColumns; count++) {
           dragHandlesRow.innerHTML +=
             '<th><span class="material-icons grey-icon">drag_indicator</span></th>';
         }
+
+        // Liste mit Resultaten intitialisieren
+        var articleRow = document.getElementById("table").rows[1].cells;
+        var amountRow = document.getElementById("table").rows[2].cells;
+        var results = []
+
+        for (var count = 0; count < tableColumns; count++) {
+          console.log(`${articleRow[count].innerHTML}; ${amountRow[count].children[0].value}`);
+          results.push([articleRow[count].innerHTML, amountRow[count].children[0].value]);
+        }
+
+        
+        document.getElementsByName("results_list")[0].value = results.toString();
+        console.log(document.getElementsByName("results_list")[0].value)
 
         /*
         // Produktionsanzahl
@@ -246,21 +288,6 @@
         });
       </script>
     </div>
-
-    <form method="post">
-      <button
-        class="continue-button"
-        type="submit"
-        value="Upload"
-        onclick="location.href='5_orders_purchase.html'"
-      >
-        Weiter
-        <img
-          id="continue-icon"
-          src="{{ url_for('static', filename='img/continueArrow.png') }}"
-        />
-      </button>
-    </form>
   </body>
   <script>
     /* Drag and Drop functionality */
