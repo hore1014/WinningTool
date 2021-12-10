@@ -170,12 +170,13 @@ def upload_plan():
             'Aktuell_2': 0,
             'Aktuell_3': 0
         })
-    prod_data = main.get_production()
 
     # print(stock_data)
     # Daten in die DB schreiben
     main.write_input_to_db(stock_data, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der E-Teile wurden in die Datenbank geschrieben")
+
+    prod_data = main.get_production()
 
     return render_template(
         "3_stockPlaner.html", period=period,

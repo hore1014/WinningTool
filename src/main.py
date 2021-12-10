@@ -105,13 +105,13 @@ def get_production():
     global missing_parts
     global parts_traded
 
-    sales_forecast = mock.get_sales_forecast(current_period)
-    current_parts = mock.get_parts_inventory(current_period)
-    planned_parts = mock.get_inventory_strategy(current_period)
-    parts_processing = mock.get_parts_processing(current_period)
-    parts_in_queue = mock.get_parts_in_queue(current_period)
-    missing_parts = mock.get_missing_parts(current_period)
-    parts_traded = mock.get_parts_trade(current_period)
+    sales_forecast = db.get_sales_forecast(current_period)
+    current_parts = db.get_parts_inventory(current_period)
+    planned_parts = db.get_inventory_strategy(current_period)
+    parts_processing = db.get_parts_processing(current_period)
+    parts_in_queue = db.get_parts_in_queue(current_period)
+    missing_parts = db.get_missing_parts(current_period)
+    parts_traded = db.get_parts_trade(current_period)
 
     global production
     production = prod.calculate_production(
