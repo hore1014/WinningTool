@@ -183,6 +183,21 @@
         });
       </script>
 
+      <form method="post">
+        <button
+          class="continue-button"
+          type="submit"
+          value="Upload"
+          onclick="location.href='5_orders_purchase.html'"
+        >
+          Weiter
+          <img
+            id="continue-icon"
+            src="{{ url_for('static', filename='img/continueArrow.png') }}"
+          />
+        </button>
+      </form>
+
       <div class="centered-container">
         <form class="new-column-form">
           <span>Neuer Produktionsauftrag <em>(Splitting)</em> :</span>
@@ -266,21 +281,6 @@
         </form>
       </div>
     </div>
-
-    <form method="post">
-      <button
-        class="continue-button"
-        type="submit"
-        value="Upload"
-        onclick="location.href='5_orders_purchase.html'"
-      >
-        Weiter
-        <img
-          id="continue-icon"
-          src="{{ url_for('static', filename='img/continueArrow.png') }}"
-        />
-      </button>
-    </form>
   </body>
   <script>
     /* Drag and Drop functionality */
