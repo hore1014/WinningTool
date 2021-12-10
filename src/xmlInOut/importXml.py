@@ -122,7 +122,7 @@ def create_vertriebswunsch(root_arr):
 # Lagerbestand
 def create_lagerbestand(root_arr):
     lagerbestand_arr = []
-    for i, root in enumerate(root_arr):
+    for root in root_arr:
         for article in root.iter('article'):
 
             lagerbestand_arr.append({
@@ -141,7 +141,7 @@ def create_lagerbestand(root_arr):
 # Lediglich für noch offene Bestellungen (future-inward-stock-movement) sollte der voraussichtliche Zeitpunkt für die Bestellplanung ausgerechnet werden
 def create_wareneingang(root_arr): 
     wareneingang_arr = []
-    for i, root in enumerate(root_arr):
+    for root in root_arr:
         for order in root.find('inwardstockmovement').iter('order'):
             wareneingang_arr.append({
                 'Periode': int(root.get('period')), 
@@ -193,7 +193,7 @@ def create_in_bearbeitung(root_arr):
 def create_warteschlangen(root_arr):
     warteschlangen_arr = []
 
-    for i, root in enumerate(root_arr):
+    for root in root_arr:
         for workplace in root.find('waitinglistworkstations').iter('workplace'):
             if int(workplace.get('timeneed')) > 0:
                 for waitinglist in workplace.iter('waitinglist'):
@@ -214,7 +214,7 @@ def create_warteschlangen(root_arr):
 # Hole die Werte für die fehlenden Artikel
 def create_fehlmaterial(root_arr):
     fehlmaterial_arr = []
-    for i, root in enumerate(root_arr):
+    for root in root_arr:
         for missingpart in root.find('waitingliststock').iter('missingpart'):
             if(missingpart):
                 workplace = missingpart.find('workplace')

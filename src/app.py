@@ -64,7 +64,7 @@ def upload_file():
     period = main.get_current_period()
 
     if(dataOverwritten):
-        return render_template("1_lastPeriod.html", error=False, message=True, overwrite=True)
+        return render_template("1_lastPeriod.html", error=False, message=True, overwrite=True, period=file_period)
     return render_template("1_lastPeriod.html", error=False, message=True)
 
 
