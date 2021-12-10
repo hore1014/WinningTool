@@ -137,13 +137,13 @@ def get_production():
     global missing_parts
     global parts_traded
 
-    sales_forecast = db.get_sales_forecast(current_period)
-    current_parts = get_parts_inventory(current_period)
-    planned_parts = db.get_inventory_strategy(current_period)
-    parts_processing = db.get_parts_processing(current_period)
-    parts_in_queue = db.get_parts_in_queue(current_period)
-    missing_parts = db.get_missing_parts(current_period)
-    parts_traded = db.get_parts_trade(current_period)
+    sales_forecast = get_sales_forecast(current_period)
+    current_parts = get_parts_inventory(current_period-1) # Für die aktuelle Periode gibt es in der Tabelle noch keine Werte, es sollen die Daten der vorangegangenen Periode entnommen werden
+    planned_parts = get_inventory_strategy(current_period)
+    parts_processing = get_parts_processing(current_period)
+    parts_in_queue = get_parts_in_queue(current_period)
+    missing_parts = get_missing_parts(current_period)
+    parts_traded = get_parts_trade(current_period)
 
     global production
     production = prod.calculate_production(

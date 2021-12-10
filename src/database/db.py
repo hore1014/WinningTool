@@ -307,6 +307,7 @@ def get_parts_inventory(period: int):
         # Add values to dictionary
         res_dict[art] = (row[2], row[4])
         
+    print(res_dict)
     return res_dict
 
 def get_parts_processing(period: int):
