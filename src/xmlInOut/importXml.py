@@ -2,13 +2,17 @@ import xml.etree.ElementTree as ET
 import pandas as pd
 import os
 
-# TODO Perioden aus xml file auslesen, und nicht durch iterator bestimmen
+# XML Ergebnis Dateien auslesen
 
-# XML Ergebnis Datei auslesen
-# TODO: Sollen vom Eingabeformular ausgelesen werden
-
-# Auslesen aller XML files in /data
-def parse_all_xml(path: str):
+# Auslesen aller XML files in /src/data
+def parse_all_xml(path = 'src/data/'):
+    """
+    Parses all xml files in given directory and returns a list of xml-root objects
+    Parameters
+    -----------
+    `path`: str
+        The directory where the xml files reside. 
+    """
     # Liste aller XML roots
     root_arr = []
     #path = 'src//data//'
@@ -28,8 +32,26 @@ def parse_all_xml(path: str):
 
     return root_arr
 
+def get_period_by_file(file: str):
+    """
+    Parses xml file and returns the period in file. This method is only used for validation in the html upload form.
+    Parameters.
+    -----------
+    `file`: str
+        The xml file.
+    """
+    root = ET.parse(file).getroot()
+    return (int(root.get('period')))
+
 # Finde die aktuelle Periode anhand der hochgeladenen XML files
 def get_current_period(root_arr: list):
+    """
+    Iterates through all xml-root objects in given list and returns the highest period incremented by 1 (since uploading the result of period `x` indicates that user wants to simulate period `x+1`).
+    Parameters
+    -----------
+    `root_arr`: list
+        List of xml root objects that is retrieved by `parse_all_xml()` method.
+    """
     if(len(root_arr) == 0):
         return 1
     periods = []
