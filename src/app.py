@@ -128,7 +128,7 @@ def upload_prediction():
 
     main.write_input_to_db(stockData, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der P-Teile wurden in die Datenbank geschrieben")
-    return render_template("3_stockPlaner.html", period=period)
+    return redirect(url_for('stockPlaner'))
 
 
 @app.route("/3_stockPlaner.html")
@@ -158,11 +158,11 @@ def upload_plan():
             'Aktuell_3': 0
         })
 
-    #print(data)
+    # print(data)
     # Daten in die DB schreiben
     main.write_input_to_db(data, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der E-Teile wurden in die Datenbank geschrieben")
-    return render_template("4_productionSequence.html", period=period)
+    return redirect(url_for('productionSequence'))
 
 
 @app.route("/4_productionSequence.html")
