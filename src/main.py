@@ -69,38 +69,67 @@ def write_input_to_db(data: list, table_name: str):
 
 # get from DB methods
 def get_sales_forecast(current_period):
+    """
+    Liefert die Absatzprognose der gegebenen Periode 
+    """
     return db.get_sales_forecast(current_period)
 
 
 def get_inventory_strategy(current_period):
+    """
+    Liefert die Lagerbestandsstrategie der gegebenen Periode 
+    """
     return db.get_inventory_strategy(current_period)
 
 
 def get_parts_inventory(current_period):
+    """
+    Liefert den Lagerbestand der gegebenen Periode 
+    """
+    if(current_period == 1):
+        return mock.get_parts_inventory(current_period)
     return db.get_parts_inventory(current_period)
 
 
 def get_parts_processing(current_period):
+    """
+    Liefert die Teile in Bearbeitung der gegebenen Periode 
+    """
     return db.get_parts_processing(current_period)
 
 
 def get_parts_in_queue(current_period):
+    """
+    Liefert die Teile in Warteschlangen der gegebenen Periode 
+    """
     return db.get_parts_in_queue(current_period)
 
 
 def get_missing_parts(current_period):
+    """
+    Liefert Fehlmaterial der gegebenen Periode 
+    """
     return db.get_missing_parts(current_period)
 
 
 def get_parts_trade(current_period):
+    """
+    Liefert die Handelsdaten der gegebenen Periode 
+    """
     return db.get_parts_trade(current_period)
 
 
 def get_orders_in_transit(current_period):
+    """
+    Liefert die noch ausstehenden Lieferungen der gegebenen Periode 
+    """
     return db.get_orders_in_transit(current_period-1) if current_period > 1 else {}
 
 
 def get_production():
+    """
+    Kalkuliert die Produktionsdaten
+    """
     global sales_forecast
     global current_parts
     global planned_parts
@@ -109,13 +138,13 @@ def get_production():
     global missing_parts
     global parts_traded
 
-    sales_forecast = db.get_sales_forecast(current_period)
-    current_parts = db.get_parts_inventory(current_period)
-    planned_parts = db.get_inventory_strategy(current_period)
-    parts_processing = db.get_parts_processing(current_period)
-    parts_in_queue = db.get_parts_in_queue(current_period)
-    missing_parts = db.get_missing_parts(current_period)
-    parts_traded = db.get_parts_trade(current_period)
+    sales_forecast = get_sales_forecast(current_period)
+    current_parts = get_parts_inventory(current_period-1) # Für die aktuelle Periode gibt es in der Tabelle noch keine Werte, es sollen die Daten der vorangegangenen Periode entnommen werden
+    planned_parts = get_inventory_strategy(current_period)
+    parts_processing = get_parts_processing(current_period)
+    parts_in_queue = get_parts_in_queue(current_period)
+    missing_parts = get_missing_parts(current_period)
+    parts_traded = get_parts_trade(current_period)
 
     global production
     production = prod.calculate_production(
@@ -133,6 +162,9 @@ def get_production():
 
 
 def get_consumption():
+    """
+    Kalkuliert den Verbrauch
+    """
     global consumption
     consumption = cons.calculate_consumption(production, sales_forecast)
 
@@ -141,6 +173,9 @@ def get_consumption():
 
 
 def get_capacity():
+    """
+    Kalkuliert ?
+    """
     # TODO: calculate tooling factors for each period from average of pervious periods
     tooling_factors = {"Station_1": 1.25, "Station_2": 1.25, "Station_3": 1, "Station_4": 1.25, "Station_5": 0, "Station_6": 1, "Station_7": 2,
                        "Station_8": 1.5, "Station_9": 1, "Station_10": 1.25, "Station_11": 1.25, "Station_12": 1, "Station_13": 1, "Station_14": 1, "Station_15": 2, }
@@ -159,6 +194,9 @@ def get_capacity():
 
 
 def get_shifts():
+    """
+    Kalkuliert ?
+    """
     global shifts
     shifts = cap.calculate_shifts(capacity)
 
@@ -175,6 +213,9 @@ def calc_prod_forecast(period):
 
 
 def get_orders():
+    """
+    Liefert die Bestellplanung
+    """
     global parts_ordered
 
     parts_ordered = db.get_orders_in_transit(

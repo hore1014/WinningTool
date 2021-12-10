@@ -55,7 +55,8 @@ def upload_file():
     # Dateiname umbenennen für einheitliche Struktur, falls Name bereits existiert ggf. überschreiben
     dataOverwritten = False  # default
     if(os.path.exists(new_filename)):
-        os.remove(new_filename)
+        if(full_filename!=new_filename):
+            os.remove(new_filename)
         dataOverwritten = True
     os.rename(src=full_filename, dst=new_filename)
 

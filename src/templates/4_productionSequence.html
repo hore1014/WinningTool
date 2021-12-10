@@ -60,6 +60,89 @@
         </p>
       </div>
 
+      <div class="centered-container">
+        <form class="new-column-form">
+          <span>Neuer Produktionsauftrag <em>(Splitting)</em> :</span>
+          <input
+            type="text"
+            id="article-name"
+            name="article-name"
+            placeholder="Artikelname"
+          />
+          <button type="button" id="addColumnButton" class="accent-button">
+            <span class="material-icons white-icon"> add </span> Neue Spalte
+            hinzufügen
+          </button>
+
+          <script>
+            /* add Column Functionality */
+            const articleList = [
+              "E4",
+              "E5",
+              "E6",
+              "E7",
+              "E8",
+              "E9",
+              "E10",
+              "E11",
+              "E12",
+              "E13",
+              "E14",
+              "E15",
+              "E16",
+              "E17",
+              "E18",
+              "E19",
+              "E20",
+              "E26",
+              "E29",
+              "E30",
+              "E31",
+              "E49",
+              "E50",
+              "E51",
+              "E54",
+              "E55",
+              "E56",
+              "P1",
+              "P2",
+              "P3",
+            ];
+
+            function addColumn() {
+              var listOfRows = document.querySelectorAll("#table tr");
+              const articleName = document.getElementById("article-name").value;
+
+              if (articleName == "" || articleName == undefined) {
+                alert("Geben Sie einen Artikel an.");
+              } else if (!articleList.includes(articleName)) {
+                alert("Der angegebene Artikel existiert nicht.");
+                document.getElementById("article-name").value = "";
+              } else {
+                document.getElementById("drag-handles").innerHTML +=
+                  '<th class="draggable"><span class="material-icons grey-icon"> drag_indicator</span></th>';
+                document.getElementById("articles").innerHTML +=
+                  "<td>" + articleName + "</td>";
+                document.getElementById("production-numbers").innerHTML +=
+                  '<td data-type="number" class="editable" contenteditable="true"></td>';
+
+                var table = document.getElementById("table");
+                var newColumnNumber =
+                  document.getElementById("delete-buttons").childNodes.length;
+                document.getElementById("delete-buttons").innerHTML +=
+                  '<td><sup><a href="#" data-idx="' +
+                  newColumnNumber +
+                  '" class="del" ><span class="material-icons grey-icon delete-icon"> delete </span></a></sup></td>';
+                document.getElementById("article-name").value = "";
+                activateDragAndDrop();
+              }
+            }
+
+            document.getElementById("addColumnButton").onclick = addColumn;
+          </script>
+        </form>
+      </div>
+
       <table class="table-container">
         <tbody>
           <tr>
@@ -162,89 +245,6 @@
           remakeDeleteButtons();
         });
       </script>
-
-      <div class="centered-container">
-        <form class="new-column-form">
-          <span>Neuer Produktionsauftrag <em>(Splitting)</em> :</span>
-          <input
-            type="text"
-            id="article-name"
-            name="article-name"
-            placeholder="Artikelname"
-          />
-          <button type="button" id="addColumnButton" class="accent-button">
-            <span class="material-icons white-icon"> add </span> Neue Spalte
-            hinzufügen
-          </button>
-
-          <script>
-            /* add Column Functionality */
-            const articleList = [
-              "E4",
-              "E5",
-              "E6",
-              "E7",
-              "E8",
-              "E9",
-              "E10",
-              "E11",
-              "E12",
-              "E13",
-              "E14",
-              "E15",
-              "E16",
-              "E17",
-              "E18",
-              "E19",
-              "E20",
-              "E26",
-              "E29",
-              "E30",
-              "E31",
-              "E49",
-              "E50",
-              "E51",
-              "E54",
-              "E55",
-              "E56",
-              "P1",
-              "P2",
-              "P3",
-            ];
-
-            function addColumn() {
-              var listOfRows = document.querySelectorAll("#table tr");
-              const articleName = document.getElementById("article-name").value;
-
-              if (articleName == "" || articleName == undefined) {
-                alert("Geben Sie einen Artikel an.");
-              } else if (!articleList.includes(articleName)) {
-                alert("Der angegebene Artikel existiert nicht.");
-                document.getElementById("article-name").value = "";
-              } else {
-                document.getElementById("drag-handles").innerHTML +=
-                  '<th class="draggable"><span class="material-icons grey-icon"> drag_indicator</span></th>';
-                document.getElementById("articles").innerHTML +=
-                  "<td>" + articleName + "</td>";
-                document.getElementById("production-numbers").innerHTML +=
-                  '<td data-type="number" class="editable" contenteditable="true"></td>';
-
-                var table = document.getElementById("table");
-                var newColumnNumber =
-                  document.getElementById("delete-buttons").childNodes.length;
-                document.getElementById("delete-buttons").innerHTML +=
-                  '<td><sup><a href="#" data-idx="' +
-                  newColumnNumber +
-                  '" class="del" ><span class="material-icons grey-icon delete-icon"> delete </span></a></sup></td>';
-                document.getElementById("article-name").value = "";
-                activateDragAndDrop();
-              }
-            }
-
-            document.getElementById("addColumnButton").onclick = addColumn;
-          </script>
-        </form>
-      </div>
     </div>
 
     <form method="post">
