@@ -65,7 +65,7 @@ def upload_file():
 
     if(dataOverwritten):
         return render_template("1_lastPeriod.html", error=False, message=True, overwrite=True, period=file_period)
-    return render_template("1_lastPeriod.html", error=False, message=True)
+    return render_template("1_lastPeriod.html", error=False, message=True, period=file_period)
 
 
 @app.route("/2_salesPrediction.html")
