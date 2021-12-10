@@ -54,8 +54,13 @@ label {
   text-align: center;
 }
 
-.info {
+.success {
   color: rgb(103, 155, 103);
+  text-align: center;
+}
+
+.info {
+  color: rgb(155, 152, 103);
   text-align: center;
 }
 
