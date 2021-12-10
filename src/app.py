@@ -204,9 +204,11 @@ def upload_plan():
 
 @app.route("/4_productionSequence.html")
 def production_sequence():
+    sequence = ["E16", "E7", "E8", "E9", "E13", "E14", "E15", "E18", "E19", "E20", "E4", "E5", "E6", "E10",
+                "E11", "E12", "E29", "E49", "E54", "E17", "E30", "E50", "E55", "E26", "E31", "E51", "E56", "P1", "P3", "P2"]
     production = main.production
 
-    return render_template("4_productionSequence.html", period=period, production=production)
+    return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production)
 
 
 @app.route("/4_productionSequence.html", methods=["POST"])

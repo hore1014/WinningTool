@@ -88,38 +88,15 @@
                 </thead>
                 <tbody>
                   <tr id="articles">
-                    <td>E4</td>
-                    <td>E5</td>
-                    <td>E6</td>
-                    <td>E7</td>
-                    <td>E8</td>
-                    <td>E9</td>
-                    <td>E10</td>
-                    <td>E11</td>
-                    <td>E12</td>
-                    <td>E13</td>
-                    <td>E14</td>
-                    <td>E15</td>
-                    <td>E16</td>
-                    <td>E17</td>
-                    <td>E18</td>
-                    <td>E19</td>
-                    <td>E20</td>
-                    <td>E26</td>
-                    <td>E29</td>
-                    <td>E30</td>
-                    <td>E31</td>
-                    <td>E49</td>
-                    <td>E50</td>
-                    <td>E51</td>
-                    <td>E54</td>
-                    <td>E55</td>
-                    <td>E56</td>
-                    <td>P1</td>
-                    <td>P2</td>
-                    <td>P3</td>
+                    {% for article in range(0, len) %}
+                    <td>{{ sequence[article] }}</td>
+                    {% endfor %}
                   </tr>
-                  <tr id="production-numbers"></tr>
+                  <tr id="production-numbers">
+                    {% for article in range(0, len) %}
+                    <td data-type="number" class="editable" name="production_"+sequence[article] contenteditable="true">{{ production[sequence[article]]["sum"] }}</td>
+                    {% endfor %}
+                  </tr>
                   <tr id="delete-buttons"></tr>
                 </tbody>
               </table>
@@ -131,7 +108,8 @@
         /* Tabelle mit Daten füllen */
         var tableColumns =
           document.getElementById("table").rows[1].cells.length;
-
+        console.log(document.getElementById("table").rows[1].cells.length)
+        console.log(document.getElementById("table").rows[2].cells.length)
         // Drag-Handles
         var dragHandlesRow = document.getElementById("drag-handles");
         for (var count = 0; count < tableColumns; count++) {
@@ -139,6 +117,7 @@
             '<th><span class="material-icons grey-icon">drag_indicator</span></th>';
         }
 
+        /*
         // Produktionsanzahl
         var productionNumbersRow =
           document.getElementById("production-numbers");
@@ -146,6 +125,7 @@
           productionNumbersRow.innerHTML +=
             '<td data-type="number" class="editable" contenteditable="true">100</td>';
         }
+        */
 
         // Delete-Button-Cells
         var deleteRow = document.getElementById("delete-buttons");
