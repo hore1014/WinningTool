@@ -49,72 +49,310 @@
       </h3>
       <p>Daraus ergibt sich der Produktionsplan der Zwischenerzeugnisse.</p>
       <br />
-      <div class="vertical-scrollable-table-wrapper">
-        <table id="stock-table">
-          <thead>
-            <tr>
-              <th>Artikel</th>
-              <th>Planlagerbestand</th>
-              <th>Produktion</th>
-            </tr>
-          </thead>
-          <tbody id="table-body"></tbody>
-        </table>
-      </div>
-
-      <script>
-        /* Pseudo-Artikel */
-        var body = document.getElementById("table-body");
-
-        /* Array mit Artikeln */
-        const articleList = [
-            "E4",
-            "E5",
-            "E6",
-            "E7",
-            "E8",
-            "E9",
-            "E10",
-            "E11",
-            "E12",
-            "E13",
-            "E14",
-            "E15",
-            "E16",
-            "E17",
-            "E18",
-            "E19",
-            "E20",
-            "E26",
-            "E29",
-            "E30",
-            "E31",
-            "E49",
-            "E50",
-            "E51",
-            "E54",
-            "E55",
-            "E56"
-          ];
-
-        for (var count = 0; count < articleList.length; count++) {
-          body.innerHTML +=
-            `<tr><td name="article">${articleList[count]}</td><td class="editable" contenteditable="true" name="stock_${articleList[count]}">150</td><td name="production">?</td></tr>`;
-        }
-      </script>
+      <form method="post">
+        <div class="vertical-scrollable-table-wrapper">
+          <table id="stock-table">
+            <thead>
+              <tr>
+                <th>Artikel</th>
+                <th>Planlagerbestand</th>
+                <th>Produktion</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr>
+                <td name="article">P1</td>
+                <td class="editable">
+                  <input type="number" name="stock_P1" value="{{ stock_P1 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_P1" value="{{ production_P1 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">P2</td>
+                <td class="editable" >
+                  <input type="number" name="stock_P2" value="{{ stock_P2 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_P2" value="{{ production_P2 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">P3</td>
+                <td class="editable">
+                  <input type="number" name="stock_P3" value="{{ stock_P3 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_P3" value="{{ production_P3 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E4</td>
+                <td class="editable">
+                  <input type="number" name="stock_E4" value="{{ stock_E4 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E4" value="{{ production_E4 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E5</td>
+                <td class="editable">
+                  <input type="number" name="stock_E5" value="{{ stock_E5 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E5" value="{{ production_E5 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E6</td>
+                <td class="editable">
+                  <input type="number" name="stock_E6" value="{{ stock_E6 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E6" value="{{ production_E6 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E7</td>
+                <td class="editable">
+                  <input type="number" name="stock_E7" value="{{ stock_E7 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E7" value="{{ production_E7 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E8</td>
+                <td class="editable">
+                  <input type="number" name="stock_E8" value="{{ stock_E8 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E8" value="{{ production_E8 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E9</td>
+                <td class="editable">
+                  <input type="number" name="stock_E9" value="{{ stock_E9 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E9" value="{{ production_E9 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E10</td>
+                <td class="editable">
+                  <input type="number" name="stock_E10" value="{{ stock_E10 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E10" value="{{ production_E10 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E11</td>
+                <td class="editable">
+                  <input type="number" name="stock_E11" value="{{ stock_E11 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E11" value="{{ production_E11 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E12</td>
+                <td class="editable">
+                  <input type="number" name="stock_E12" value="{{ stock_E12 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E12" value="{{ production_E12 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E13</td>
+                <td class="editable">
+                  <input type="number" name="stock_E13" value="{{ stock_E13 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E13" value="{{ production_E13 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E14</td>
+                <td class="editable">
+                  <input type="number" name="stock_E14" value="{{ stock_E14 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E14" value="{{ production_E14 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E15</td>
+                <td class="editable">
+                  <input type="number" name="stock_E15" value="{{ stock_E15 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E15" value="{{ production_E15 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E16</td>
+                <td class="editable">
+                  <input type="number" name="stock_E16" value="{{ stock_E16 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E16" value="{{ production_E16 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E17</td>
+                <td class="editable">
+                  <input type="number" name="stock_E17" value="{{ stock_E17 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E17" value="{{ production_E17 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E18</td>
+                <td class="editable">
+                  <input type="number" name="stock_E18" value="{{ stock_E18 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E18" value="{{ production_E18 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E19</td>
+                <td class="editable">
+                  <input type="number" name="stock_E19" value="{{ stock_E19 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E19" value="{{ production_E19 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E20</td>
+                <td class="editable">
+                  <input type="number" name="stock_E20" value="{{ stock_E20 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E20" value="{{ production_E20 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E26</td>
+                <td class="editable">
+                  <input type="number" name="stock_E26" value="{{ stock_E26 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E26" value="{{ production_E26 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E29</td>
+                <td class="editable">
+                  <input type="number" name="stock_E29" value="{{ stock_E29 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E29" value="{{ production_E29 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E30</td>
+                <td class="editable">
+                  <input type="number" name="stock_E30" value="{{ stock_E30 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E30" value="{{ production_E30 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E31</td>
+                <td class="editable">
+                  <input type="number" name="stock_E31" value="{{ stock_E31 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E31" value="{{ production_E31 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E49</td>
+                <td class="editable">
+                  <input type="number" name="stock_E49" value="{{ stock_E49 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E49" value="{{ production_E49 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E50</td>
+                <td class="editable">
+                  <input type="number" name="stock_E50" value="{{ stock_E50 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E50" value="{{ production_E50 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E51</td>
+                <td class="editable">
+                  <input type="number" name="stock_E51" value="{{ stock_E51 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E51" value="{{ production_E51 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E54</td>
+                <td class="editable">
+                  <input type="number" name="stock_E54" value="{{ stock_E54 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E54" value="{{ production_E54 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E55</td>
+                <td class="editable">
+                  <input type="number" name="stock_E55" value="{{ stock_E55 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E55" value="{{ production_E55 }}"/>
+                </td>
+              </tr>
+              <tr>
+                <td name="article">E56</td>
+                <td class="editable">
+                  <input type="number" name="stock_E56" value="{{ stock_E56 }}"/>
+                </td>
+                <td class="editable">
+                  <input type="number" name="production_E56" value="{{ production_E56 }}"/>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <button class="accent-button">
+            <span class="material-icons white-icon">
+                file_upload
+            </span>
+            Berechnen
+        </button>
+        </div>
+      </form>
     </div>
 
-    <form method="post">
-      <button
-        class="continue-button"
-        type="submit"
-        value="Upload"
-        onclick="location.href='4_productionSequence.html'"
-      >
-        Weiter
-        <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
-      </button>
-    </form>
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='4_productionSequence.html'"
+    >
+      Weiter
+      <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+    </button>
   </body>
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021

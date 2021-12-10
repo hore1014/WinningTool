@@ -218,8 +218,8 @@ def get_average_inventory_worth():
 
 
 # Testing
-get_production()
-get_capacity()
+# get_production()
+# get_capacity()
 
 
 # print the results with sums for control purposes
