@@ -54,6 +54,11 @@ label {
   text-align: center;
 }
 
+.info {
+  color: rgb(103, 155, 103);
+  text-align: center;
+}
+
 input[type="text"] {
   font-size: 16px;
   margin: 20px;
