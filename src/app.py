@@ -161,6 +161,7 @@ def stockPlaner():
 def upload_plan():
 
     stock_data = []
+    # User Eingaben für Planlagerbestand einlesen 
     for article in lookupArticles.e_list:
         stock_data.append({
             'Periode': period,
@@ -170,12 +171,13 @@ def upload_plan():
             'Aktuell_2': 0,
             'Aktuell_3': 0
         })
-    prod_data = main.get_production()
 
-    # print(stock_data)
     # Daten in die DB schreiben
     main.write_input_to_db(stock_data, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der E-Teile wurden in die Datenbank geschrieben")
+
+    # Produktionsdaten berechnen
+    prod_data = main.get_production()
 
     return render_template(
         "3_stockPlaner.html", period=period,
@@ -189,6 +191,7 @@ def upload_plan():
         stock_E29=stock_data[18]["Aktuell_0"], stock_E30=stock_data[19]["Aktuell_0"], stock_E31=stock_data[20]["Aktuell_0"],
         stock_E49=stock_data[21]["Aktuell_0"], stock_E50=stock_data[22]["Aktuell_0"], stock_E51=stock_data[23]["Aktuell_0"],
         stock_E54=stock_data[24]["Aktuell_0"], stock_E55=stock_data[25]["Aktuell_0"], stock_E56=stock_data[26]["Aktuell_0"],
+        
         production_P1=prod_data["P1"]["sum"], production_P2=prod_data["P2"]["sum"], production_P3=prod_data["P3"]["sum"],
         production_E4=prod_data["E4"]["sum"], production_E5=prod_data["E5"]["sum"], production_E6=prod_data["E6"]["sum"],
         production_E7=prod_data["E7"]["sum"], production_E8=prod_data["E8"]["sum"], production_E9=prod_data["E9"]["sum"],
