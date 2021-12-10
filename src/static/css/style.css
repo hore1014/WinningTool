@@ -73,12 +73,16 @@ input[type="text"]:focus {
 }
 
 input[type="number"] {
-  margin: 0;
-  padding: 20px 0px;
+  font-size: 16px;
+  padding: 20px;
   width: 100%;
   height: 100%;
   border: none;
   background-color: #dce4e9;
+}
+
+input[type="number"]:focus {
+  outline: 1px solid #707070;
 }
 
 input::-webkit-outer-spin-button,
@@ -169,19 +173,18 @@ h3 {
 
 /* BILDER -----------------------------------------------*/
 
+.material-icons {
+  user-select: none;
+  pointer-events: none;
+  vertical-align: middle;
+}
+
 .white-icon {
   color: white;
-  vertical-align: middle;
 }
 
 .grey-icon {
   color: #a79e9e;
-  vertical-align: middle;
-}
-
-.material-icons {
-  user-select: none;
-  pointer-events: none;
 }
 
 #file-upload {
@@ -195,9 +198,13 @@ h3 {
 
 /* BUTTONS -----------------------------------------------*/
 
+button {
+  cursor: pointer;
+}
+
 .accent-button {
   border: none;
-  border-radius: 30px;
+  border-radius: 50px;
   color: white;
   background: linear-gradient(
     180deg,
@@ -275,6 +282,7 @@ h3 {
   border: none;
   background: none;
   cursor: pointer;
+  text-align: center;
 }
 
 .delete-button span:hover {
@@ -282,6 +290,18 @@ h3 {
   border: none;
   background: none;
   color: #3d3d3d;
+}
+
+.details-button {
+  border-radius: 50px;
+  border: none;
+  margin-bottom: 50px;
+  padding: 10px;
+  position: absolute;
+  right: 0px;
+  top: 90px;
+  background-color: white;
+  box-shadow: 3px 0px 30px #d3d2d2;
 }
 
 .inline-block-child {
@@ -298,8 +318,8 @@ table {
 
 table td {
   text-align: center;
-  border-top: 1px solid #b4adad;
-  border-left: 1px solid #b4adad;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
   padding: 20px 0px;
   width: 200px;
 }
@@ -310,15 +330,15 @@ table td:first-child {
 
 table th {
   text-align: center;
-  border-left: 1px solid #b4adad;
+  border-left: 1px solid #ccc;
   text-align: center;
   padding: 20px 40px;
-  border-bottom: 1px solid #b4adad;
+  border-bottom: 1px solid #ccc;
 }
 
 table th:first-child {
   border-left: none;
-  border-right: 1px solid #b4adad;
+  border-right: 1px solid #ccc;
 }
 
 table tbody td {
@@ -344,10 +364,7 @@ table thead th {
 
 table tbody td.editable {
   background-color: #dce4e9;
-}
-
-table tbody td.editable:focus {
-  outline: 1px solid #707070;
+  padding: 0;
 }
 
 table td em {
@@ -382,7 +399,7 @@ table td em.warning {
   width: 100%;
   height: 1px;
   position: absolute;
-  background-color: #b4adad;
+  background-color: #ccc;
 }
 
 .horizontal-scrollable-table-wrapper {
@@ -412,6 +429,7 @@ table td em.warning {
 #table {
   padding: 0px;
   margin-right: 20px;
+  border-color: #ccc;
 }
 
 #table-header {
@@ -423,11 +441,13 @@ table td em.warning {
 
 #table-header th {
   padding: 10px 10px;
+  border-color: #ccc;
 }
 
 #last-header {
   border-bottom: none;
   height: 47px;
+  border-color: #ccc;
 }
 
 #empty-header {
@@ -448,6 +468,7 @@ table td em.warning {
 .draggable-table td,
 .draggable-table th {
   padding: 10px 10px;
+  border-color: #ccc;
 }
 
 .draggable {
@@ -467,6 +488,7 @@ table td em.warning {
 
 .clone-list .draggable {
   margin: 0px;
+  border-color: #ccc;
 }
 .clone-table {
   border-collapse: collapse;
@@ -490,6 +512,7 @@ table td em.warning {
 .dragging {
   background: #fff;
   border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
   margin: 0;
   z-index: 999;
 }
@@ -660,10 +683,34 @@ label[for="file-selector"]:hover {
 
 /* WARNING ---------------------------------------------- */
 .warning-container {
-  width: 200px;
+  width: 250px;
   position: fixed;
   top: 25%;
   right: 50px;
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: 3px 0px 30px #d3d2d2;
+}
+
+.warning-header {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: #eb6157;
+}
+
+.warning-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+#warning-icon {
+  height: 30px;
+}
+
+#icon-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* FOOTER -----------------------------------------------*/
