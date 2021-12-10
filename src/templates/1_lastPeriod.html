@@ -74,10 +74,10 @@
         <p class="error">Bitte eine Datei auswählen!</p>
         {% endif %}
         {% if message %}
-        <p class="success">Datei wurde erfolgreich hochgeladen.</p>
+        <p class="success">Datei für Periode {{ period }} wurde erfolgreich hochgeladen.</p>
         {% endif %}
         {% if overwrite %}
-        <p class="info">Die Daten der ausgewählten Periode wurden aktualisiert.</p>
+        <p class="info">Die Daten für Periode {{ period }} wurden aktualisiert.</p>
         {% endif %}
         <br>
         <p>Falls das Ihre erste Periode ist und es keine vorherigen gibt, laden Sie keine Datei hoch und drücken Sie auf "Weiter".</p>
