@@ -36,18 +36,35 @@ def upload_file():
         abort(400)
     uploaded_file = request.files["file"]
     filename = secure_filename(uploaded_file.filename)
+    full_filename = os.path.join(app.config["UPLOAD_PATH"], filename)
+
     if filename == "":
         return render_template("1_lastPeriod.html", error=True, message=False)
+    
+    # Prüfen, ob es sich um ein xml file handelt
     file_ext = os.path.splitext(filename)[1]
     if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
         abort(415)
-    uploaded_file.save(os.path.join(app.config["UPLOAD_PATH"], filename))
+    uploaded_file.save(full_filename)
+    
+    # Periode des Files bestimmen
+    file_period = main.get_period_by_file(full_filename)
+    new_filename = app.config["UPLOAD_PATH"] + f'ergebnis_periode{file_period}.xml'
+
+    # Dateiname umbenennen für einheitliche Struktur, falls Name bereits existiert ggf. überschreiben
+    dataOverwritten = False # default
+    if(os.path.exists(new_filename)):
+        os.remove(new_filename)
+        dataOverwritten = True
+    os.rename(src=full_filename, dst=new_filename)
 
     # Einlesen der XML files
-    main.parse_all_xml()
+    main.parse_all_xml(app.config["UPLOAD_PATH"])
     global period
     period = main.get_current_period()
 
+    if(dataOverwritten):
+        return render_template("1_lastPeriod.html", error=False, message=True, overwrite=True)
     return render_template("1_lastPeriod.html", error=False, message=True)
 
 
@@ -191,7 +208,7 @@ def upload_plan():
         stock_E29=stock_data[18]["Aktuell_0"], stock_E30=stock_data[19]["Aktuell_0"], stock_E31=stock_data[20]["Aktuell_0"],
         stock_E49=stock_data[21]["Aktuell_0"], stock_E50=stock_data[22]["Aktuell_0"], stock_E51=stock_data[23]["Aktuell_0"],
         stock_E54=stock_data[24]["Aktuell_0"], stock_E55=stock_data[25]["Aktuell_0"], stock_E56=stock_data[26]["Aktuell_0"],
-        
+
         production_P1=prod_data["P1"]["sum"], production_P2=prod_data["P2"]["sum"], production_P3=prod_data["P3"]["sum"],
         production_E4=prod_data["E4"]["sum"], production_E5=prod_data["E5"]["sum"], production_E6=prod_data["E6"]["sum"],
         production_E7=prod_data["E7"]["sum"], production_E8=prod_data["E8"]["sum"], production_E9=prod_data["E9"]["sum"],

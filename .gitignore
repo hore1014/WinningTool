@@ -133,3 +133,6 @@ dmypy.json
 
 # database object
 *.db
+
+# ergebnis xml dateien
+*.xml

@@ -35,10 +35,10 @@ average_inventory_worth = {}
 
 
 # Read all xml files
-def parse_all_xml():
+def parse_all_xml(path: str):
     print("Parsing XML files")
     global root_arr
-    root_arr = xml.parse_all_xml('src//data//')
+    root_arr = xml.parse_all_xml(path)
     return root_arr
 
 
@@ -47,6 +47,9 @@ def get_current_period():
     global current_period
     current_period = xml.get_current_period(root_arr)
     return current_period
+
+def get_period_by_file(file: str):
+    return xml.get_period_by_file(file)
 
 
 # Initialize (create and populate) database from XML input data
