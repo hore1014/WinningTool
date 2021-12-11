@@ -159,8 +159,14 @@ def upload_prediction():
 
     main.write_input_to_db(stockData, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der P-Teile wurden in die Datenbank geschrieben")
-    return redirect(url_for('stock_planer'))
+    
+    # Daten für exportXml speichern
+    for el in salesData:
+        main.xml_absatz.append(
+            (el['Artikel'], el['Aktuell_0'])
+        )
 
+    return redirect(url_for('stock_planer'))
 
 @app.route("/3_stockPlaner.html")
 def stock_planer():
@@ -252,11 +258,15 @@ def upload_Sequence():
                 continue
             results_list.append((article_temp, int(item)))
 
-    print(results_list)
+    # save data to exportXml
+    main.xml_produktion = results_list
+    
+    # TODO: Das muss ganz am Ende passieren!
+    main.write_to_xml()
 
     return render_template("index.html", period=period)
 
 
 if __name__ == "__main__":
     # "debug=True" refreshes app every time a change is made, but Debugging is only possible for "debug=False"
-    app.run(debug=False, port=port)
+    app.run(debug=True, port=port)
