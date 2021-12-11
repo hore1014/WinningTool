@@ -227,6 +227,12 @@ h3 {
   height: 25px;
 }
 
+#warning-icon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* BUTTONS -----------------------------------------------*/
 
 button {
@@ -326,13 +332,15 @@ button {
 .details-button {
   border-radius: 50px;
   border: none;
-  margin-bottom: 50px;
-  padding: 10px;
   position: absolute;
-  left: 620px;
-  top: 110px;
+  left: 0;
+  padding: 10px;
   background-color: white;
   box-shadow: 3px 0px 30px #d3d2d2;
+}
+
+.details-button-container {
+  height: 50px;
 }
 
 #return-icon {
@@ -434,12 +442,12 @@ table td em {
 }
 
 #detailed-table {
-  /* display: none; */
+  display: none;
 }
 
 #undetailed-table {
-  display: none;
-  /* display: block; */
+  /* display: none; */
+  display: block;
 }
 
 /* Warning table element*/
