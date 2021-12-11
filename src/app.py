@@ -241,11 +241,13 @@ def upload_Sequence():
                 continue
             results_list.append((article_temp, int(item)))
 
-    print(results_list)
+    #print(results_list)
+    main.xml_produktion = results_list
+    main.write_to_xml()
 
     return render_template("index.html", period=period)
 
 
 if __name__ == "__main__":
     # "debug=True" refreshes app every time a change is made, but Debugging is only possible for "debug=False"
-    app.run(debug=False, port=port)
+    app.run(debug=True, port=port)

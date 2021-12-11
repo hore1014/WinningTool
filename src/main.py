@@ -7,7 +7,8 @@ from procurement import procurement as proc
 from financial import inventory as inv
 import json
 from functools import reduce
-from xmlInOut import importXml as xml
+from xmlInOut import importXml as ixml, exportXml as exml
+
 
 # TODO Löschen von XML files aus dem Ordner per Button
 
@@ -38,19 +39,19 @@ average_inventory_worth = {}
 def parse_all_xml(path: str):
     print("Parsing XML files")
     global root_arr
-    root_arr = xml.parse_all_xml(path)
+    root_arr = ixml.parse_all_xml(path)
     return root_arr
 
 
 def get_current_period():
     print("Setting current Period")
     global current_period
-    current_period = xml.get_current_period(root_arr)
+    current_period = ixml.get_current_period(root_arr)
     return current_period
 
 
 def get_period_by_file(file: str):
-    return xml.get_period_by_file(file)
+    return ixml.get_period_by_file(file)
 
 
 # Initialize (create and populate) database from XML input data
@@ -266,6 +267,23 @@ def get_average_inventory_worth():
 # Testing
 # get_production()
 # get_capacity()
+
+xml_absatz = []
+xml_absatz_direkt = []
+xml_bestellungen = []
+xml_produktion = []
+xml_stationen = []
+
+def write_to_xml():
+    global xml_absatz 
+    global xml_absatz_direkt
+    global xml_bestellungen
+    global xml_produktion
+    global xml_stationen
+    
+    data = exml.export_xml(xml_absatz, xml_absatz_direkt, xml_bestellungen, xml_produktion, xml_stationen)
+    with open(f'input_period{current_period}.xml', 'w') as file:
+        file.write(data)
 
 
 # print the results with sums for control purposes

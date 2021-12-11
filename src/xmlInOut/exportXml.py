@@ -1,5 +1,16 @@
 import xml.etree.ElementTree as ET
+from xml.dom import minidom
 import os
+
+def prettify(elem):
+    """
+    Return a pretty-printed XML string for the Element.
+
+    Reference: https://pymotw.com/2/xml/etree/ElementTree/create.html
+    """
+    #rough_string = ET.tostring(elem, 'utf-8')
+    reparsed = minidom.parseString(elem)
+    return reparsed.toprettyxml(indent="  ")
 
 def export_xml(absatz: list, absatz_direkt: list, bestellungen: list, produktion: list, stationen: list):
     """
@@ -13,7 +24,7 @@ def export_xml(absatz: list, absatz_direkt: list, bestellungen: list, produktion
     `bestellungen`: list
         {'article': (<quantity>, <modus>), ...}
     `produktion`: list
-        {'article': <quantity>}
+        [('article': <quantity>), ...]
     `stationen`: list
         {'station': (<shift>, <overtime>)}
     """
@@ -24,10 +35,10 @@ def export_xml(absatz: list, absatz_direkt: list, bestellungen: list, produktion
     selldirect = ET.SubElement(input, 'selldirect')
     orderlist = ET.SubElement(input, 'orderlist')
     productionlist = ET.SubElement(input, 'productionlist')
+    for el in produktion:
+            article = el[0][1:] # takes first item in tuple and removes first character
+            quantity = str(el[1])
+            ET.SubElement(productionlist, 'production', {"article": article, "quantity": quantity})
     workingtimelist = ET.SubElement(input, 'workingtimelist')
 
-    print(ET.dump(input))
-
-
-
-export_xml()
+    return prettify(ET.tostring(input, encoding='unicode', method='xml'))
