@@ -159,7 +159,7 @@ def upload_prediction():
 
     main.write_input_to_db(stockData, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der P-Teile wurden in die Datenbank geschrieben")
-    
+
     # Daten für exportXml speichern
     for el in salesData:
         main.xml_absatz.append(
@@ -168,12 +168,14 @@ def upload_prediction():
 
     return redirect(url_for('stock_planer'))
 
+
 @app.route("/3_stockPlaner.html")
 def stock_planer():
     # TODO: hier vielleicht noch eine Funktion, die die Angaben aus der letzten Periode als Startwerte setzt
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
+    current_parts = main.get_parts_inventory(period)
     for article in lookupArticles.e_list:
-        stock_data[article] = 100
+        stock_data[article] = current_parts[article][0]
 
     prod_data = {"P1": 0, "P2": 0, "P3": 0}
     for article in lookupArticles.e_list:
@@ -260,7 +262,7 @@ def upload_Sequence():
 
     # save data to exportXml
     main.xml_produktion = results_list
-    
+
     # TODO: Das muss ganz am Ende passieren!
     main.write_to_xml()
 
