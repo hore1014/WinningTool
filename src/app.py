@@ -232,9 +232,17 @@ def upload_Sequence():
 
     # get the items out while preserving the order
     results = request.form.get("results_list").split(",")
-    print(results)
-    # TODO: gesplitete Artikel werden noch nicht erkannt
-    # TODO: Liste in korrektes Format bringen
+    article_temp = ""
+    results_list = []
+    for index, item in enumerate(results):
+        if (index % 2 == 0):
+            article_temp = item
+        else:
+            if item == "":
+                continue
+            results_list.append((article_temp, int(item)))
+
+    print(results_list)
 
     return render_template("index.html", period=period)
 

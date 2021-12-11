@@ -139,7 +139,9 @@ def get_production():
     global parts_traded
 
     sales_forecast = get_sales_forecast(current_period)
-    current_parts = get_parts_inventory(current_period-1) # Für die aktuelle Periode gibt es in der Tabelle noch keine Werte, es sollen die Daten der vorangegangenen Periode entnommen werden
+    # current_parts = mock.get_parts_inventory(current_period)
+    # Für die aktuelle Periode gibt es in der Tabelle noch keine Werte, es sollen die Daten der vorangegangenen Periode entnommen werden
+    current_parts = get_parts_inventory(current_period-1)
     planned_parts = get_inventory_strategy(current_period)
     parts_processing = get_parts_processing(current_period)
     parts_in_queue = get_parts_in_queue(current_period)
