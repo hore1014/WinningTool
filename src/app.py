@@ -2,7 +2,6 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from werkzeug.utils import secure_filename
 import main
-from xmlInOut.importXml import get_current_period
 from database import lookupArticles
 
 app = Flask(__name__)
@@ -240,5 +239,5 @@ def upload_Sequence():
 
 
 if __name__ == "__main__":
-    # "debug" refreshes app every time a change is made
-    app.run(debug=True, port=port)
+    # "debug=True" refreshes app every time a change is made, but Debugging is only possible for "debug=False"
+    app.run(debug=False, port=port)
