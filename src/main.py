@@ -48,6 +48,7 @@ def get_current_period():
     current_period = xml.get_current_period(root_arr)
     return current_period
 
+
 def get_period_by_file(file: str):
     return xml.get_period_by_file(file)
 

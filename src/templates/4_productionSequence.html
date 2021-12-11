@@ -60,129 +60,6 @@
         </p>
       </div>
 
-      <table class="table-container">
-        <tbody>
-          <tr>
-            <td class="td-container">
-              <table id="table-header">
-                <thead>
-                  <tr id="empty-header">
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th>Artikel</th>
-                  </tr>
-                  <tr>
-                    <th>Anzahl</th>
-                  </tr>
-                  <tr>
-                    <th id="last-header"></th>
-                  </tr>
-                </thead>
-              </table>
-            </td>
-            <td class="td-container">
-              <table id="table" class="draggable-table">
-                <thead>
-                  <tr id="drag-handles"></tr>
-                </thead>
-                <tbody>
-                  <tr id="articles">
-                    <td>E4</td>
-                    <td>E5</td>
-                    <td>E6</td>
-                    <td>E7</td>
-                    <td>E8</td>
-                    <td>E9</td>
-                    <td>E10</td>
-                    <td>E11</td>
-                    <td>E12</td>
-                    <td>E13</td>
-                    <td>E14</td>
-                    <td>E15</td>
-                    <td>E16</td>
-                    <td>E17</td>
-                    <td>E18</td>
-                    <td>E19</td>
-                    <td>E20</td>
-                    <td>E26</td>
-                    <td>E29</td>
-                    <td>E30</td>
-                    <td>E31</td>
-                    <td>E49</td>
-                    <td>E50</td>
-                    <td>E51</td>
-                    <td>E54</td>
-                    <td>E55</td>
-                    <td>E56</td>
-                    <td>P1</td>
-                    <td>P2</td>
-                    <td>P3</td>
-                  </tr>
-                  <tr id="production-numbers"></tr>
-                  <tr id="delete-buttons"></tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <script>
-        /* Tabelle mit Daten füllen */
-        var tableColumns =
-          document.getElementById("table").rows[1].cells.length;
-
-        // Drag-Handles
-        var dragHandlesRow = document.getElementById("drag-handles");
-        for (var count = 0; count < tableColumns; count++) {
-          dragHandlesRow.innerHTML +=
-            '<th><span class="material-icons grey-icon">drag_indicator</span></th>';
-        }
-
-        // Produktionsanzahl
-        var productionNumbersRow =
-          document.getElementById("production-numbers");
-        for (var count = 0; count < tableColumns; count++) {
-          productionNumbersRow.innerHTML +=
-            '<td data-type="number" class="editable" contenteditable="true">100</td>';
-        }
-
-        // Delete-Button-Cells
-        var deleteRow = document.getElementById("delete-buttons");
-        for (var count = 0; count < tableColumns; count++) {
-          deleteRow.innerHTML += "<td></td>";
-        }
-
-        // Müssen aktualisiert werden, wenn die Spalten umhergeschoben werden,
-        // damit falls welche gelöscht werden auch die richtigen gelöscht werden
-        function remakeDeleteButtons() {
-          const table = document.getElementById("table");
-
-          //Müssen zuerst "geleert" werden
-          document
-            .getElementById("delete-buttons")
-            .childNodes.forEach((td, i) => (td.innerHTML = ``));
-          document
-            .getElementById("delete-buttons")
-            .childNodes.forEach(
-              (td, i) =>
-                (td.innerHTML += ` <sup><a href="#" data-idx="${i}" class="del" ><span class="material-icons grey-icon delete-icon"> delete </span></a></sup>`)
-            );
-        }
-
-        window.addEventListener("DOMContentLoaded", remakeDeleteButtons());
-
-        table.addEventListener("click", function (e) {
-          const target = e.target.closest("a");
-          if (target && target.classList.contains("del")) {
-            const idx = target.dataset.idx;
-            [...table.rows].forEach((row) => row.cells[idx].remove());
-          }
-          //Remake delete Buttons (for the idx)
-          remakeDeleteButtons();
-        });
-      </script>
-
       <div class="centered-container">
         <form class="new-column-form">
           <span>Neuer Produktionsauftrag <em>(Splitting)</em> :</span>
@@ -247,7 +124,7 @@
                 document.getElementById("articles").innerHTML +=
                   "<td>" + articleName + "</td>";
                 document.getElementById("production-numbers").innerHTML +=
-                  '<td data-type="number" class="editable" contenteditable="true"></td>';
+                  `<td class="editable"><input type="number" name="${articleName}" value=""></td>`;
 
                 var table = document.getElementById("table");
                 var newColumnNumber =
@@ -265,22 +142,152 @@
           </script>
         </form>
       </div>
-    </div>
 
-    <form method="post">
-      <button
-        class="continue-button"
-        type="submit"
-        value="Upload"
-        onclick="location.href='5_orders_purchase.html'"
-      >
-        Weiter
-        <img
-          id="continue-icon"
-          src="{{ url_for('static', filename='img/continueArrow.png') }}"
-        />
-      </button>
-    </form>
+      {% if error %}
+      <p class="error">Die Mengen der aufgeteilten Produkte müssen in Summe der Ausgangsmenge entsprechen! </p>
+      {% endif %}
+
+      <form method="post">
+        <table class="table-container">
+          <tbody>
+            <tr>
+              <td class="td-container">
+                <table id="table-header">
+                  <thead>
+                    <tr id="empty-header">
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <th>Artikel</th>
+                    </tr>
+                    <tr>
+                      <th>Anzahl</th>
+                    </tr>
+                    <tr>
+                      <th id="last-header"></th>
+                    </tr>
+                  </thead>
+                </table>
+              </td>
+              <td class="td-container">
+                <table id="table" class="draggable-table">
+                  <thead>
+                    <tr id="drag-handles"></tr>
+                  </thead>
+                  <tbody>
+                    <tr id="articles">
+                      {% for article in range(0, len) %}
+                      <td>{{ sequence[article] }}</td>
+                      {% endfor %}
+                    </tr>
+                    <tr id="production-numbers">
+                      {% for article in range(0, len) %}
+                      <td class="editable">
+                        <input type="number" name="{{ sequence[article] }}" value="{{ production[sequence[article]]['sum'] }}">
+                      </td>
+                      <!--
+                      <td data-type="number" class="editable" name="{{ 'production_'+sequence[article] }}" contenteditable="true">{{ production[sequence[article]]["sum"] }}</td>
+                      -->
+                      {% endfor %}
+                    </tr>
+                    <tr id="delete-buttons"></tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div hidden>
+          <input type="text" name="results_list" value="{{ results_list }}">
+        </div>
+
+        <button
+          class="continue-button"
+          type="submit"
+          value="Upload"
+          onclick="location.href='5_orders_purchase.html'"
+        >
+          Weiter
+          <img
+            id="continue-icon"
+            src="{{ url_for('static', filename='img/continueArrow.png') }}"
+          />
+        </button>
+      </form>
+
+      <script>
+        /* Tabelle mit Daten füllen */
+        var tableColumns =
+          document.getElementById("table").rows[1].cells.length;
+
+        // Drag-Handles
+        var dragHandlesRow = document.getElementById("drag-handles");
+        for (var count = 0; count < tableColumns; count++) {
+          dragHandlesRow.innerHTML +=
+            '<th><span class="material-icons grey-icon">drag_indicator</span></th>';
+        }
+
+        // Liste mit Resultaten intitialisieren
+        var articleRow = document.getElementById("table").rows[1].cells;
+        var amountRow = document.getElementById("table").rows[2].cells;
+        var results = []
+
+        for (var count = 0; count < tableColumns; count++) {
+          console.log(`${articleRow[count].innerHTML}; ${amountRow[count].children[0].value}`);
+          results.push([articleRow[count].innerHTML, amountRow[count].children[0].value]);
+        }
+
+        
+        document.getElementsByName("results_list")[0].value = results.toString();
+        console.log(document.getElementsByName("results_list")[0].value)
+
+        /*
+        // Produktionsanzahl
+        var productionNumbersRow =
+          document.getElementById("production-numbers");
+        for (var count = 0; count < tableColumns; count++) {
+          productionNumbersRow.innerHTML +=
+            '<td data-type="number" class="editable" contenteditable="true">100</td>';
+        }
+        */
+
+        // Delete-Button-Cells
+        var deleteRow = document.getElementById("delete-buttons");
+        for (var count = 0; count < tableColumns; count++) {
+          deleteRow.innerHTML += "<td></td>";
+        }
+
+        // Müssen aktualisiert werden, wenn die Spalten umhergeschoben werden,
+        // damit falls welche gelöscht werden auch die richtigen gelöscht werden
+        function remakeDeleteButtons() {
+          const table = document.getElementById("table");
+
+          //Müssen zuerst "geleert" werden
+          document
+            .getElementById("delete-buttons")
+            .childNodes.forEach((td, i) => (td.innerHTML = ``));
+          document
+            .getElementById("delete-buttons")
+            .childNodes.forEach(
+              (td, i) =>
+                (td.innerHTML += ` <sup><a href="#" data-idx="${i}" class="del" ><span class="material-icons grey-icon delete-icon"> delete </span></a></sup>`)
+            );
+        }
+
+        window.addEventListener("DOMContentLoaded", remakeDeleteButtons());
+
+        table.addEventListener("click", function (e) {
+          const target = e.target.closest("a");
+          if (target && target.classList.contains("del")) {
+            const idx = target.dataset.idx;
+            [...table.rows].forEach((row) => row.cells[idx].remove());
+          }
+          //Remake delete Buttons (for the idx)
+          remakeDeleteButtons();
+        });
+      </script>
+    </div>
   </body>
   <script>
     /* Drag and Drop functionality */
