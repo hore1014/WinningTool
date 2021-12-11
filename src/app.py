@@ -249,6 +249,8 @@ def upload_Sequence():
 
     # save data to exportXml
     main.xml_produktion = results_list
+    
+    # TODO: Das muss ganz am Ende passieren!
     main.write_to_xml()
 
     return render_template("index.html", period=period)
