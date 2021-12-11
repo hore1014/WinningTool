@@ -280,8 +280,9 @@ def write_to_xml():
     global xml_bestellungen
     global xml_produktion
     global xml_stationen
-    
+
     data = exml.export_xml(xml_absatz, xml_absatz_direkt, xml_bestellungen, xml_produktion, xml_stationen)
+    
     with open(f'input_period{current_period}.xml', 'w') as file:
         file.write(data)
 

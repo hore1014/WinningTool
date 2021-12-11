@@ -159,8 +159,14 @@ def upload_prediction():
 
     main.write_input_to_db(stockData, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der P-Teile wurden in die Datenbank geschrieben")
-    return redirect(url_for('stock_planer'))
+    
+    # Daten für exportXml speichern
+    for el in salesData:
+        main.xml_absatz.append(
+            (el['Artikel'], el['Aktuell_0'])
+        )
 
+    return redirect(url_for('stock_planer'))
 
 @app.route("/3_stockPlaner.html")
 def stock_planer():
@@ -241,7 +247,7 @@ def upload_Sequence():
                 continue
             results_list.append((article_temp, int(item)))
 
-    #print(results_list)
+    # save data to exportXml
     main.xml_produktion = results_list
     main.write_to_xml()
 
