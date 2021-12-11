@@ -218,7 +218,18 @@ def upload_Sequence():
     production = main.production
     data = request.form.to_dict(flat=False)
 
-    # test if sum of part orders is equal to calculated order
+    # check if aount of production orders is greater than 60
+    if (len(data)-1 > 60):
+        return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="limit")
+
+    # check if products are missing
+    if (len(data)-1 < len(production)):
+        return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="keys")
+    for article in production:
+        if (article not in data.keys()):
+            return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="keys")
+
+    # check if sum of part orders is equal to calculated order
     for article, item in data.items():
         if (article == "results_list"):
             continue
@@ -227,7 +238,7 @@ def upload_Sequence():
             sum += int(amount) if amount != "" else 0
         if (production[article]["sum"] != sum):
             print("Error detected!")
-            return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error=True)
+            return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="sum")
 
     # get the items out while preserving the order
     results = request.form.get("results_list").split(",")

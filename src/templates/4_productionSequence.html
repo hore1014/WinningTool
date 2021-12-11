@@ -77,8 +77,14 @@
         </form>
       </div>
 
-      {% if error %}
+      {% if error == "sum" %}
       <p class="error">Die Mengen der aufgeteilten Produkte müssen in Summe der Ausgangsmenge entsprechen! </p>
+      {% endif %}
+      {% if error == "keys" %}
+      <p class="error">Es dürfen keine Produkte aus der Produktionsplanung ausgelassen werden! </p>
+      {% endif %}
+      {% if error == "limit" %}
+      <p class="error">Es dürfen maximal 60 Produktionsaufträge erstellt werden! </p>
       {% endif %}
 
       <form method="post">
