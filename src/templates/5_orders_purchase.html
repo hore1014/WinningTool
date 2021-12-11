@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="HTML, CSS" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <meta
+      name="description"
+      content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
+    />
+    <title>Stock Planer</title>
+  </head>
+  <body>
+    <nav>
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Vorherige Periode</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html"
+            >Absatz-Prognosen und Produktionsplan</a
+          >
+        </li>
+        <li class="active">
+          <a href="3_stockPlaner.html"
+            >Lager und Produktion der Zwischenerzeugnisse</a
+          >
+        </li>
+        <li class="active">
+          <a href="4_productionSequence.html"
+            >Produktionsreihenfolge und Splitting</a
+          >
+        </li>
+        <li class="active">
+          <a>Bestellungen</a>
+        </li>
+        <li><a>Kapazität</a></li>
+        <li><a>Finanzen</a></li>
+      </ul>
+    </nav>
+
+    <div class="big-horizontal-container starts-below-navbar">
+      <h3>Planen Sie Ihre Bestellungen der Kaufteile.</h3>
+      <div class="details-button-container">
+        <button class="details-button" onclick="showOtherTable()">
+          <span class="material-icons"> article </span>
+          <span id="details-button-text">Detaillierte Ansicht</span>
+        </button>
+      </div>
+      <table class="page-divider">
+        <tr>
+          <td class="page-division">
+            <script>
+              function showOtherTable() {
+                var detailedTable = document.getElementById("detailed-table");
+                var undetailedTable =
+                  document.getElementById("undetailed-table");
+                var detailsButtonText = document.getElementById(
+                  "details-button-text"
+                );
+
+                if (detailsButtonText.innerHTML == "Detaillierte Ansicht") {
+                  undetailedTable.style.display = "none";
+                  detailedTable.style.display = "block";
+                  detailsButtonText.textContent = "Minimierte Ansicht";
+                } else {
+                  detailedTable.style.display = "none";
+                  undetailedTable.style.display = "block";
+                  detailsButtonText.textContent = "Detaillierte Ansicht";
+                }
+              }
+            </script>
+            <div class="vertical-scrollable-table-wrapper">
+              <table id="undetailed-table">
+                <thead>
+                  <tr>
+                    <th>Artikel</th>
+                    <th>Diskontmenge</th>
+                    <th>Bestellmenge Normal</th>
+                    <th>Bestellmenge Eil</th>
+                  </tr>
+                </thead>
+                <tbody id="undetailed-table-body"></tbody>
+              </table>
+              <table id="detailed-table">
+                <thead>
+                  <tr>
+                    <!-- <th>Artikel</th>
+                    <th>Aktuelle</th>
+                    <th>Bestellmenge Normal</th>
+                    <th>Bestellmenge Eil</th> -->
+                  </tr>
+                </thead>
+                <tbody id="detailed-table-body"></tbody>
+              </table>
+            </div>
+
+            <script>
+              const articleList = [
+                "K21",
+                "K22",
+                "K23",
+                "K24",
+                "K25",
+                "K27",
+                "K28",
+                "K32",
+                "K33",
+                "K34",
+                "K35",
+                "K36",
+                "K37",
+                "K38",
+                "K39",
+                "K40",
+                "K41",
+                "K42",
+                "K43",
+                "K44",
+                "K45",
+                "K46",
+                "K47",
+                "K48",
+                "K52",
+                "K53",
+                "K57",
+                "K58",
+                "K59",
+              ];
+
+              /* Fill Table with rows */
+              var body = document.getElementById("undetailed-table-body");
+
+              for (var i = 0; i < articleList.length; i++) {
+                body.innerHTML +=
+                  '<tr><td name="article_' +
+                  articleList[i] +
+                  '">' +
+                  articleList[i] +
+                  '</td><td name="diskont_' +
+                  articleList[i] +
+                  '">150</td><td class="editable" ><input type="number" name="normal_' +
+                  articleList[i] +
+                  '" value="100"/></td><td class="editable"><input type="number" name="eil_' +
+                  articleList[i] +
+                  '" value="100"/></td></tr>';
+              }
+            </script>
+          </td>
+          <td class="divider"></td>
+          <td class="page-division">
+            <div id="warning-message" class="warning-container">
+              <div id="icon-container">
+                <img id="warning-icon" src="img/warning.png" />
+              </div>
+              <h3 class="warning-header">
+                Es gibt Artikel, die trotz Eilbestellung nicht abgedeckt werden
+                können!
+              </h3>
+              <p class="warning-text">
+                Schauen Sie beim Handelsplatz nach, ob der Artikel dort zu
+                kaufen ist und tragen Sie die Artikel unter "Handel" ein.
+                <br />
+                <br />
+
+                Oder reduzieren Sie den Lagerbestand der Teile, die das
+                jeweilige Kaufteil benötigt.
+              </p>
+              <button
+                class="return-button"
+                type="submit"
+                value="Upload"
+                onclick="location.href='2_salesPrediction.html'"
+              >
+                <table>
+                  <tr>
+                    <td><img id="return-icon" src="img/returnArrow.png" /></td>
+                    <td>Zurück zur Absatz- und Handelsplanung</td>
+                  </tr>
+                </table>
+              </button>
+              <button
+                class="return-button"
+                type="submit"
+                value="Upload"
+                onclick="location.href='3_stockPlaner.html'"
+              >
+                <table>
+                  <tr>
+                    <td><img id="return-icon" src="img/returnArrow.png" /></td>
+                    <td>
+                      Zurück zum Lager und Produktion der Zwischenerzeugnisse
+                    </td>
+                  </tr>
+                </table>
+              </button>
+            </div>
+            <script>
+              function displayWarning() {
+                var warning = document.getElementById("warning-message");
+                warning.style.display =
+                  warning.style.display == "block" ? "none" : "block";
+              }
+            </script>
+          </td>
+        </tr>
+      </table>
+      <button onclick="displayWarning()">warning test</button>
+    </div>
+
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='6_capacity.html'"
+    >
+      Weiter
+      <img id="continue-icon" src="img/continueArrow.png" />
+    </button>
+  </body>
+  <footer>
+    © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
+  </footer>
+</html>

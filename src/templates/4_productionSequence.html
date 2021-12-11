@@ -36,8 +36,7 @@
           >
         </li>
         <li class="active">
-          <a>Produktionsreihenfolge und Splitting</a
-          >
+          <a>Produktionsreihenfolge und Splitting</a>
         </li>
         <li><a>Bestellungen</a></li>
         <li><a>Kapazität</a></li>
@@ -45,7 +44,7 @@
       </ul>
     </nav>
 
-    <div class="big-horizontal-container">
+    <div class="big-horizontal-container starts-below-navbar">
       <div class="centered-container">
         <h3>
           Bringen Sie die Aufträge in Ihre gewünschte Produktionsreihenfolge und
@@ -72,18 +71,22 @@
             <span class="material-icons white-icon"> add </span> Neue Spalte
             hinzufügen
           </button>
-
         </form>
       </div>
 
       {% if error == "sum" %}
-      <p class="error">Die Mengen der aufgeteilten Produkte müssen in Summe der Ausgangsmenge entsprechen! </p>
-      {% endif %}
-      {% if error == "keys" %}
-      <p class="error">Es dürfen keine Produkte aus der Produktionsplanung ausgelassen werden! </p>
-      {% endif %}
-      {% if error == "limit" %}
-      <p class="error">Es dürfen maximal 60 Produktionsaufträge erstellt werden! </p>
+      <p class="error">
+        Die Mengen der aufgeteilten Produkte müssen in Summe der Ausgangsmenge
+        entsprechen!
+      </p>
+      {% endif %} {% if error == "keys" %}
+      <p class="error">
+        Es dürfen keine Produkte aus der Produktionsplanung ausgelassen werden!
+      </p>
+      {% endif %} {% if error == "limit" %}
+      <p class="error">
+        Es dürfen maximal 60 Produktionsaufträge erstellt werden!
+      </p>
       {% endif %}
 
       <form method="post">
@@ -122,7 +125,11 @@
                     <tr id="production-numbers">
                       {% for article in range(0, len) %}
                       <td class="editable">
-                        <input type="number" name="{{ sequence[article] }}" value="{{ production[sequence[article]]['sum'] }}">
+                        <input
+                          type="number"
+                          name="{{ sequence[article] }}"
+                          value="{{ production[sequence[article]]['sum'] }}"
+                        />
                       </td>
                       <!--
                       <td data-type="number" class="editable" name="{{ 'production_'+sequence[article] }}" contenteditable="true">{{ production[sequence[article]]["sum"] }}</td>
@@ -138,7 +145,7 @@
         </table>
 
         <div hidden>
-          <input type="text" name="results_list" value="{{ results_list }}">
+          <input type="text" name="results_list" value="{{ results_list }}" />
         </div>
 
         <button
@@ -166,7 +173,7 @@
           dragHandlesRow.innerHTML +=
             '<th><span class="material-icons grey-icon">drag_indicator</span></th>';
         }
-        
+
         /*
         // Produktionsanzahl
         var productionNumbersRow =
@@ -202,87 +209,92 @@
 
         // Liste mit Resultaten aktualisieren
         function update_results() {
-              var tableColumns =
-              document.getElementById("table").rows[1].cells.length;
-              var articleRow = document.getElementById("table").rows[1].cells;
-              var amountRow = document.getElementById("table").rows[2].cells;
-              var results = []
+          var tableColumns =
+            document.getElementById("table").rows[1].cells.length;
+          var articleRow = document.getElementById("table").rows[1].cells;
+          var amountRow = document.getElementById("table").rows[2].cells;
+          var results = [];
 
-              for (var count = 0; count < tableColumns; count++) {
-                console.log(`${articleRow[count].innerHTML}; ${amountRow[count].children[0].value}`);
-                results.push([articleRow[count].innerHTML, amountRow[count].children[0].value]);
-              }
+          for (var count = 0; count < tableColumns; count++) {
+            console.log(
+              `${articleRow[count].innerHTML}; ${amountRow[count].children[0].value}`
+            );
+            results.push([
+              articleRow[count].innerHTML,
+              amountRow[count].children[0].value,
+            ]);
+          }
 
-              
-              document.getElementsByName("results_list")[0].value = results.toString();
-              console.log(document.getElementsByName("results_list")[0].value)
+          document.getElementsByName("results_list")[0].value =
+            results.toString();
+          console.log(document.getElementsByName("results_list")[0].value);
+        }
 
-            }
+        /* add Column Functionality */
+        const articleList = [
+          "E4",
+          "E5",
+          "E6",
+          "E7",
+          "E8",
+          "E9",
+          "E10",
+          "E11",
+          "E12",
+          "E13",
+          "E14",
+          "E15",
+          "E16",
+          "E17",
+          "E18",
+          "E19",
+          "E20",
+          "E26",
+          "E29",
+          "E30",
+          "E31",
+          "E49",
+          "E50",
+          "E51",
+          "E54",
+          "E55",
+          "E56",
+          "P1",
+          "P2",
+          "P3",
+        ];
 
-            /* add Column Functionality */
-            const articleList = [
-              "E4",
-              "E5",
-              "E6",
-              "E7",
-              "E8",
-              "E9",
-              "E10",
-              "E11",
-              "E12",
-              "E13",
-              "E14",
-              "E15",
-              "E16",
-              "E17",
-              "E18",
-              "E19",
-              "E20",
-              "E26",
-              "E29",
-              "E30",
-              "E31",
-              "E49",
-              "E50",
-              "E51",
-              "E54",
-              "E55",
-              "E56",
-              "P1",
-              "P2",
-              "P3",
-            ];
+        function addColumn() {
+          var listOfRows = document.querySelectorAll("#table tr");
+          const articleName = document.getElementById("article-name").value;
 
-            function addColumn() {
-              var listOfRows = document.querySelectorAll("#table tr");
-              const articleName = document.getElementById("article-name").value;
+          if (articleName == "" || articleName == undefined) {
+            alert("Geben Sie einen Artikel an.");
+          } else if (!articleList.includes(articleName)) {
+            alert("Der angegebene Artikel existiert nicht.");
+            document.getElementById("article-name").value = "";
+          } else {
+            document.getElementById("drag-handles").innerHTML +=
+              '<th class="draggable"><span class="material-icons grey-icon"> drag_indicator</span></th>';
+            document.getElementById("articles").innerHTML +=
+              "<td>" + articleName + "</td>";
+            document.getElementById(
+              "production-numbers"
+            ).innerHTML += `<td class="editable"><input type="number" name="${articleName}" value=""></td>`;
 
-              if (articleName == "" || articleName == undefined) {
-                alert("Geben Sie einen Artikel an.");
-              } else if (!articleList.includes(articleName)) {
-                alert("Der angegebene Artikel existiert nicht.");
-                document.getElementById("article-name").value = "";
-              } else {
-                document.getElementById("drag-handles").innerHTML +=
-                  '<th class="draggable"><span class="material-icons grey-icon"> drag_indicator</span></th>';
-                document.getElementById("articles").innerHTML +=
-                  "<td>" + articleName + "</td>";
-                document.getElementById("production-numbers").innerHTML +=
-                  `<td class="editable"><input type="number" name="${articleName}" value=""></td>`;
+            var table = document.getElementById("table");
+            var newColumnNumber =
+              document.getElementById("delete-buttons").childNodes.length;
+            document.getElementById("delete-buttons").innerHTML +=
+              '<td><sup><a href="#" data-idx="' +
+              newColumnNumber +
+              '" class="del" ><span class="material-icons grey-icon delete-icon"> delete </span></a></sup></td>';
+            document.getElementById("article-name").value = "";
+            activateDragAndDrop();
+          }
+        }
 
-                var table = document.getElementById("table");
-                var newColumnNumber =
-                  document.getElementById("delete-buttons").childNodes.length;
-                document.getElementById("delete-buttons").innerHTML +=
-                  '<td><sup><a href="#" data-idx="' +
-                  newColumnNumber +
-                  '" class="del" ><span class="material-icons grey-icon delete-icon"> delete </span></a></sup></td>';
-                document.getElementById("article-name").value = "";
-                activateDragAndDrop();
-              }
-            }
-
-            document.getElementById("addColumnButton").onclick = addColumn;
+        document.getElementById("addColumnButton").onclick = addColumn;
 
         window.addEventListener("DOMContentLoaded", remakeDeleteButtons());
 

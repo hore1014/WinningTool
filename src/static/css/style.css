@@ -89,6 +89,7 @@ input[type="text"]:focus {
 
 input[type="number"] {
   font-size: 16px;
+  text-align: center;
   padding: 20px;
   width: 100%;
   height: 100%;
@@ -155,6 +156,26 @@ input::-webkit-inner-spin-button {
   /*overflow-y: scroll;*/
 }
 
+.starts-below-navbar {
+  top: auto;
+  margin-top: 500px;
+  min-height: 700px;
+}
+
+.page-divider {
+  box-shadow: none;
+}
+
+.divider {
+  border: none;
+  content: "";
+  min-width: 50px;
+}
+
+.page-division {
+  border: none;
+}
+
 .delete-box {
   border: 1px solid #707070;
   content: "";
@@ -209,6 +230,12 @@ h3 {
 
 .drag-handle {
   height: 25px;
+}
+
+#warning-icon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* BUTTONS -----------------------------------------------*/
@@ -310,13 +337,45 @@ button {
 .details-button {
   border-radius: 50px;
   border: none;
-  margin-bottom: 50px;
-  padding: 10px;
   position: absolute;
-  right: 0px;
-  top: 90px;
+  left: 0;
+  padding: 10px;
   background-color: white;
   box-shadow: 3px 0px 30px #d3d2d2;
+}
+
+.details-button-container {
+  height: 50px;
+}
+
+#return-icon {
+  vertical-align: middle;
+  height: 30px;
+  margin: 0;
+}
+
+.return-button {
+  border: none;
+  background: none;
+  color: #707070;
+  font-weight: bold;
+  margin: 0;
+}
+
+.return-button table {
+  box-shadow: none;
+  max-height: min-content;
+}
+
+.return-button table td {
+  border: none;
+  padding-right: 10px;
+  width: auto;
+  text-align: left;
+}
+
+.return-button td:hover {
+  color: #525252;
 }
 
 .inline-block-child {
@@ -385,6 +444,15 @@ table tbody td.editable {
 table td em {
   font-weight: bold;
   font-style: normal;
+}
+
+#detailed-table {
+  display: none;
+}
+
+#undetailed-table {
+  /* display: none; */
+  display: block;
 }
 
 /* Warning table element*/
@@ -472,6 +540,8 @@ table td em.warning {
 .table-container {
   box-shadow: none;
   padding: none;
+  margin-top: none;
+  margin-bottom: 150px;
 }
 
 .td-container {
@@ -661,12 +731,12 @@ label[for="file-selector"]:hover {
 }
 
 /* TABWIDGET ----------------------------------------------*/
-.tab-content {
+.tab-widget-content {
   padding: 50px;
   box-shadow: 3px 0px 30px #d3d2d2;
 }
 
-.tab-content .vertical-scrollable-table-wrapper {
+.tab-widget-content .vertical-scrollable-table-wrapper {
   max-height: 350px;
 }
 
@@ -698,13 +768,13 @@ label[for="file-selector"]:hover {
 
 /* WARNING ---------------------------------------------- */
 .warning-container {
-  width: 250px;
-  position: fixed;
-  top: 25%;
-  right: 50px;
+  width: 300px;
   border-radius: 30px;
   padding: 30px;
+  padding-bottom: 15px;
   box-shadow: 3px 0px 30px #d3d2d2;
+  display: none;
+  /* display: block; */
 }
 
 .warning-header {
@@ -720,12 +790,6 @@ label[for="file-selector"]:hover {
 
 #warning-icon {
   height: 30px;
-}
-
-#icon-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
 /* FOOTER -----------------------------------------------*/
