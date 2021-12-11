@@ -73,6 +73,9 @@
         {% if error %}
         <p class="error">Bitte eine Datei auswählen!</p>
         {% endif %}
+        {% if invalid %}
+        <p class="invalid">Die Syntax oder der Inhalt der ausgewählten Datei ist ungültig!</p>
+        {% endif %}
         {% if message %}
         <p class="success">Datei für Periode {{ period }} wurde erfolgreich hochgeladen.</p>
         {% endif %}

@@ -45,17 +45,24 @@ def upload_file():
     file_ext = os.path.splitext(filename)[1]
     if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
         abort(415)
+
+    # File im filesystem speichern
     uploaded_file.save(full_filename)
 
     # Periode des Files bestimmen
     file_period = main.get_period_by_file(full_filename)
-    new_filename = app.config["UPLOAD_PATH"] + \
-        f'ergebnis_periode{file_period}.xml'
+    if file_period < 0:
+        # File wieder löschen
+        os.remove(full_filename)
+        return render_template("1_lastPeriod.html", invalid=True, message=False)
+
 
     # Dateiname umbenennen für einheitliche Struktur, falls Name bereits existiert ggf. überschreiben
+    new_filename = app.config["UPLOAD_PATH"] + \
+    f'ergebnis_periode{file_period}.xml'
     dataOverwritten = False  # default
-    if(os.path.exists(new_filename)):
-        if(full_filename != new_filename):
+    if os.path.exists(new_filename):
+        if full_filename != new_filename:
             os.remove(new_filename)
         dataOverwritten = True
     os.rename(src=full_filename, dst=new_filename)
@@ -65,7 +72,7 @@ def upload_file():
     global period
     period = main.get_current_period()
 
-    if(dataOverwritten):
+    if dataOverwritten:
         return render_template("1_lastPeriod.html", error=False, message=True, overwrite=True, period=file_period)
     return render_template("1_lastPeriod.html", error=False, message=True, period=file_period)
 

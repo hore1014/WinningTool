@@ -40,8 +40,12 @@ def get_period_by_file(file: str):
     `file`: str
         The xml file.
     """
-    root = ET.parse(file).getroot()
-    return (int(root.get('period')))
+    try: # This is the first point where xml file is parsed
+        # TODO Exception-Types aufsplitten, sodass Fehler beim Upload klarer ist
+        root = ET.parse(file).getroot()
+        return (int(root.get('period')))
+    except:
+        return -1
 
 # Finde die aktuelle Periode anhand der hochgeladenen XML files
 def get_current_period(root_arr: list):
