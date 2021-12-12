@@ -28,6 +28,12 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/", methods=["POST"])
+def reset():
+
+    return render_template("index.html")
+
+
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
     return render_template("1_lastPeriod.html", error=False, message=False)
@@ -54,7 +60,7 @@ def upload_file():
     # File im filesystem speichern
     # Wenn im data storage bereits ein file mit gleichem Namen wie das upload_file existiert
     # soll gekennzeichnet werden, dass es überschrieben wurde
-    if os.path.exists(full_filename): 
+    if os.path.exists(full_filename):
         dataOverwritten = True
     uploaded_file.save(full_filename)
 
@@ -68,7 +74,7 @@ def upload_file():
     # Dateiname umbenennen für einheitliche Struktur, falls Name bereits existiert ggf. überschreiben
     new_filename = app.config["UPLOAD_PATH"] + \
         f'ergebnis_periode{file_period}.xml'
-    
+
     if os.path.exists(new_filename):
         if full_filename != new_filename:
             os.remove(new_filename)
@@ -93,7 +99,6 @@ def salesPrediction():
     sales = handler.get_sales_forecast(period)
     # get inventory
     current_parts = handler.get_parts_inventory(period)
-    print(current_parts)
 
     return render_template(
         "2_salesPrediction.html", period=period, inventory=current_parts,
@@ -205,7 +210,6 @@ def stock_planer():
     for article in lookupArticles.e_list:
         prod_data[article] = 0
 
-    print(stock_data)
     return render_template("3_stockPlaner.html", period=period, stock_data=stock_data, prod_data=prod_data)
 
 
@@ -229,8 +233,6 @@ def upload_plan():
     handler.write_input_to_db(result_data, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der E-Teile wurden in die Datenbank geschrieben")
 
-    print(handler.sales_forecast)
-
     # Produktionsdaten berechnen
     prod_data = handler.get_production()
     return render_template("3_stockPlaner.html", period=period, calculated=True, stock_data=stock_data, prod_data=prod_data)
@@ -242,6 +244,8 @@ def production_sequence():
     sequence = ["E16", "E7", "E8", "E9", "E13", "E14", "E15", "E18", "E19", "E20", "E4", "E5", "E6", "E10",
                 "E11", "E12", "E29", "E49", "E54", "E17", "E30", "E50", "E55", "E26", "E31", "E51", "E56", "P1", "P3", "P2"]
     production = handler.production
+
+    handler.get_capacity()
 
     return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error=False)
 
@@ -317,14 +321,14 @@ def procurement_planer():
 def upload_orders():
     orders = []
     for article in lookupArticles.k_list:
-        orders.append(( # tuple
+        orders.append((  # tuple
             article,
             request.form.get(f"normal_{article}"),
             request.form.get(f"express_{article}")
         ))
 
     handler.xml_bestellungen = orders
-    
+
     return render_template("index.html")
     # return render_template("6_capacity.html")
 

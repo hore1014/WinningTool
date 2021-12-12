@@ -75,33 +75,33 @@ def calculate_shifts(capacity):
                "Station_8": (0, 0), "Station_9": (0, 0), "Station_10": (0, 0), "Station_11": (0, 0), "Station_12": (0, 0), "Station_13": (0, 0), "Station_14": (0, 0), "Station_15": (0, 0), }
 
     for station in capacity:
-        match capacity[station]:
-            # first shift has max 2400 minutes
-            case minutes if minutes > 0 and minutes < 2401:
-                results[station] = (1, 0)
+        minutes = capacity[station]
+        # first shift has max 2400 minutes
+        if (minutes > 0 and minutes < 2401):
+            results[station] = (1, 0)
 
-            # max 1200 minutes overtime per shift
-            case minutes if minutes > 2400 and minutes < 3601:
-                results[station] = (1, minutes - 2400)
+        # max 1200 minutes overtime per shift
+        elif (minutes > 2400 and minutes < 3601):
+            results[station] = (1, minutes - 2400)
 
-            # second shift adds max 2400 minutes
-            case minutes if minutes > 3600 and minutes < 4801:
-                results[station] = (2, 0)
+        # second shift adds max 2400 minutes
+        elif (minutes > 3600 and minutes < 4801):
+            results[station] = (2, 0)
 
-            # max 1200 minutes overtime per shift
-            case minutes if minutes > 4800 and minutes < 6001:
-                results[station] = (2, minutes - 4800)
+        # max 1200 minutes overtime per shift
+        elif (minutes > 4800 and minutes < 6001):
+            results[station] = (2, minutes - 4800)
 
-            # third shift adds another max 2400 minutes
-            case minutes if minutes > 6000 and minutes < 7201:
-                results[station] = (3, 0)
+        # third shift adds another max 2400 minutes
+        elif (minutes > 6000 and minutes < 7201):
+            results[station] = (3, 0)
 
-            # 7200 minutes is maximum capacity
-            case minutes if minutes > 7200:
-                results[station] = (9, 9)
+        # 7200 minutes is maximum capacity
+        elif (minutes > 7200):
+            results[station] = (9, 9)
 
-            # no production at this station
-            case _:
-                results[station] = (0, 0)
+        # no production at this station
+        else:
+            results[station] = (0, 0)
 
     return results
