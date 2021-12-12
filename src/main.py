@@ -309,13 +309,16 @@ def procurement_planer():
 
 @app.route("/5_orders_purchase.html", methods=["POST"])
 def upload_orders():
-    orders = {}
+    orders = []
     for article in lookupArticles.k_list:
-        orders[article] = (request.form.get(f"normal_{article}"), request.form.get(
-            f"express_{article}"))
+        orders.append(( # tuple
+            article,
+            request.form.get(f"normal_{article}"),
+            request.form.get(f"express_{article}")
+        ))
 
-    print(orders)
-
+    handler.xml_bestellungen = orders
+    
     return render_template("index.html")
     # return render_template("6_capacity.html")
 
