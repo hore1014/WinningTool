@@ -354,7 +354,7 @@ def get_parts_in_queue(period: int):
     which is one dictionary with all values of given period
     """
     res_dict = {}
-    # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated
+    # Parts might be in queue at different stations - so we need to provide the maximum value
     result = get_agg_max_from_db(period, "Warteschlangen")
 
     for row in result:
@@ -372,7 +372,7 @@ def get_missing_parts(period: int):
     which is one dictionary with all values of given period
     """
     res_dict = {}
-    # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated 
+    # Parts might be missing at different stations - so we need to provide the maximum value
     result = get_agg_max_from_db(period, "Fehlmaterial")
 
     for row in result:
