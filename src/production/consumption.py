@@ -16,11 +16,10 @@ def calculate_consumption(demand, sales):
             consumption += demand[key]["sum"] * \
                 pd.production_demand[article][key]
 
-        match article:
-            case ("P1" | "P2" | "P3"):
-                results[article] = consumption + sales[article][0]
-            case _:
-                results[article] = consumption
+        if article in ["P1", "P2", "P3"]:
+            results[article] = consumption + sales[article][0]
+        else:
+            results[article] = consumption
 
     return results
 
@@ -35,10 +34,9 @@ def calculate_consumption_forecast(demand):
             consumption += demand[key]["sum"] * \
                 pd.production_demand[article][key]
 
-        match article:
-            case ("P1" | "P2" | "P3"):
-                results[article] = demand[article]["sum"]
-            case _:
-                results[article] = consumption
+        if article in ["P1", "P2", "P3"]:
+            results[article] = demand[article]["sum"]
+        else:
+            results[article] = consumption
 
     return results

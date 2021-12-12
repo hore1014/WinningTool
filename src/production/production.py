@@ -26,30 +26,29 @@ def calculate_production(sales, current, planned, processing, missing, queued, t
                 pd.production_demand[article][key]
 
         # add and substract all the factors to determine the amount that needs to be produced
-        match article:
-            case ("P1" | "P2" | "P3"):
-                results[article]["sum"] = \
-                    sales[article][0] + \
-                    production + \
-                    planned[article][0] - \
-                    current[article][0] - \
-                    processing_article - \
-                    queued_article - \
-                    missing_article - \
-                    purchase_article + \
-                    sell_article
-                # print(f"{sales[article][0]} + {production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
-            case _:
-                results[article]["sum"] = \
-                    production + \
-                    planned[article][0] - \
-                    current[article][0] - \
-                    processing_article - \
-                    queued_article - \
-                    missing_article - \
-                    purchase_article + \
-                    sell_article
-                # print(f"{production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
+        if article in ["P1", "P2", "P3"]:
+            results[article]["sum"] = \
+                sales[article][0] + \
+                production + \
+                planned[article][0] - \
+                current[article][0] - \
+                processing_article - \
+                queued_article - \
+                missing_article - \
+                purchase_article + \
+                sell_article
+            # print(f"{sales[article][0]} + {production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
+        else:
+            results[article]["sum"] = \
+                production + \
+                planned[article][0] - \
+                current[article][0] - \
+                processing_article - \
+                queued_article - \
+                missing_article - \
+                purchase_article + \
+                sell_article
+            # print(f"{production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
 
     return results
 
@@ -66,12 +65,11 @@ def calculate_production_forecast(sales, planned, period):
                 pd.production_demand[article][key]
 
         # add and substract all the factors to determine the amount that needs to be produced
-        match article:
-            case ("P1" | "P2" | "P3"):
-                results[article]["sum"] = sales[article][period] + \
-                    production + planned[article][period] - \
-                    planned[article][period-1]
-            case _:
-                results[article]["sum"] = production
+        if article in ["P1", "P2", "P3"]:
+            results[article]["sum"] = sales[article][period] + \
+                production + planned[article][period] - \
+                planned[article][period-1]
+        else:
+            results[article]["sum"] = production
 
     return results
