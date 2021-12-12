@@ -1,8 +1,8 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from werkzeug.utils import secure_filename
-import handler
-from database import lookupArticles
+import src.handler as handler
+from src.database import lookupArticles
 
 app = Flask(__name__)
 port = 5000  # default

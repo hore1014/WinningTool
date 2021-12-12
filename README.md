@@ -9,7 +9,7 @@ Zum Einsehen der Datenbank in VSCode kann die [SQLite](https://marketplace.visua
 
 ## Installieren der Requirements
 ```sh
-pip install -r dev-requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Hosting der Webseite mit Heroku 
