@@ -26,5 +26,8 @@ Dies ist die Dokumentation des Hostings der Webseite mit Heroku. Es ist daher ni
 6. Deploye neue Änderungen mit `git push heroku main` (nachdem sie commited wurden). Das remote Github-Repo bleibt dabei unberührt.
 7. Das Programm kann nun unter https://scp-winningtool.herokuapp.com/ aufgerufen werden.
 
+## Hosting der Webseite mit Azure
+Das Programm kann unter https://winningtool.azurewebsites.net/ aufgerufen werden.
+
 ## Programm lokal starten
 Führe dazu `run.py` aus und öffne den angezeigten Link (http://127.0.0.1:5000/)

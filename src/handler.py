@@ -1,3 +1,4 @@
+import os
 from typing import Any
 import json
 from functools import reduce
@@ -55,6 +56,12 @@ def get_current_period():
 
 def get_period_by_file(file: str):
     return ixml.get_period_by_file(file)
+
+def delete_all_xml(path: str):
+    files_list = os.listdir(path)
+    for file in files_list:
+        if file.endswith('.xml'):
+            os.remove(path+file)
 
 
 # Initialize (create and populate) database from XML input data
