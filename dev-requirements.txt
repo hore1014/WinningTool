@@ -2,3 +2,4 @@ pytest
 sqlalchemy
 pandas
 flask
+gunicorn

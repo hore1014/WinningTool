@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from werkzeug.utils import secure_filename
-import main
+import handler
 from database import lookupArticles
 
 app = Flask(__name__)
@@ -50,7 +50,7 @@ def upload_file():
     uploaded_file.save(full_filename)
 
     # Periode des Files bestimmen
-    file_period = main.get_period_by_file(full_filename)
+    file_period = handler.get_period_by_file(full_filename)
     if file_period < 0:
         # File wieder löschen
         os.remove(full_filename)
@@ -68,9 +68,9 @@ def upload_file():
     os.rename(src=full_filename, dst=new_filename)
 
     # Einlesen der XML files
-    main.parse_all_xml(app.config["UPLOAD_PATH"])
+    handler.parse_all_xml(app.config["UPLOAD_PATH"])
     global period
-    period = main.get_current_period()
+    period = handler.get_current_period()
 
     if dataOverwritten:
         return render_template("1_lastPeriod.html", error=False, message=True, overwrite=True, period=file_period)
@@ -80,9 +80,9 @@ def upload_file():
 @app.route("/2_salesPrediction.html")
 def salesPrediction():
     # init database
-    main.init_db()
+    handler.init_db()
     # Get default values
-    sales = main.get_sales_forecast(period)
+    sales = handler.get_sales_forecast(period)
 
     return render_template(
         "2_salesPrediction.html", period=period,
@@ -161,15 +161,15 @@ def upload_prediction():
         },
     ]
     # Daten in die DB schreiben
-    main.write_input_to_db(salesData, "Absatzprognose")
+    handler.write_input_to_db(salesData, "Absatzprognose")
     print("Daten für Absatzprognose wurden in die Datenbank geschrieben")
 
-    main.write_input_to_db(stockData, "Strategie_Lagerbestand")
+    handler.write_input_to_db(stockData, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der P-Teile wurden in die Datenbank geschrieben")
 
     # Daten für exportXml speichern
     for el in salesData:
-        main.xml_absatz.append(
+        handler.xml_absatz.append(
             (el['Artikel'], el['Aktuell_0'])
         )
 
@@ -180,7 +180,7 @@ def upload_prediction():
 def stock_planer():
     # TODO: hier vielleicht noch eine Funktion, die die Angaben aus der letzten Periode als Startwerte setzt
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
-    current_parts = main.get_parts_inventory(period)
+    current_parts = handler.get_parts_inventory(period)
     for article in lookupArticles.e_list:
         stock_data[article] = current_parts[article][0]
 
@@ -209,11 +209,11 @@ def upload_plan():
         })
 
     # Daten in die DB schreiben
-    main.write_input_to_db(result_data, "Strategie_Lagerbestand")
+    handler.write_input_to_db(result_data, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der E-Teile wurden in die Datenbank geschrieben")
 
     # Produktionsdaten berechnen
-    prod_data = main.get_production()
+    prod_data = handler.get_production()
 
     return render_template("3_stockPlaner.html", period=period, calculated=True, stock_data=stock_data, prod_data=prod_data)
 
@@ -223,14 +223,14 @@ def production_sequence():
     global sequence
     sequence = ["E16", "E7", "E8", "E9", "E13", "E14", "E15", "E18", "E19", "E20", "E4", "E5", "E6", "E10",
                 "E11", "E12", "E29", "E49", "E54", "E17", "E30", "E50", "E55", "E26", "E31", "E51", "E56", "P1", "P3", "P2"]
-    production = main.production
+    production = handler.production
 
     return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error=False)
 
 
 @app.route("/4_productionSequence.html", methods=["POST"])
 def upload_Sequence():
-    production = main.production
+    production = handler.production
     data = request.form.to_dict(flat=False)
 
     # check if aount of production orders is greater than 60
@@ -268,14 +268,11 @@ def upload_Sequence():
             results_list.append((article_temp, int(item)))
 
     # save data to exportXml
-    main.xml_produktion = results_list
+    handler.xml_produktion = results_list
 
     # TODO: Das muss ganz am Ende passieren!
-    main.write_to_xml()
+    handler.write_to_xml()
 
     return render_template("index.html", period=period)
 
 
-if __name__ == "__main__":
-    # "debug=True" refreshes app every time a change is made, but Debugging is only possible for "debug=False"
-    app.run(debug=True, port=port)
