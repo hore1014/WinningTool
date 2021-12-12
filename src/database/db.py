@@ -240,16 +240,37 @@ def get_all_from_db(period: int, table: str, period_column_name = "Periode"):
     return result
 
 # Helper function for specific get-methods
-def get_agg_from_db(period: int, table: str):
+def get_agg_sum_from_db(period: int, table: str):
     """
     Helper function for get methods.
     Similar as `get_all_from_db` but aggregates/groups result by `Artikel`
+    (with `SUM()` aggregation function)
     """
     # Create and Connect to SQLite database
     conn = sqlite3.connect(db_dir)
 
     # SQL Query statement
     query = f"SELECT Artikel, SUM(Menge) from {table} WHERE Periode = :p GROUP BY Artikel"
+
+    # Execute SQL command
+    result = conn.execute(str(query), (str(period), )).fetchall() #period needs to be a tuple with one int (as str), in order to prevent incorrect number of bindins error in sqlite3, i.e.: (str(period), )
+
+    # Close connection to database
+    conn.close()
+
+    return result
+
+def get_agg_max_from_db(period: int, table: str):
+    """
+    Helper function for get methods.
+    Similar as `get_all_from_db` but aggregates/groups result by `Artikel` 
+    (with `MAX()` aggregation function)
+    """
+    # Create and Connect to SQLite database
+    conn = sqlite3.connect(db_dir)
+
+    # SQL Query statement
+    query = f"SELECT Artikel, MAX(Menge) from {table} WHERE Periode = :p GROUP BY Artikel"
 
     # Execute SQL command
     result = conn.execute(str(query), (str(period), )).fetchall() #period needs to be a tuple with one int (as str), in order to prevent incorrect number of bindins error in sqlite3, i.e.: (str(period), )
@@ -316,7 +337,7 @@ def get_parts_processing(period: int):
     """
     res_dict = {}
     # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated
-    result = get_agg_from_db(period, "In_Bearbeitung")
+    result = get_agg_sum_from_db(period, "In_Bearbeitung")
 
     for row in result:
         # (Artikel, Menge)
@@ -334,7 +355,7 @@ def get_parts_in_queue(period: int):
     """
     res_dict = {}
     # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated
-    result = get_agg_from_db(period, "Warteschlangen")
+    result = get_agg_max_from_db(period, "Warteschlangen")
 
     for row in result:
         # (Artikel, Menge)
@@ -352,7 +373,7 @@ def get_missing_parts(period: int):
     """
     res_dict = {}
     # Parts might be proecessed simultaneously at different stations - so it needs to be aggregated 
-    result = get_agg_from_db(period, "Fehlmaterial")
+    result = get_agg_max_from_db(period, "Fehlmaterial")
 
     for row in result:
         # (Artikel, Menge)

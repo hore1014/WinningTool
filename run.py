@@ -1,4 +1,3 @@
-from os import truncate
 from src.main import app, port
  
 if __name__ == "__main__":
