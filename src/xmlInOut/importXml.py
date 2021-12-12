@@ -128,8 +128,7 @@ def create_lagerbestand(root_arr):
             lagerbestand_arr.append({
                 'Periode': int(root.get('period')), 
                 'Artikel': article.get('id'), 
-                'Anfangsbestand': article.get('startamount'), 
-                'Endbestand': article.get('amount'), 
+                'Anfangsbestand': article.get('amount'), 
                 'Wert': article.get('price')
                 })
     

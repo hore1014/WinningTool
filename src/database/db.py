@@ -65,7 +65,6 @@ db_lagerbestand = Table(
     Column('Periode', Integer, primary_key = True),
     Column('Artikel', String, primary_key = True),
     Column('Anfangsbestand', Integer),
-    Column('Endbestand', Integer),
     Column('Wert', Float)
 )
 
@@ -301,11 +300,11 @@ def get_parts_inventory(period: int):
     result = get_all_from_db(period, "Lagerbestand")
 
     for row in result:
-        # (Periode, Artikel, Anfangsbestand, Endbestand, Wert)
+        # (Periode, Artikel, Anfangsbestand, Wert)
         # Convert number to official notation
         art = lookup.p_e_k_list[int(row[1]) - 1]
         # Add values to dictionary
-        res_dict[art] = (row[2], row[4])
+        res_dict[art] = (row[2], row[3])
         
     print(res_dict)
     return res_dict

@@ -49,7 +49,6 @@ CREATE TABLE IF NOT EXISTS Lagerbestand(
    Periode INT,
    Artikel CHAR(10),
    Anfangsbestand INT,
-   Endbestand INT,
    Wert REAL,
    PRIMARY KEY (Periode, Artikel)
 );
