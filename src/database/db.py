@@ -165,11 +165,11 @@ def init_db(root_arr: list):
 
     # Read SQL files
     #TODO Das soll nur explizit vom User ausgeführt werden!
-    file = open("src\database\drop_tables.sql", "r")
+    file = open("src/database/drop_tables.sql", "r")
     drop_cmd = file.read()
     file.close()
 
-    file = open("src\database\create_tables.sql", "r")
+    file = open("src/database/create_tables.sql", "r")
     create_cmd = file.read()
     file.close()
 
