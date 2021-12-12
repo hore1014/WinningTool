@@ -31,12 +31,12 @@ def calculate_consumption_forecast(demand):
         consumption = 0
         # for every part look up the parts that need this specific part and the amount of it to get assembled
         for key in pd.production_demand[article]:
-            consumption += demand[key] * \
+            consumption += demand[key]["sum"] * \
                 pd.production_demand[article][key]
 
         match article:
             case ("P1" | "P2" | "P3"):
-                results[article] = demand[article]
+                results[article] = demand[article]["sum"]
             case _:
                 results[article] = consumption
 

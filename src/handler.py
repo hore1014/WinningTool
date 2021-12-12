@@ -1,7 +1,8 @@
 from typing import Any
 import json
 from functools import reduce
-from .database import db_mock as mock, db, lookupArticles # lookuparticles is accessed in main.py
+# lookuparticles is accessed in main.py
+from .database import db_mock as mock, db, lookupArticles
 from .production import production as prod, consumption as cons
 from .capacity import capacity as cap
 from .procurement import procurement as proc
@@ -27,7 +28,10 @@ parts_ordered = {}
 
 # global variables for results
 production = {}
-consumption = {}
+consumption1 = {}
+consumption2 = {}
+consumption3 = {}
+consumption4 = {}
 orders = {}
 capacity = {}
 shifts = {}
@@ -164,7 +168,7 @@ def get_production():
 
 def get_consumption():
     """
-    Kalkuliert den Verbrauch
+    Kalkuliert den Verbrauch der aktuellen Periode
     """
     global consumption
     consumption = cons.calculate_consumption(production, sales_forecast)
@@ -175,7 +179,7 @@ def get_consumption():
 
 def get_capacity():
     """
-    Kalkuliert ?
+    Kalkuliert die notwendigen Arbeitsminuten pro Station
     """
     # TODO: calculate tooling factors for each period from average of pervious periods
     tooling_factors = {"Station_1": 1.25, "Station_2": 1.25, "Station_3": 1, "Station_4": 1.25, "Station_5": 0, "Station_6": 1, "Station_7": 2,
@@ -196,7 +200,7 @@ def get_capacity():
 
 def get_shifts():
     """
-    Kalkuliert ?
+    Kalkuliert die notwendigen Schichten und die Mehrarbeit in Minuten pro Tag
     """
     global shifts
     shifts = cap.calculate_shifts(capacity)
@@ -213,14 +217,15 @@ def calc_prod_forecast(period):
     return prod.calculate_production_forecast(sales_forecast, planned_parts, period)
 
 
-def get_orders():
+def get_consumption_forecast():
     """
-    Liefert die Bestellplanung
+    Liefert die Verbrauchsprognosen
     """
-    global parts_ordered
 
-    parts_ordered = db.get_orders_in_transit(
-        current_period-1) if current_period > 1 else {}
+    global consumption1
+    global consumption2
+    global consumption3
+    global consumption4
 
     production2 = calc_prod_forecast(1)
     production3 = calc_prod_forecast(2)
@@ -230,6 +235,18 @@ def get_orders():
     consumption2 = cons.calculate_consumption_forecast(production2)
     consumption3 = cons.calculate_consumption_forecast(production3)
     consumption4 = cons.calculate_consumption_forecast(production4)
+
+    return [consumption1, consumption2, consumption3, consumption4]
+
+
+def get_orders():
+    """
+    Liefert die Bestellplanung
+    """
+    global parts_ordered
+
+    parts_ordered = db.get_orders_in_transit(
+        current_period-1) if current_period > 1 else {}
 
     global orders
     orders = proc.calculate_procurement(
@@ -273,15 +290,17 @@ xml_bestellungen = []
 xml_produktion = []
 xml_stationen = []
 
+
 def write_to_xml():
-    global xml_absatz 
+    global xml_absatz
     global xml_absatz_direkt
     global xml_bestellungen
     global xml_produktion
     global xml_stationen
 
-    data = exml.export_xml(xml_absatz, xml_absatz_direkt, xml_bestellungen, xml_produktion, xml_stationen)
-    
+    data = exml.export_xml(xml_absatz, xml_absatz_direkt,
+                           xml_bestellungen, xml_produktion, xml_stationen)
+
     with open(f'input_period{current_period}.xml', 'w') as file:
         file.write(data)
 
