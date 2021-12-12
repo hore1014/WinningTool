@@ -28,6 +28,12 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/", methods=["POST"])
+def reset():
+
+    return render_template("index.html")
+
+
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
     return render_template("1_lastPeriod.html", error=False, message=False)
