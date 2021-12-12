@@ -35,6 +35,8 @@ def lastPeriod():
 
 @app.route("/1_lastPeriod.html", methods=["POST"])
 def upload_file():
+    dataOverwritten = False  # default
+
     if "file" not in request.files:
         abort(400)
     uploaded_file = request.files["file"]
@@ -50,6 +52,10 @@ def upload_file():
         abort(415)
 
     # File im filesystem speichern
+    # Wenn im data storage bereits ein file mit gleichem Namen wie das upload_file existiert
+    # soll gekennzeichnet werden, dass es überschrieben wurde
+    if os.path.exists(full_filename): 
+        dataOverwritten = True
     uploaded_file.save(full_filename)
 
     # Periode des Files bestimmen
@@ -62,11 +68,11 @@ def upload_file():
     # Dateiname umbenennen für einheitliche Struktur, falls Name bereits existiert ggf. überschreiben
     new_filename = app.config["UPLOAD_PATH"] + \
         f'ergebnis_periode{file_period}.xml'
-    dataOverwritten = False  # default
+    
     if os.path.exists(new_filename):
         if full_filename != new_filename:
             os.remove(new_filename)
-        dataOverwritten = True
+            dataOverwritten = True
     os.rename(src=full_filename, dst=new_filename)
 
     # Einlesen der XML files
