@@ -17,18 +17,14 @@ def parse_all_xml(path = 'src/data/'):
     root_arr = []
     #path = 'src//data//'
     files_list = os.listdir(path)
-    for i, file in enumerate(files_list):
-        if not file.endswith('.xml'):
-            files_list.remove(file)
-            continue
-        file = path + file
-        files_list[i] = file 
-        # XML file parsen
-        tree = ET.parse(file)
-        # Speichern des root Elements von jedem XML tree
-        root = tree.getroot()
-        # Sammeln in einer Liste
-        root_arr.append(root)
+    for file in files_list:
+        if file.endswith('.xml'):
+            # XML file parsen
+            tree = ET.parse(path + file)
+            # Speichern des root Elements von jedem XML tree
+            root = tree.getroot()
+            # Sammeln in einer Liste
+            root_arr.append(root)
 
     return root_arr
 
