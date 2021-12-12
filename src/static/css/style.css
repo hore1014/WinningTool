@@ -54,6 +54,11 @@ label {
   text-align: center;
 }
 
+.invalid {
+  color: #eb6157;
+  text-align: center;
+}
+
 .success {
   color: rgb(103, 155, 103);
   text-align: center;
