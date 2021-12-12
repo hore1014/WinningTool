@@ -1,8 +1,8 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from werkzeug.utils import secure_filename
-import handler
-from database import lookupArticles
+from . import handler
+#from database import lookupArticles
 
 app = Flask(__name__)
 port = 5000  # default
@@ -181,11 +181,11 @@ def stock_planer():
     # TODO: hier vielleicht noch eine Funktion, die die Angaben aus der letzten Periode als Startwerte setzt
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     current_parts = handler.get_parts_inventory(period)
-    for article in lookupArticles.e_list:
+    for article in handler.lookupArticles.e_list:
         stock_data[article] = current_parts[article][0]
 
     prod_data = {"P1": 0, "P2": 0, "P3": 0}
-    for article in lookupArticles.e_list:
+    for article in handler.lookupArticles.e_list:
         prod_data[article] = 0
 
     print(stock_data)
@@ -197,7 +197,7 @@ def upload_plan():
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     result_data = []
     # User Eingaben für Planlagerbestand einlesen
-    for article in lookupArticles.e_list:
+    for article in handler.lookupArticles.e_list:
         stock_data[article] = request.form.get(f'stock_{article}')
         result_data.append({
             'Periode': period,

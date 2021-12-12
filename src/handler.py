@@ -1,13 +1,12 @@
 from typing import Any
-from database import db_mock as mock, db
-from production import production as prod
-from production import consumption as cons
-from capacity import capacity as cap
-from procurement import procurement as proc
-from financial import inventory as inv
 import json
 from functools import reduce
-from xmlInOut import importXml as ixml, exportXml as exml
+from .database import db_mock as mock, db, lookupArticles # lookuparticles is accessed in main.py
+from .production import production as prod, consumption as cons
+from .capacity import capacity as cap
+from .procurement import procurement as proc
+from .financial import inventory as inv
+from .xmlInOut import importXml as ixml, exportXml as exml
 
 
 # TODO Löschen von XML files aus dem Ordner per Button

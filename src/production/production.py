@@ -1,4 +1,4 @@
-from production import lookupProdDemand as pd
+from . import lookupProdDemand as pd
 
 # defining the sequence for the calculation from top to bottom, most complex products first
 calculation_sequence = ["P1", "P2", "P3", "E26", "E31", "E51", "E56", "E16", "E17", "E30", "E50", "E55", "E4",

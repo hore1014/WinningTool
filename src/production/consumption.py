@@ -1,4 +1,4 @@
-from production import lookupProdDemand as pd
+from . import lookupProdDemand as pd
 
 basic_results = {"P1": 0, "P2": 0, "P3": 0, "E4": 0, "E5": 0, "E6": 0, "E7": 0, "E8": 0, "E9": 0, "E10": 0, "E11": 0, "E12": 0, "E13": 0, "E14": 0, "E15": 0,
                  "E16": 0, "E17": 0, "E18": 0, "E19": 0, "E20": 0, "K21": 0, "K22": 0, "K23": 0, "K24": 0, "K25": 0, "E26": 0, "K27": 0, "K28": 0, "E29": 0, "E30": 0,

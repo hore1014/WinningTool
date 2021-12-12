@@ -1,4 +1,4 @@
-from capacity import lookupCapacityDemand as cd
+from . import lookupCapacityDemand as cd
 from math import ceil
 
 

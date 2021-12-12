@@ -1,4 +1,4 @@
-from procurement import lookupProcurement as pc
+from . import lookupProcurement as pc
 from math import floor, ceil
 
 
