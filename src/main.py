@@ -2,6 +2,8 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from werkzeug.utils import secure_filename
 from . import handler
+from .handler import lookupArticles
+from .procurement import lookupProcurement
 #from database import lookupArticles
 
 app = Flask(__name__)
@@ -12,6 +14,7 @@ stock_P1 = 0
 stock_P2 = 0
 stock_P3 = 0
 sequence = []
+k_list = lookupArticles.k_list
 
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
@@ -56,10 +59,9 @@ def upload_file():
         os.remove(full_filename)
         return render_template("1_lastPeriod.html", invalid=True, message=False)
 
-
     # Dateiname umbenennen für einheitliche Struktur, falls Name bereits existiert ggf. überschreiben
     new_filename = app.config["UPLOAD_PATH"] + \
-    f'ergebnis_periode{file_period}.xml'
+        f'ergebnis_periode{file_period}.xml'
     dataOverwritten = False  # default
     if os.path.exists(new_filename):
         if full_filename != new_filename:
@@ -83,17 +85,27 @@ def salesPrediction():
     handler.init_db()
     # Get default values
     sales = handler.get_sales_forecast(period)
+    # get inventory
+    current_parts = handler.get_parts_inventory(period)
+    print(current_parts)
 
     return render_template(
-        "2_salesPrediction.html", period=period,
+        "2_salesPrediction.html", period=period, inventory=current_parts,
 
         sales_P1_0=sales["P1"][0], sales_P1_1=sales["P1"][1], sales_P1_2=sales["P1"][2], sales_P1_3=sales["P1"][3],
         sales_P2_0=sales["P2"][0], sales_P2_1=sales["P2"][1], sales_P2_2=sales["P2"][2], sales_P2_3=sales["P2"][3],
         sales_P3_0=sales["P3"][0], sales_P3_1=sales["P3"][1], sales_P3_2=sales["P3"][2], sales_P3_3=sales["P3"][3],
 
-        stock_P1_0=100, stock_P1_1=100, stock_P1_2=100, stock_P1_3=100,
-        stock_P2_0=100, stock_P2_1=100, stock_P2_2=100, stock_P2_3=100,
-        stock_P3_0=100, stock_P3_1=100, stock_P3_2=100, stock_P3_3=100
+        # default
+        # stock_P1_0=100, stock_P1_1=100, stock_P1_2=100, stock_P1_3=100,
+        # stock_P2_0=100, stock_P2_1=100, stock_P2_2=100, stock_P2_3=100,
+        # stock_P3_0=100, stock_P3_1=100, stock_P3_2=100, stock_P3_3=100
+
+        # test
+        stock_P1_0=100, stock_P1_1=50, stock_P1_2=50, stock_P1_3=100,
+        stock_P2_0=50, stock_P2_1=50, stock_P2_2=50, stock_P2_3=50,
+        stock_P3_0=50, stock_P3_1=50, stock_P3_2=50, stock_P3_3=50
+
     )
     # TODO: zwei dicts statt der vielen Einzelwerte übergeben
 
@@ -111,7 +123,7 @@ def upload_prediction():
         {
             'Periode': period,
             'Artikel': 'P1',
-            'Aktuell_0': stock_P1,
+            'Aktuell_0': request.form.get('sales_P1_0'),
             'Aktuell_1': request.form.get('sales_P1_1'),
             'Aktuell_2': request.form.get('sales_P1_2'),
             'Aktuell_3': request.form.get('sales_P1_3'),
@@ -119,7 +131,7 @@ def upload_prediction():
         {
             'Periode': period,
             'Artikel': 'P2',
-            'Aktuell_0': stock_P2,
+            'Aktuell_0': request.form.get('sales_P2_0'),
             'Aktuell_1': request.form.get('sales_P2_1'),
             'Aktuell_2': request.form.get('sales_P2_2'),
             'Aktuell_3': request.form.get('sales_P2_3'),
@@ -127,7 +139,7 @@ def upload_prediction():
         {
             'Periode': period,
             'Artikel': 'P3',
-            'Aktuell_0': stock_P3,
+            'Aktuell_0': request.form.get('sales_P3_0'),
             'Aktuell_1': request.form.get('sales_P3_1'),
             'Aktuell_2': request.form.get('sales_P3_2'),
             'Aktuell_3': request.form.get('sales_P3_3'),
@@ -138,7 +150,7 @@ def upload_prediction():
         {
             'Periode': period,
             'Artikel': 'P1',
-            'Aktuell_0': request.form.get('stock_P1_0'),
+            'Aktuell_0': stock_P1,
             'Aktuell_1': request.form.get('stock_P1_1'),
             'Aktuell_2': request.form.get('stock_P1_2'),
             'Aktuell_3': request.form.get('stock_P1_3'),
@@ -146,7 +158,7 @@ def upload_prediction():
         {
             'Periode': period,
             'Artikel': 'P2',
-            'Aktuell_0': request.form.get('stock_P2_0'),
+            'Aktuell_0': stock_P2,
             'Aktuell_1': request.form.get('stock_P2_1'),
             'Aktuell_2': request.form.get('stock_P2_2'),
             'Aktuell_3': request.form.get('stock_P2_3'),
@@ -154,7 +166,7 @@ def upload_prediction():
         {
             'Periode': period,
             'Artikel': 'P3',
-            'Aktuell_0': request.form.get('stock_P3_0'),
+            'Aktuell_0': stock_P3,
             'Aktuell_1': request.form.get('stock_P3_1'),
             'Aktuell_2': request.form.get('stock_P3_2'),
             'Aktuell_3': request.form.get('stock_P3_3'),
@@ -178,14 +190,13 @@ def upload_prediction():
 
 @app.route("/3_stockPlaner.html")
 def stock_planer():
-    # TODO: hier vielleicht noch eine Funktion, die die Angaben aus der letzten Periode als Startwerte setzt
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     current_parts = handler.get_parts_inventory(period)
-    for article in handler.lookupArticles.e_list:
+    for article in lookupArticles.e_list:
         stock_data[article] = current_parts[article][0]
 
     prod_data = {"P1": 0, "P2": 0, "P3": 0}
-    for article in handler.lookupArticles.e_list:
+    for article in lookupArticles.e_list:
         prod_data[article] = 0
 
     print(stock_data)
@@ -197,7 +208,7 @@ def upload_plan():
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     result_data = []
     # User Eingaben für Planlagerbestand einlesen
-    for article in handler.lookupArticles.e_list:
+    for article in lookupArticles.e_list:
         stock_data[article] = request.form.get(f'stock_{article}')
         result_data.append({
             'Periode': period,
@@ -212,9 +223,10 @@ def upload_plan():
     handler.write_input_to_db(result_data, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der E-Teile wurden in die Datenbank geschrieben")
 
+    print(handler.sales_forecast)
+
     # Produktionsdaten berechnen
     prod_data = handler.get_production()
-
     return render_template("3_stockPlaner.html", period=period, calculated=True, stock_data=stock_data, prod_data=prod_data)
 
 
@@ -270,9 +282,64 @@ def upload_Sequence():
     # save data to exportXml
     handler.xml_produktion = results_list
 
-    # TODO: Das muss ganz am Ende passieren!
+    return redirect(url_for('procurement_planer'))
+
+
+@app.route("/5_orders_purchase.html")
+def procurement_planer():
+    current_parts = handler.get_parts_inventory(period)
+    # calculate forecasts and suggestion for orders
+    forecasts = handler.get_consumption_forecast()
+    orders = handler.get_orders()
+
+    # TODO: ggf. im template die Schriftfarbe ändern, um Probleme hervorzuheben
+    # TODO: Warnungen implementieren
+
+    return render_template(
+        "5_orders_purchase.html",
+        period=period,
+        articles=lookupArticles.k_list,
+        len=len(lookupArticles.k_list),
+        discounts=lookupProcurement.discount_amount,
+        delivery=lookupProcurement.delivery_days,
+        inventory=current_parts,
+        forecasts=forecasts,
+        orders=orders)
+
+
+@app.route("/5_orders_purchase.html", methods=["POST"])
+def upload_orders():
+    for article in lookupArticles.k_list:
+        orders = (request.form.get(f"normal_{article}"), request.form.get(
+            f"express_{article}"))
+
+    print(orders)
+    # TODO: save final orders
+    return render_template("index.html")
+    # return render_template("6_capacity.html")
+
+
+@app.route("/6_capacity.html")
+def capacity_planer():
+    return render_template("6_capacity.html")
+
+
+@app.route("/6_capacity.html", methods=["POST"])
+def upload_shifts():
+    return render_template("index.html")
+    # return render_template("7_financial.html")
+
+
+@app.route("/7_financial.html")
+def financial_planer():
+    return render_template("7_financial.html")
+
+
+@app.route("/7_financial.html", methods=["POST"])
+def create_results():
+
     handler.write_to_xml()
+    # TODO: XML runterladbar machen
 
-    return render_template("index.html", period=period)
-
-
+    return render_template("index.html")
+    # return render_template("8_finish.html")

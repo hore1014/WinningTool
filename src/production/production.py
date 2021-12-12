@@ -19,8 +19,8 @@ def calculate_production(sales, current, planned, processing, missing, queued, t
         sell_article = trade[article][1] if article in trade else 0
         # for every part look up the parts that need this specific part and the amount of it to get assembled
         for key in pd.production_demand[article]:
-            results[article][key] = results[key]["sum"] * pd.production_demand[article][key] if key not in results[article] else results[article][key] + \
-                results[key]["sum"] * pd.production_demand[article][key]
+            results[article][key] = results[key]["sum"] * pd.production_demand[article][key] if key not in results[article] else (
+                results[article][key] + results[key]["sum"]) * pd.production_demand[article][key]
             # print(f"Steckt in {key}: {results[key]['sum']} * {pd.production_demand[article][key]} = {results[article][key]}")
             production += results[key]["sum"] * \
                 pd.production_demand[article][key]
@@ -38,6 +38,7 @@ def calculate_production(sales, current, planned, processing, missing, queued, t
                     missing_article - \
                     purchase_article + \
                     sell_article
+                # print(f"{sales[article][0]} + {production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
             case _:
                 results[article]["sum"] = \
                     production + \
@@ -48,6 +49,7 @@ def calculate_production(sales, current, planned, processing, missing, queued, t
                     missing_article - \
                     purchase_article + \
                     sell_article
+                # print(f"{production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
 
     return results
 

@@ -231,7 +231,7 @@ def get_consumption_forecast():
     production3 = calc_prod_forecast(2)
     production4 = calc_prod_forecast(3)
 
-    consumption1 = cons.calculate_consumption_forecast(production)
+    consumption1 = get_consumption()
     consumption2 = cons.calculate_consumption_forecast(production2)
     consumption3 = cons.calculate_consumption_forecast(production3)
     consumption4 = cons.calculate_consumption_forecast(production4)

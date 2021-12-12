@@ -314,6 +314,12 @@
         </table>
       </div>
 
+      <div hidden>
+        <input type="number" name="before_P1" value="{{ inventory['P1'][0] }}">
+        <input type="number" name="before_P2" value="{{ inventory['P2'][0] }}">
+        <input type="number" name="before_P3" value="{{ inventory['P3'][0] }}">
+      </div>
+
       <br class="spacing" />
 
       <button
@@ -389,9 +395,8 @@
                 "stock_P" + row + "_" + (column - 1)
               )[0].value;
             } else {
-              salesCellBefore = 0; /* add amount of stock in inventory at the beginning of this period */
+              salesCellBefore = document.getElementsByName("before_P" + row)[0].value;
             }
-
             if (salesCell.length == 0) {
               salesNumber = 0;
             } else {

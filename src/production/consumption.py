@@ -13,7 +13,8 @@ def calculate_consumption(demand, sales):
         consumption = 0
         # for every part look up the parts that need this specific part and the amount of it to get assembled
         for key in pd.production_demand[article]:
-            consumption += demand[key] * pd.production_demand[article][key]
+            consumption += demand[key]["sum"] * \
+                pd.production_demand[article][key]
 
         match article:
             case ("P1" | "P2" | "P3"):
