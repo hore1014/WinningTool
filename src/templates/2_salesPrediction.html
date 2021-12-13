@@ -511,12 +511,12 @@
                       Preis <br />
                       (€ pro Stück)
                     </td>
-                    <td>Bußgeld<br> (€ pro Stück)</td>
+                    <td>Vertragsstrafe<br> (€ pro Stück)</td>
                     {% endif %}
                   </tr>
                 </thead>
                 <tbody id="trade-table-body">
-                  {% for article in range(0, len) %}
+                  {% for article in range(0, 3) %}
                   <tr>
                     <td name="{{ 'article_' + all_parts[article] }}">
                       {{ all_parts[article] }}
@@ -549,6 +549,35 @@
                         value="{{ 0 }}"
                       />
                     </td>
+                  </tr>
+                  {% endfor %}
+                  {% for article in range(3, len) %}
+                  <tr>
+                    <td name="{{ 'article_' + all_parts[article] }}">
+                      {{ all_parts[article] }}
+                    </td>
+                    <td class="editable">
+                      <input
+                        type="number"
+                        name="{{ 'order_amount_' + all_parts[article] }}"
+                        value="{{ 0 }}"
+                      />
+                    </td>
+                    <td class="editable">
+                      <input
+                        type="number"
+                        name="{{ 'sell_amount_' + all_parts[article] }}"
+                        value="{{ 0 }}"
+                      />
+                    </td>
+                    <td class="editable">
+                      <input
+                        type="number"
+                        name="{{ 'price_' + all_parts[article] }}"
+                        value="{{ 0 }}"
+                      />
+                    </td>
+                    <td></td>
                   </tr>
                   {% endfor %}
                 </tbody>
