@@ -125,7 +125,6 @@ input::-webkit-inner-spin-button {
   max-width: 1000px;
   text-align: center;
   max-height: 600px;
-  margin-bottom: 60px;
 }
 
 .centerd-big-elements-container {
@@ -148,8 +147,8 @@ input::-webkit-inner-spin-button {
 
 .big-horizontal-container {
   margin: 0;
-  position: absolute;
-  display: flex;
+  position: relative;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
   max-width: 100%;
@@ -691,12 +690,13 @@ table td em.warning {
   padding: 0px;
   border: none;
   margin-right: 1px;
-  min-height: 100%;
+  margin-left: 10px;
 }
 
 #table-header th {
   padding: 10px 10px;
   border-color: #ccc;
+  font-size: 14px;
 }
 
 #last-header {
@@ -719,13 +719,20 @@ table td em.warning {
 .td-container {
   border: none;
   padding: none;
-  margin-left: 20px;
+  width: fit-content;
 }
 
 .draggable-table td,
 .draggable-table th {
   padding: 10px 10px;
   border-color: #ccc;
+  font-size: 14px;
+}
+
+.draggable-table input {
+  padding: 10px;
+  width: 60px;
+  font-size: 14px;
 }
 
 .draggable {
@@ -733,10 +740,12 @@ table td em.warning {
   user-select: none;
   border-top: none;
 }
+
 .placeholder {
   background-color: #edf2f7;
   border: 2px dashed #cbd5e0;
 }
+
 .clone-list {
   border: none;
   box-shadow: 3px 0px 30px #d3d2d2;
@@ -747,11 +756,13 @@ table td em.warning {
   margin: 0px;
   border-color: #ccc;
 }
+
 .clone-table {
   border-collapse: collapse;
   border: none;
   box-shadow: none;
 }
+
 .clone-table th,
 .clone-table td {
   border: 1px solid #ccc;
@@ -759,11 +770,18 @@ table td em.warning {
   padding: 10px 10px;
   border-left: none;
   border-top: none;
+  font-size: 14px;
 }
 
 .clone-table th {
   background-color: #efefef;
   border-top: none;
+}
+
+.clone-table input {
+  padding: 10px;
+  width: 60px;
+  font-size: 14px;
 }
 
 .dragging {
@@ -1026,7 +1044,7 @@ label[for="file-selector"]:hover {
   width: 50%;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  box-shadow: 3px 0px 30px #d3d2d2;
+  box-shadow: -10px 5px 30px #d3d2d2;
   z-index: 1000;
   overflow-y: scroll;
 }

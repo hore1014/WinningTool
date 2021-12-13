@@ -18,7 +18,7 @@
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
     {% if lang == "en" %}
-    <title>Kapazitätsplanung</title>
+    <title>Capacity planning</title>
     {% else %}
     <title>Kapazitätsplanung</title>
     {% endif %}
@@ -46,7 +46,7 @@
           >
         </li>
         <li class="active">
-          <a>Orders</a>
+          <a href="5_orders_purchase.html">Orders</a>
         </li>
         <li class="active"><a>Capacity</a></li>
       {% else %}
@@ -76,21 +76,21 @@
         {% endif %}
         {% if lang == "en" %}
         <div class="dropdown">
-          <button onclick="dropDown()" class="dropbutton" type="button">Sprache</button>
+          <button onclick="dropDown()" class="dropbutton" type="button">Language</button>
           <div id="dropdown-content" class="dropdown-content">
             <button class="dropdownoption" type="button">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/german.png') }}"
               />
-              Deutsch
+              German
             </button>
             <button class="dropdownoption" type="button">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/english.png') }}"
               />
-              Englisch
+              English
             </button>
           </div>
         </div>
@@ -164,9 +164,15 @@
 
     <form method="post">
       <div class="centerd-big-elements-container">
+        {% if lang == "en" %}
+        <h3 style="text-align: center">
+          Indicate the number of shifts and overtime hours, if any.
+        </h3>
+        {% else %}
         <h3 style="text-align: center">
           Geben Sie die Anzahl an Schichten und ggf. Überstunden an.
         </h3>
+        {% endif %}
         <div
           id="main-container"
           class="big-horizontal-container"
@@ -175,13 +181,20 @@
           <div class="details-button-container">
             <button class="details-button" type="button" onclick="showOtherTable()">
               <span class="material-icons"> article </span>
+              {% if lang == "en" %}
+              <span id="details-button-text">Detailed view</span>
+              {% else %}
               <span id="details-button-text">Detaillierte Ansicht</span>
+              {% endif %}
             </button>
           </div>
           <br />
 
+          <input type="hidden"  id="language" value="{{ lang }}">
           <script>
             function showOtherTable() {
+              var language = document.querySelector('#language').value
+
               var detailedTable = document.getElementById(
                 "detailed-capacity-table"
               );
@@ -191,17 +204,32 @@
               );
               var legende = document.getElementById("legend-container");
 
-              if (detailsButtonText.innerHTML == "Detaillierte Ansicht") {
-                undetailedTable.style.display = "none";
-                legende.style.display = "flex";
-                detailedTable.style.display = "block";
-                detailsButtonText.textContent = "Minimierte Ansicht";
-              } else {
-                detailedTable.style.display = "none";
-                legende.style.display = "none";
-                undetailedTable.style.display = "block";
-                detailsButtonText.textContent = "Detaillierte Ansicht";
-              }
+              if(language == "en"){
+                  if (detailsButtonText.innerHTML == "Detailed view") {
+                      undetailedTable.style.display = "none";
+                      legende.style.display = "flex";
+                      detailedTable.style.display = "block";
+                      detailsButtonText.textContent = "Minimized view";
+                    } else {
+                      detailedTable.style.display = "none";
+                      legende.style.display = "none";
+                      undetailedTable.style.display = "block";
+                      detailsButtonText.textContent = "Detailed view";
+                    }
+                }
+              else {
+                  if (detailsButtonText.innerHTML == "Detaillierte Ansicht") {
+                      undetailedTable.style.display = "none";
+                      legende.style.display = "flex";
+                      detailedTable.style.display = "block";
+                      detailsButtonText.textContent = "Minimierte Ansicht";
+                    } else {
+                      detailedTable.style.display = "none";
+                      legende.style.display = "none";
+                      undetailedTable.style.display = "block";
+                      detailsButtonText.textContent = "Detaillierte Ansicht";
+                  }
+                }
             }
           </script>
 
@@ -226,9 +254,15 @@
             <table id="undetailed-table">
               <thead>
                 <tr>
+                  {% if lang == "en"%}
+                  <th>Workstation</th>
+                  <th>Shift</th>
+                  <th>Overtime <br />(in minutes)</th>
+                  {% else %}
                   <th>Arbeitsstation</th>
                   <th>Schicht</th>
                   <th>Mehrarbeit <br />(in Minuten)</th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody id="undetailed-table-body">
@@ -248,6 +282,15 @@
             <table id="detailed-capacity-table" style="display: none">
               <thead>
                 <tr>
+                  {% if lang == "en" %}
+                  <th
+                    class="sticky-column"
+                    style="background-color: #efefef"
+                    rowspan="2"
+                  >
+                    Item
+                  </th>
+                  {% else %}
                   <th
                     class="sticky-column"
                     style="background-color: #efefef"
@@ -255,6 +298,7 @@
                   >
                     Artikel
                   </th>
+                  {% endif %}
                   <th colspan="2">Station 1</th>
                   <th colspan="2">Station 2</th>
                   <th colspan="2">Station 3</th>
@@ -271,6 +315,36 @@
                   <th colspan="2">Station 15</th>
                 </tr>
                 <tr id="BZ-RZ-header">
+                  {% if lang == "en" %}
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  <th>PT</th>
+                  <th>TT</th>
+                  {% else %}
                   <th>BZ</th>
                   <th>RZ</th>
                   <th>BZ</th>
@@ -299,6 +373,7 @@
                   <th>RZ</th>
                   <th>BZ</th>
                   <th>RZ</th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody id="detailed-table-body">
@@ -317,7 +392,11 @@
                 </tr>
                 {% endfor %}
                 <tr>
-                  <td class="sticky-column" name="tooling_factor">Tooling Faktor</td>
+                  {% if lang == "en" %}
+                  <td class="sticky-column" name="tooling_factor">Tooling factor</td>
+                  {% else %}
+                  <td class="sticky-column" name="tooling_factor">Rüstzeitfaktor</td>
+                  {% endif %}
                   {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
                   <td name="{{ 'station_' + station|string + '_tooling_factor' }}"><em>{{ capacity[stations[station]]['factor'][0] }}</em></td>
                   <td name="{{ 'station_' + station|string + '_tooling_factor_amount' }}">{{ capacity[stations[station]]['factor'][1] }}</td>
@@ -331,19 +410,31 @@
                   {% endfor %}
                 </tr>
                 <tr>
+                  {% if lang == "en" %}
+                  <td class="sticky-column" name="total">Σ Total</td>
+                  {% else %}
                   <td class="sticky-column" name="total">Σ Gesamt</td>
+                  {% endif %}
                   {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
                   <td colspan="2" name="{{ 'station_' + station|string + '_total' }}">{{ capacity[stations[station]]['sum'] }}</td>
                   {% endfor %}
                 </tr>
                 <tr>
+                  {% if lang == "en" %}
+                  <td class="sticky-column" name="shift">Shift</td>
+                  {% else %}
                   <td class="sticky-column" name="shift">Schicht</td>
+                  {% endif %}
                   {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
                   <td colspan="2" name="{{ 'shift_' + stations[station] }}">{{ shifts[stations[station]][0] }}</td>
                   {% endfor %}
                 </tr>
                 <tr>
+                  {% if lang == "en" %}
+                  <td class="sticky-column" name="extra_work">Overtime</td>
+                  {% else %}
                   <td class="sticky-column" name="extra_work">Mehrarbeit</td>
+                  {% endif %}
                   {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
                   <td colspan="2" name="{{ 'station_' + station|string + '_extra' }}">{{ shifts[stations[station]][1] / 5 }}</td>
                   {% endfor %}
@@ -490,7 +581,11 @@
               align-items: center; */
             "
           >
-            <h3>Erläuterungen:</h3>
+          {% if lang == "en" %}
+          <h3>Explanatory notes:</h3>  
+          {% else %}
+          <h3>Erläuterungen:</h3>
+          {% endif %}
             <br />
             <div
               id="legende"
@@ -498,12 +593,41 @@
               style="margin-right: 20px; margin-left: 20px"
             >
               <p>
+                {% if lang == "en" %}
+                <em>PT</em> = Processing time in minutes <br />
+                <em>TT</em> = Tooling time in minutes
+                {% else %}
                 <em>BZ</em> = Bearbeitungszeit in Minuten <br />
                 <em>RZ</em> = Rüstungszeit in Minuten
+                {% endif %}
               </p>
             </div>
             <br />
             <div id="shift-legende" class="legende">
+              {% if lang == "en" %}
+              <table style="border: none; box-shadow: none">
+                <tr>
+                  <td style="border-top: none">0 &lt minutes &lt 2400</td>
+                  <td style="border-top: none">1 shift</td>
+                </tr>
+                <tr>
+                  <td>2400 &lt minutes &lt 3600</td>
+                  <td>1 shift + overtime</td>
+                </tr>
+                <tr>
+                  <td>3600 &lt minutes &lt 4800</td>
+                  <td>2 shifts</td>
+                </tr>
+                <tr>
+                  <td>4800 &lt minutes &lt 6000</td>
+                  <td>2 shifts + overtime</td>
+                </tr>
+                <tr>
+                  <td>6000 &lt minutes &lt 7200</td>
+                  <td>3 shifts</td>
+                </tr>
+              </table>
+              {% else %}
               <table style="border: none; box-shadow: none">
                 <tr>
                   <td style="border-top: none">0 &lt Minuten &lt 2400</td>
@@ -526,10 +650,12 @@
                   <td>3 Schichten</td>
                 </tr>
               </table>
+              {% endif %}
             </div>
           </div>
         </div>
       </div>
+      {% if lang == "en" %}
       <button
       class="finish-button"
       id="continue-button"
@@ -537,12 +663,29 @@
       value="Upload"
       onclick="location.href='download.html'"
     >
-      Abschließen
+      Finish
       <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+      </button>
+      {% else %}
+      <button
+      class="finish-button"
+      id="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='download.html'"
+      >
+      Abschließen
     </button>
+    {% endif %}
     </form>
   </body>
+  {% if lang == "en" %}
+  <footer>
+    © IbSys2 Projekt by René Hopfe, David Böhm and Amelie Rempel, 2021
+  </footer>
+  {% else %}
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
   </footer>
+  {% endif %}
 </html>

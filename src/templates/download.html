@@ -17,25 +17,52 @@
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
-    <title>Stock Planer</title>
+    <title>Download</title>
   </head>
   <body>
     <form method="post" enctype="multipart/form-data">
       <div class="container">
         <img id="file-upload" src="{{ url_for('static', filename='img/FileDownload.png') }}" />
-        <h2 style="text-align: center">Periodenplanung downloaden</h2>
+        {% if lang == "en"%}
+        <h2 style="text-align: center">Download plan values</h2>
+        <p style="text-align: center">
+          Download plan values of the upcoming period as XML file.
+        </p>
+        {% else %}
+        <h2 style="text-align: center">Periodenplanung herunterladen</h2>
         <p style="text-align: center">
           Laden Sie die Periodenplanwerte in Form einer XML-Datei herunter.
         </p>
+        {% endif %}
+        {% if lang == "en"%}
+        <button class="accent-button download-button">
+          <a href="{{ url_for('static', filename='xml/input_results.xml') }}" download>
+            <span class="material-icons white-icon"> file_download </span>
+            Download file
+          </a>
+        </button>
+        {% else %}
         <button class="accent-button download-button">
           <a href="{{ url_for('static', filename='xml/input_results.xml') }}" download>
             <span class="material-icons white-icon"> file_download </span>
             Datei herunterladen
           </a>
         </button>
+        {% endif %}
         <br />
       </div>
     </form>
+    {% if lang == "en" %}
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='/'"
+    >
+      Back to homepage
+      <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+    </button>
+    {% else %}
     <button
       class="continue-button"
       type="submit"
@@ -45,8 +72,15 @@
       Zurück zur Startseite
       <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
     </button>
+    {% endif %}
   </body>
+  {% if lang == "en" %}
+  <footer>
+    © IbSys2 Projekt by René Hopfe, David Böhm and Amelie Rempel, 2021
+  </footer>
+  {% else %}
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
   </footer>
+  {% endif %}
 </html>

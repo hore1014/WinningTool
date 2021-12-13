@@ -123,7 +123,11 @@
       >
         <button class="details-button" onclick="hideManualContent()">
           <span class="material-icons"> menu_book </span>
+          {% if lang == "en" %}
+          <span>Basic data of purchase items</span>
+          {% else %}
           <span>Kaufteile Stammdaten</span>
+          {% endif %}
         </button>
       </div>
       <script>
@@ -142,10 +146,17 @@
         }
       </script>
       <div id="manual-content" class="manual-content" style="display: none; width:35%; overflow-x: hidden;">
+        {% if lang == "en" %}
         <img
           class="manual-page"
-          src="{{ url_for('static', filename='img/manualPages/StammdatenKaufteile.jpg') }}"
+          src="{{ url_for('static', filename='img/manualPages/en/StammdatenKaufteile_en.jpg') }}"
         />
+        {% else %}
+        <img
+          class="manual-page"
+          src="{{ url_for('static', filename='img/manualPages/de/StammdatenKaufteile.jpg') }}"
+        />
+        {% endif %}
       </div>
     </div>
 
