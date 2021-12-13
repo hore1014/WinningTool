@@ -131,7 +131,6 @@
       </script>
     </nav>
 
-    <!-- TODO: Übersetzen -->
     <div id="manual" class="manual" style="width: auto; height: auto">
       <div
         class="details-button-container"
@@ -139,7 +138,11 @@
       >
         <button class="details-button" onclick="hideManualContent()">
           <span class="material-icons"> menu_book </span>
+          {% if lang == "en" %}
+          <span id="details-button-text">Production overview</span>
+          {% else %}
           <span id="details-button-text">Produktionsübersicht</span>
+          {% endif %}
         </button>
       </div>
       <script>
@@ -158,19 +161,35 @@
         }
       </script>
       <div id="manual-content" class="manual-content" style="display: none">
+        {% if lang == "en" %}
+        <h2>Production flows:</h2>
+        <img
+          class="manual-page"
+          src="{{ url_for('static', filename='img/manualPages/en/Fertigungsdurchlauf_P1_en.jpg') }}"
+        />
+        <img
+          class="manual-page"
+          src="{{ url_for('static', filename='img/manualPages/en/Fertigungsdurchlauf_P2_en.jpg') }}"
+        />
+        <img
+          class="manual-page"
+          src="{{ url_for('static', filename='img/manualPages/en/Fertigungsdurchlauf_P3_en.jpg') }}"
+        />
+        {% else %}
         <h2>Fertigungsdurchläufe:</h2>
         <img
           class="manual-page"
-          src="{{ url_for('static', filename='img/manualPages/Fertigungsdurchlauf_P1.jpg') }}"
+          src="{{ url_for('static', filename='img/manualPages/de/Fertigungsdurchlauf_P1.jpg') }}"
         />
         <img
           class="manual-page"
-          src="{{ url_for('static', filename='img/manualPages/Fertigungsdurchlauf_P2.jpg') }}"
+          src="{{ url_for('static', filename='img/manualPages/de/Fertigungsdurchlauf_P2.jpg') }}"
         />
         <img
           class="manual-page"
-          src="{{ url_for('static', filename='img/manualPages/Fertigungsdurchlauf_P3.jpg') }}"
+          src="{{ url_for('static', filename='img/manualPages/de/Fertigungsdurchlauf_P3.jpg') }}"
         />
+        {% endif %}
       </div>
     </div>
 
