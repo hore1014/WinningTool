@@ -28,7 +28,7 @@
 
       {% if lang == "en" %}
       <div class="dropdown" style="margin: 10px">
-        <button onclick="dropDown()" class="dropbutton">Language</button>
+        <button type="button" onclick="dropDown()" class="dropbutton">Language</button>
         <div id="dropdown-content" class="dropdown-content">
           <button class="dropdownoption" onclick="changeLanguage('de')">
             <img
@@ -48,7 +48,7 @@
       </div>
       {% else %}
       <div class="dropdown" style="margin: 10px">
-        <button onclick="dropDown()" class="dropbutton">Sprache</button>
+        <button type="button" onclick="dropDown()" class="dropbutton">Sprache</button>
         <div id="dropdown-content" class="dropdown-content">
           <button class="dropdownoption" onclick="changeLanguage('de')">
             <img
@@ -90,9 +90,6 @@
 
         function changeLanguage(lang) {
           document.getElementsByName("lang")[0].value = lang;
-          console.log('index')
-          console.log(lang)
-          console.log(document.getElementsByName("lang")[0].value)
         }
       </script>
       <div class="container" style="position: absolute; top: 0">
