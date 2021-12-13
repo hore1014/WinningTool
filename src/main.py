@@ -20,7 +20,7 @@ languages = {
     "de": "de",
     "de": "en",
 }
-language = "de" # default 
+language = "de"  # default
 
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
@@ -31,16 +31,18 @@ app.config["SECRET_KEY"] = os.urandom(24).hex()  # random key
 
 @app.route("/")
 def home():
-    return render_template("/index.html", lang = language)
+    return render_template("/index.html", lang=language)
+
 
 @app.route("/", methods=["POST"])
 def update():
     global language
     language = request.form.get('lang')
     print(f"main: language")
-    #handler.delete_all_xml()
+    # handler.delete_all_xml()
 
-    return render_template("/index.html", lang = language)
+    return render_template("/index.html", lang=language)
+
 
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
@@ -58,7 +60,7 @@ def upload_file():
     full_filename = os.path.join(app.config["UPLOAD_PATH"], filename)
 
     if filename == "":
-        return render_template("/1_lastPeriod.html", error=True, message=False, lang = language)
+        return render_template("/1_lastPeriod.html", error=True, message=False, lang=language)
 
     # Prüfen, ob es sich um ein xml file handelt
     file_ext = os.path.splitext(filename)[1]
@@ -95,8 +97,8 @@ def upload_file():
     period = handler.get_current_period()
 
     if dataOverwritten:
-        return render_template("/1_lastPeriod.html", error=False, message=True, overwrite=True, period=file_period, lang = language)
-    return render_template("/1_lastPeriod.html", error=False, message=True, period=file_period, lang = language)
+        return render_template("/1_lastPeriod.html", error=False, message=True, overwrite=True, period=file_period, lang=language)
+    return render_template("/1_lastPeriod.html", error=False, message=True, period=file_period, lang=language)
 
 
 @app.route("/2_salesPrediction.html")
@@ -110,7 +112,7 @@ def salesPrediction():
     all_parts = handler.lookupArticles.p_e_k_list
 
     return render_template(
-        "/2_salesPrediction.html", lang = language, period=period, inventory=current_parts, all_parts=all_parts, len=len(all_parts),
+        "/2_salesPrediction.html", lang=language, period=period, inventory=current_parts, all_parts=all_parts, len=len(all_parts),
 
         sales_P1_0=sales["P1"][0], sales_P1_1=sales["P1"][1], sales_P1_2=sales["P1"][2], sales_P1_3=sales["P1"][3],
         sales_P2_0=sales["P2"][0], sales_P2_1=sales["P2"][1], sales_P2_2=sales["P2"][2], sales_P2_3=sales["P2"][3],
@@ -234,11 +236,11 @@ def stock_planer():
     for article in lookupArticles.e_list:
         prod_data[article] = 0
 
-    return render_template("/3_stockPlaner.html", 
-        period=period, 
-        stock_data=stock_data, 
-        prod_data=prod_data, 
-        lang = language)
+    return render_template("/3_stockPlaner.html",
+                           period=period,
+                           stock_data=stock_data,
+                           prod_data=prod_data,
+                           lang=language)
 
 
 @app.route("/3_stockPlaner.html", methods=["POST"])
@@ -263,12 +265,12 @@ def upload_plan():
 
     # Produktionsdaten berechnen
     prod_data = handler.get_production()
-    return render_template("/3_stockPlaner.html", 
-        period=period, 
-        calculated=True, 
-        stock_data=stock_data, 
-        prod_data=prod_data, 
-        lang = language)
+    return render_template("/3_stockPlaner.html",
+                           period=period,
+                           calculated=True,
+                           stock_data=stock_data,
+                           prod_data=prod_data,
+                           lang=language)
 
 
 @app.route("/4_productionSequence.html")
@@ -280,14 +282,14 @@ def production_sequence():
 
     handler.get_capacity()
 
-    return render_template("/4_productionSequence.html", 
-        period=period, 
-        len=len(sequence), 
-        sequence=sequence,
-        production=production, 
-        results_list=[], 
-        error=False, 
-        lang = language)
+    return render_template("/4_productionSequence.html",
+                           period=period,
+                           len=len(sequence),
+                           sequence=sequence,
+                           production=production,
+                           results_list=[],
+                           error=False,
+                           lang=language)
 
 
 @app.route("/4_productionSequence.html", methods=["POST"])
@@ -297,34 +299,34 @@ def upload_Sequence():
 
     # check if amount of production orders is greater than 60
     if (len(data)-1 > 60):
-        return render_template("/4_productionSequence.html", 
-            period=period, 
-            len=len(sequence), 
-            sequence=sequence, 
-            production=production, 
-            results_list=[], 
-            error="limit", 
-            lang = language)
+        return render_template("/4_productionSequence.html",
+                               period=period,
+                               len=len(sequence),
+                               sequence=sequence,
+                               production=production,
+                               results_list=[],
+                               error="limit",
+                               lang=language)
 
     # check if products are missing
     if (len(data)-1 < len(production)):
-        return render_template("/4_productionSequence.html", 
-            period=period, 
-            len=len(sequence), 
-            sequence=sequence, 
-            production=production, 
-            results_list=[], 
-            error="keys", 
-            lang = language)
+        return render_template("/4_productionSequence.html",
+                               period=period,
+                               len=len(sequence),
+                               sequence=sequence,
+                               production=production,
+                               results_list=[],
+                               error="keys",
+                               lang=language)
     for article in production:
         if (article not in data.keys()):
-            return render_template("/4_productionSequence.html", 
-                period=period, len=len(sequence), 
-                sequence=sequence, 
-                production=production, 
-                results_list=[], 
-                error="keys", 
-                lang = language)
+            return render_template("/4_productionSequence.html",
+                                   period=period, len=len(sequence),
+                                   sequence=sequence,
+                                   production=production,
+                                   results_list=[],
+                                   error="keys",
+                                   lang=language)
 
     # check if sum of part orders is equal to calculated order and if amount
     for article, item in data.items():
@@ -337,14 +339,14 @@ def upload_Sequence():
             sum += int(amount)
         if (production[article]["sum"] != sum):
             print("Error detected!")
-            return render_template("/4_productionSequence.html", 
-                period=period, 
-                len=len(sequence), 
-                sequence=sequence, 
-                production=production,
-                results_list=[], 
-                error="sum", 
-                lang = language)
+            return render_template("/4_productionSequence.html",
+                                   period=period,
+                                   len=len(sequence),
+                                   sequence=sequence,
+                                   production=production,
+                                   results_list=[],
+                                   error="sum",
+                                   lang=language)
 
     # get the items out while preserving the order
     results = request.form.get("results_list").split(",")
@@ -383,8 +385,8 @@ def procurement_planer():
         delivery=lookupProcurement.delivery_days,
         inventory=current_parts,
         forecasts=forecasts,
-        orders=orders, 
-        lang = language)
+        orders=orders,
+        lang=language)
 
 
 @app.route("/5_orders_purchase.html", methods=["POST"])
@@ -399,31 +401,28 @@ def upload_orders():
 
     handler.xml_bestellungen = orders
 
-    return render_template("/index.html", lang = language)
-    # return render_template("6_capacity.html", lang = language)
+    return redirect(url_for('capacity_planer'))
 
 
 @app.route("/6_capacity.html")
 def capacity_planer():
-    return render_template("/6_capacity.html", lang = language)
+    return render_template("/6_capacity.html", lang=language)
 
 
 @app.route("/6_capacity.html", methods=["POST"])
 def upload_shifts():
-    return render_template("/index.html")
-    # return render_template("/7_financial.html", lang = language)
+    return redirect(url_for('xml_download'))
 
 
-@app.route("/7_financial.html")
-def financial_planer():
-    return render_template("/7_financial.html", lang = language)
+@app.route("/download.html")
+def xml_download():
+    return render_template("/download.html", lang=language)
 
 
-@app.route("/7_financial.html", methods=["POST"])
+@app.route("/download.html", methods=["POST"])
 def create_results():
 
     handler.write_to_xml()
     # TODO: XML runterladbar machen
 
-    return render_template("/index.html", lang = language)
-    # return render_template("/8_finish.html", lang = language)
+    return redirect(url_for('home'))
