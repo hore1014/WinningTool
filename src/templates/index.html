@@ -20,6 +20,27 @@
     <title>Supply Chain Planer</title>
   </head>
   <body>
+    {% if lang == "en" %}
+    <div class="dropdown" style="margin: 10px">
+      <button onclick="dropDown()" class="dropbutton">Language</button>
+      <div id="dropdown-content" class="dropdown-content">
+        <button class="dropdownoption">
+          <img
+            class="flag"
+            src="{{ url_for('static', filename='img/german.png') }}"
+          />
+          German
+        </button>
+        <button class="dropdownoption">
+          <img
+            class="flag"
+            src="{{ url_for('static', filename='img/english.png') }}"
+          />
+          English
+        </button>
+      </div>
+    </div>
+    {% else %}
     <div class="dropdown" style="margin: 10px">
       <button onclick="dropDown()" class="dropbutton">Sprache</button>
       <div id="dropdown-content" class="dropdown-content">
@@ -39,6 +60,7 @@
         </button>
       </div>
     </div>
+    {% endif %}
     <script>
       /* When the user clicks on the button, 
     toggle between hiding and showing the dropdown content */

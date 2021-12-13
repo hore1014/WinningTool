@@ -62,7 +62,28 @@
         </li>
         <li><a>Bestellungen</a></li>
         <li><a>Kapazität</a></li>
+        {% endif %}
+        
         <div class="dropdown">
+          {% if lang == "en" %}
+          <button onclick="dropDown()" class="dropbutton">Language</button>
+          <div id="dropdown-content" class="dropdown-content">
+            <button class="dropdownoption">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/german.png') }}"
+              />
+              German
+            </button>
+            <button class="dropdownoption">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/english.png') }}"
+              />
+              English
+            </button>
+          </div>
+          {% else %}
           <button onclick="dropDown()" class="dropbutton">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
             <button class="dropdownoption">
@@ -80,6 +101,7 @@
               Englisch
             </button>
           </div>
+          {% endif %}
         </div>
       </ul>
       <script>

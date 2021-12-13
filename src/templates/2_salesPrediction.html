@@ -25,9 +25,8 @@
   </head>
   <body>
     <nav>
-    {% if lang == "en" %}
-    
       <ul class="progressbar">
+        {% if lang == "en" %}
         <li class="active">
           <a href="1_lastPeriod.html">Previous Period</a>
         </li>
@@ -43,9 +42,7 @@
         <li><a>Orders</a></li>
         <li><a>Capacity</a></li>
         <li><a>Finances</a></li>
-      </ul>
-    {% else %}
-      <ul class="progressbar">
+        {% else %}
         <li class="active">
           <a href="1_lastPeriod.html">Vorherige Periode</a>
         </li>
@@ -61,8 +58,74 @@
         <li><a>Bestellungen</a></li>
         <li><a>Kapazität</a></li>
         <li><a>Finanzen</a></li>
+        {% endif %}
+
+        {% if lang == "en" %}
+        <div class="dropdown">
+          <button onclick="dropDown()" class="dropbutton">Language</button>
+          <div id="dropdown-content" class="dropdown-content">
+            <button class="dropdownoption">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/german.png') }}"
+              />
+              German
+            </button>
+            <button class="dropdownoption">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/english.png') }}"
+              />
+              English
+            </button>
+          </div>
+        </div>
+        {% else %}
+        <div class="dropdown">
+          <button onclick="dropDown()" class="dropbutton">Sprache</button>
+          <div id="dropdown-content" class="dropdown-content">
+            <button class="dropdownoption">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/german.png') }}"
+              />
+              Deutsch
+            </button>
+            <button class="dropdownoption">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/english.png') }}"
+              />
+              Englisch
+            </button>
+          </div>
+        </div>
+        {% endif %}
       </ul>
-    {% endif %}
+    
+      <ul class="progressbar">
+        
+    <script>
+      /* When the user clicks on the button, 
+      toggle between hiding and showing the dropdown content */
+      function dropDown() {
+        document.getElementById("dropdown-content").classList.toggle("show");
+      }
+
+      // Close the dropdown if the user clicks outside of it
+      window.onclick = function (event) {
+        if (!event.target.matches(".dropbutton")) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+              openDropdown.classList.remove("show");
+            }
+          }
+        }
+      };
+    </script>
     </nav>
 
     <form method="post">
