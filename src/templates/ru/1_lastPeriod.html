@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="HTML, CSS" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <meta
+      name="description"
+      content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
+    />
+    <title>Загрузить данные за предыдущий период</title>
+
+    <script>
+        /*Aufruf der Dateiauswahl-Button-Funktion*/
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            fileUploadStyling();
+        })
+
+        /*Änderung der Dateiauswahl-Button-Anzeige*/
+        function fileUploadStyling(){
+            let input = document.querySelectorAll("input[type=file]");
+
+            var inputFile = input[0];
+                inputFile.addEventListener('change',function(e){
+
+                    var label = this.nextElementSibling;
+
+                    if(this.files && this.files.length == 1){
+                        label.innerHTML = '"'+ this.files[0].name + '"'+ ' ausgewählt.';
+                    }
+                });
+         }
+
+    </script>
+
+  </head>
+  <body>
+    <nav>
+      <ul class="progressbar">
+        <li class="active"><a>Предыдущий период</a></li>
+        <li><a>Прогнозы продаж и план производства</a></li>
+        <li><a>Хранение и производство промежуточных продуктов</a></li>
+        <li><a>Последовательность производства и расщепление</a></li>    
+        <li><a>Заказы</a></li> 
+        <li><a>Емкость</a></li> 
+        <li><a>Финансы</a></li>
+      </ul>
+    </nav>
+
+    <form method="post" enctype="multipart/form-data">
+      <div class="upload-container">
+        <img id="file-upload" src="{{ url_for('static', filename='img/FileUpload.png') }}" />
+        <h2>Загрузить заключительные данные за предыдущий период</h2>
+        <p>
+          Загрузить заключительные данные за предыдущий период в виде XML-файла.
+        </p>
+
+        <input class="file-selector" type="file" accept="text/xml" name="file" id="file-selector">
+        <label for="file-selector">Выбрать файл</label>
+        </input>
+        <button class="accent-button">
+            <span class="material-icons white-icon">
+                file_upload
+            </span>
+            Загрузить
+        </button>
+        {% if error %}
+        <p class="error">Пожалуйста, выберите файл!</p>
+        {% endif %}
+        {% if invalid %}
+        <p class="invalid">Синтаксис или содержимое выбранного файла недопустимо!</p>
+        {% endif %}
+        {% if message %}
+        <p class="success">Файл для периода {{ period }} был успешно загружен.</p>
+        {% endif %}
+        {% if overwrite %}
+        <p class="info">Данные за период {{ period }} обновлены.</p>
+        {% endif %}
+        <br>
+        <p>Если это ваш первый период и нет предыдущих, не загружайте файл и нажмите "Продолжить".</p>
+      </div>
+    </form>
+
+    <button 
+      class="continue-button" 
+      type="submit" 
+      value="Upload" 
+      onclick="location.href='2_salesPrediction.html'">
+      Продолжить
+      <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+    </button>
+  </body>
+  <footer>
+    © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
+  </footer>
+</html>

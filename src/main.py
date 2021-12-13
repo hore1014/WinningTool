@@ -16,6 +16,9 @@ stock_P3 = 0
 sequence = []
 k_list = lookupArticles.k_list
 
+# TODO Get this values from user input (use a dict)
+language = "ru"
+
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
 app.config["UPLOAD_EXTENSIONS"] = [".xml"]
@@ -25,18 +28,18 @@ app.config["SECRET_KEY"] = os.urandom(24).hex()  # random key
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template(f"{language}/index.html")
 
 
 @app.route("/", methods=["POST"])
 def reset():
-
-    return render_template("index.html")
+    handler.delete_all_xml()
+    return render_template(f"{language}/index.html")
 
 
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
-    return render_template("1_lastPeriod.html", error=False, message=False)
+    return render_template(f"{language}/1_lastPeriod.html", error=False, message=False)
 
 
 @app.route("/1_lastPeriod.html", methods=["POST"])
@@ -50,7 +53,7 @@ def upload_file():
     full_filename = os.path.join(app.config["UPLOAD_PATH"], filename)
 
     if filename == "":
-        return render_template("1_lastPeriod.html", error=True, message=False)
+        return render_template(f"{language}/1_lastPeriod.html", error=True, message=False)
 
     # Prüfen, ob es sich um ein xml file handelt
     file_ext = os.path.splitext(filename)[1]
@@ -69,7 +72,7 @@ def upload_file():
     if file_period < 0:
         # File wieder löschen
         os.remove(full_filename)
-        return render_template("1_lastPeriod.html", invalid=True, message=False)
+        return render_template(f"{language}/1_lastPeriod.html", invalid=True, message=False)
 
     # Dateiname umbenennen für einheitliche Struktur, falls Name bereits existiert ggf. überschreiben
     new_filename = app.config["UPLOAD_PATH"] + \
@@ -87,8 +90,8 @@ def upload_file():
     period = handler.get_current_period()
 
     if dataOverwritten:
-        return render_template("1_lastPeriod.html", error=False, message=True, overwrite=True, period=file_period)
-    return render_template("1_lastPeriod.html", error=False, message=True, period=file_period)
+        return render_template(f"{language}/1_lastPeriod.html", error=False, message=True, overwrite=True, period=file_period)
+    return render_template(f"{language}/1_lastPeriod.html", error=False, message=True, period=file_period)
 
 
 @app.route("/2_salesPrediction.html")
@@ -101,7 +104,7 @@ def salesPrediction():
     current_parts = handler.get_parts_inventory(period)
 
     return render_template(
-        "2_salesPrediction.html", period=period, inventory=current_parts,
+        f"{language}/2_salesPrediction.html", period=period, inventory=current_parts,
 
         sales_P1_0=sales["P1"][0], sales_P1_1=sales["P1"][1], sales_P1_2=sales["P1"][2], sales_P1_3=sales["P1"][3],
         sales_P2_0=sales["P2"][0], sales_P2_1=sales["P2"][1], sales_P2_2=sales["P2"][2], sales_P2_3=sales["P2"][3],
@@ -210,7 +213,7 @@ def stock_planer():
     for article in lookupArticles.e_list:
         prod_data[article] = 0
 
-    return render_template("3_stockPlaner.html", period=period, stock_data=stock_data, prod_data=prod_data)
+    return render_template(f"{language}/3_stockPlaner.html", period=period, stock_data=stock_data, prod_data=prod_data)
 
 
 @app.route("/3_stockPlaner.html", methods=["POST"])
@@ -235,7 +238,7 @@ def upload_plan():
 
     # Produktionsdaten berechnen
     prod_data = handler.get_production()
-    return render_template("3_stockPlaner.html", period=period, calculated=True, stock_data=stock_data, prod_data=prod_data)
+    return render_template(f"{language}/3_stockPlaner.html", period=period, calculated=True, stock_data=stock_data, prod_data=prod_data)
 
 
 @app.route("/4_productionSequence.html")
@@ -247,7 +250,7 @@ def production_sequence():
 
     handler.get_capacity()
 
-    return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error=False)
+    return render_template(f"{language}/4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error=False)
 
 
 @app.route("/4_productionSequence.html", methods=["POST"])
@@ -257,14 +260,14 @@ def upload_Sequence():
 
     # check if aount of production orders is greater than 60
     if (len(data)-1 > 60):
-        return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="limit")
+        return render_template(f"{language}/4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="limit")
 
     # check if products are missing
     if (len(data)-1 < len(production)):
-        return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="keys")
+        return render_template(f"{language}/4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="keys")
     for article in production:
         if (article not in data.keys()):
-            return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="keys")
+            return render_template(f"{language}/4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="keys")
 
     # check if sum of part orders is equal to calculated order
     for article, item in data.items():
@@ -275,7 +278,7 @@ def upload_Sequence():
             sum += int(amount) if amount != "" else 0
         if (production[article]["sum"] != sum):
             print("Error detected!")
-            return render_template("4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="sum")
+            return render_template(f"{language}/4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="sum")
 
     # get the items out while preserving the order
     results = request.form.get("results_list").split(",")
@@ -306,7 +309,7 @@ def procurement_planer():
     # TODO: Warnungen implementieren
 
     return render_template(
-        "5_orders_purchase.html",
+        f"{language}/5_orders_purchase.html",
         period=period,
         articles=lookupArticles.k_list,
         len=len(lookupArticles.k_list),
@@ -329,24 +332,24 @@ def upload_orders():
 
     handler.xml_bestellungen = orders
 
-    return render_template("index.html")
+    return render_template(f"{language}/index.html")
     # return render_template("6_capacity.html")
 
 
 @app.route("/6_capacity.html")
 def capacity_planer():
-    return render_template("6_capacity.html")
+    return render_template(f"{language}/6_capacity.html")
 
 
 @app.route("/6_capacity.html", methods=["POST"])
 def upload_shifts():
-    return render_template("index.html")
-    # return render_template("7_financial.html")
+    return render_template(f"{language}/index.html")
+    # return render_template(f"{language}/7_financial.html")
 
 
 @app.route("/7_financial.html")
 def financial_planer():
-    return render_template("7_financial.html")
+    return render_template(f"{language}/7_financial.html")
 
 
 @app.route("/7_financial.html", methods=["POST"])
@@ -355,5 +358,5 @@ def create_results():
     handler.write_to_xml()
     # TODO: XML runterladbar machen
 
-    return render_template("index.html")
-    # return render_template("8_finish.html")
+    return render_template(f"{language}/index.html")
+    # return render_template(f"{language}/8_finish.html")

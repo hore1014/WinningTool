@@ -23,8 +23,7 @@ Dies ist die Dokumentation des Hostings der Webseite mit Heroku. Es ist daher ni
    3. `git push heroku main`, wobei main die branch ist die gehostet werden soll
 4. Folge i.A. den Anweisungen auf [dieser Seite](https://www.geeksforgeeks.org/deploy-python-flask-app-on-heroku/)
 5. Heroku braucht für das Deployment ein `Procfile`, siehe: https://devcenter.heroku.com/articles/getting-started-with-python#define-a-procfile
-6. Deploye neue Änderungen mit `git push heroku main` (nachdem sie commited wurden). Das remote Github-Repo bleibt dabei unberührt.
-7. Das Programm kann nun unter https://scp-winningtool.herokuapp.com/ aufgerufen werden.
+6. Das Programm kann nun unter https://scp-winningtool.herokuapp.com/ aufgerufen werden.
 
 ## Hosting der Webseite mit Azure
 Das Programm kann unter https://winningtool.azurewebsites.net/ aufgerufen werden.

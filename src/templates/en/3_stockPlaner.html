@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="HTML, CSS" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <meta
+      name="description"
+      content="The Supply Chain Planner is used to plan orders, inventory, production and sales"
+    />
+    <title>Stock Planer</title>
+  </head>
+  <body>
+    <nav>
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Previous Period</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html"
+            >Sales forecasts and production plan</a
+          >
+        </li>
+        <li class="active">
+          <a>Stock and production of intermediate products</a
+          >
+        </li>
+        <li>
+          <a
+            >Production sequence and splitting</a
+          >
+        </li>
+        <li><a>Orders</a></li>
+        <li><a>Capacity</a></li>
+        <li><a>Finances</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <h3>
+        Enter the planned stock levels of intermediate products for the current period (period {{ period }}).
+      </h3>
+      <p>This will generate the production plan for the intermediate products.</p>
+      <br />
+      <form method="post">
+        <div class="vertical-scrollable-table-wrapper">
+          <table id="stock-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Planned stock level</th>
+                <th>Production</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr>
+                <td name="article">P1</td>
+                <td name="stock_P1">{{ stock_data["P1"] }}</td>
+                <td name="production_P1">{{ prod_data["P1"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">P2</td>
+                <td name="stock_P2">{{ stock_data["P2"] }}</td>
+                <td name="production_P2">{{ prod_data["P2"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">P3</td>
+                <td name="stock_P3">{{ stock_data["P3"] }}</td>
+                <td name="production_P3">{{ prod_data["P3"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E4</td>
+                <td class="editable">
+                  <input type="number" name="stock_E4" value="{{ stock_data['E4'] }}"/>
+                </td>
+                <td name="production_E4">{{ prod_data["E4"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E5</td>
+                <td class="editable">
+                  <input type="number" name="stock_E5" value="{{ stock_data['E5'] }}"/>
+                </td>
+                <td name="production_E5">{{ prod_data["E5"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E6</td>
+                <td class="editable">
+                  <input type="number" name="stock_E6" value="{{ stock_data['E6'] }}"/>
+                </td>
+                <td name="production_E6">{{ prod_data["E6"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E7</td>
+                <td class="editable">
+                  <input type="number" name="stock_E7" value="{{ stock_data['E7'] }}"/>
+                </td>
+                <td name="production_E7">{{ prod_data["E7"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E8</td>
+                <td class="editable">
+                  <input type="number" name="stock_E8" value="{{ stock_data['E8'] }}"/>
+                </td>
+                <td name="production_E8">{{ prod_data["E8"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E9</td>
+                <td class="editable">
+                  <input type="number" name="stock_E9" value="{{ stock_data['E9'] }}"/>
+                </td>
+                <td name="production_E9">{{ prod_data["E9"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E10</td>
+                <td class="editable">
+                  <input type="number" name="stock_E10" value="{{ stock_data['E10'] }}"/>
+                </td>
+                <td name="production_E10">{{ prod_data["E10"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E11</td>
+                <td class="editable">
+                  <input type="number" name="stock_E11" value="{{ stock_data['E11'] }}"/>
+                </td>
+                <td name="production_E11">{{ prod_data["E11"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E12</td>
+                <td class="editable">
+                  <input type="number" name="stock_E12" value="{{ stock_data['E12'] }}"/>
+                </td>
+                <td name="production_E12">{{ prod_data["E12"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E13</td>
+                <td class="editable">
+                  <input type="number" name="stock_E13" value="{{ stock_data['E13'] }}"/>
+                </td>
+                <td name="production_E13">{{ prod_data["E13"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E14</td>
+                <td class="editable">
+                  <input type="number" name="stock_E14" value="{{ stock_data['E14'] }}"/>
+                </td>
+                <td name="production_E14">{{ prod_data["E14"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E15</td>
+                <td class="editable">
+                  <input type="number" name="stock_E15" value="{{ stock_data['E15'] }}"/>
+                </td>
+                <td name="production_E15">{{ prod_data["E15"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E16</td>
+                <td class="editable">
+                  <input type="number" name="stock_E16" value="{{ stock_data['E16'] }}"/>
+                </td>
+                <td name="production_E16">{{ prod_data["E16"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E17</td>
+                <td class="editable">
+                  <input type="number" name="stock_E17" value="{{ stock_data['E17'] }}"/>
+                </td>
+                <td name="production_E17">{{ prod_data["E17"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E18</td>
+                <td class="editable">
+                  <input type="number" name="stock_E18" value="{{ stock_data['E18'] }}"/>
+                </td>
+                <td name="production_E18">{{ prod_data["E18"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E19</td>
+                <td class="editable">
+                  <input type="number" name="stock_E19" value="{{ stock_data['E19'] }}"/>
+                </td>
+                <td name="production_E19">{{ prod_data["E19"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E20</td>
+                <td class="editable">
+                  <input type="number" name="stock_E20" value="{{ stock_data['E20'] }}"/>
+                </td>
+                <td name="production_E20">{{ prod_data["E20"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E26</td>
+                <td class="editable">
+                  <input type="number" name="stock_E26" value="{{ stock_data['E26'] }}"/>
+                </td>
+                <td name="production_E26">{{ prod_data["E26"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E29</td>
+                <td class="editable">
+                  <input type="number" name="stock_E29" value="{{ stock_data['E29'] }}"/>
+                </td>
+                <td name="production_E29">{{ prod_data["E29"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E30</td>
+                <td class="editable">
+                  <input type="number" name="stock_E30" value="{{ stock_data['E30'] }}"/>
+                </td>
+                <td name="production_E30">{{ prod_data["E30"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E31</td>
+                <td class="editable">
+                  <input type="number" name="stock_E31" value="{{ stock_data['E31'] }}"/>
+                </td>
+                <td name="production_E31">{{ prod_data["E31"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E49</td>
+                <td class="editable">
+                  <input type="number" name="stock_E49" value="{{ stock_data['E49'] }}"/>
+                </td>
+                <td name="production_E49">{{ prod_data["E49"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E50</td>
+                <td class="editable">
+                  <input type="number" name="stock_E50" value="{{ stock_data['E50'] }}"/>
+                </td>
+                <td name="production_E50">{{ prod_data["E50"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E51</td>
+                <td class="editable">
+                  <input type="number" name="stock_E51" value="{{ stock_data['E51'] }}"/>
+                </td>
+                <td name="production_E51">{{ prod_data["E51"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E54</td>
+                <td class="editable">
+                  <input type="number" name="stock_E54" value="{{ stock_data['E54'] }}"/>
+                </td>
+                <td name="production_E54">{{ prod_data["E54"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E55</td>
+                <td class="editable">
+                  <input type="number" name="stock_E55" value="{{ stock_data['E55'] }}"/>
+                </td>
+                <td name="production_E55">{{ prod_data["E55"]["sum"] }}</td>
+              </tr>
+              <tr>
+                <td name="article">E56</td>
+                <td class="editable">
+                  <input type="number" name="stock_E56" value="{{ stock_data['E56'] }}"/>
+                </td>
+                <td name="production_E56">{{ prod_data["E56"]["sum"] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <button class="accent-button">
+            <span class="material-icons white-icon">
+                file_upload
+            </span>
+            Calculate
+        </button>
+        </div>
+      </form>
+    </div>
+
+    {% if calculated %}
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='4_productionSequence.html'"
+    >
+      Continue
+      <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+    </button>
+    {% endif %}
+  </body>
+  <footer>
+    © IbSys2 Project by René Hopfe, David Böhm and Amelie Rempel, 2021
+  </footer>
+</html>
