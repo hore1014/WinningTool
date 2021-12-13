@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="HTML, CSS" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <meta
+      name="description"
+      content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
+    />
+    <title>Stock Planer</title>
+  </head>
+  <body>
+    <nav>
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Vorherige Periode</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html"
+            >Absatz-Prognosen und Produktionsplan</a
+          >
+        </li>
+        <li class="active">
+          <a href="3_stockPlaner.html"
+            >Lager und Produktion der Zwischenerzeugnisse</a
+          >
+        </li>
+        <li class="active">
+          <a href="4_productionSequence.html"
+            >Produktionsreihenfolge und Splitting</a
+          >
+        </li>
+        <li class="active">
+          <a href="5_orders_purchase.html">Bestellungen</a>
+        </li>
+        <li class="active"><a href="6_capacity.html">Kapazität</a></li>
+        <li><a href="7_finances.html">Finanzen</a></li>
+      </ul>
+    </nav>
+
+    <div class="centerd-big-elements-container">
+      <h3 style="text-align: center">
+        Geben Sie die Anzahl an Schichten und ggf. Überstunden an.
+      </h3>
+      <div
+        id="main-container"
+        class="big-horizontal-container"
+        style="width: 100%; display: flex; justify-content: center"
+      >
+        <div class="details-button-container">
+          <button class="details-button" onclick="showOtherTable()">
+            <span class="material-icons"> article </span>
+            <span id="details-button-text">Detaillierte Ansicht</span>
+          </button>
+        </div>
+        <br />
+
+        <script>
+          function showOtherTable() {
+            var detailedTable = document.getElementById(
+              "detailed-capacity-table"
+            );
+            var undetailedTable = document.getElementById("undetailed-table");
+            var detailsButtonText = document.getElementById(
+              "details-button-text"
+            );
+            var legende = document.getElementById("legend-container");
+
+            if (detailsButtonText.innerHTML == "Detaillierte Ansicht") {
+              undetailedTable.style.display = "none";
+              legende.style.display = "flex";
+              detailedTable.style.display = "block";
+              detailsButtonText.textContent = "Minimierte Ansicht";
+            } else {
+              detailedTable.style.display = "none";
+              legende.style.display = "none";
+              undetailedTable.style.display = "block";
+              detailsButtonText.textContent = "Detaillierte Ansicht";
+            }
+          }
+        </script>
+        <div
+          class="
+            vertical-scrollable-table-wrapper
+            horizontal-scrollable-table-wrapper
+          "
+        >
+          <table id="undetailed-table">
+            <thead>
+              <tr>
+                <th>Arbeitsstation</th>
+                <th>Schicht</th>
+                <th>Mehrarbeit <br />(in Minuten)</th>
+              </tr>
+            </thead>
+            <tbody id="undetailed-table-body"></tbody>
+          </table>
+          <table id="detailed-capacity-table" style="display: none">
+            <thead>
+              <tr>
+                <th
+                  class="sticky-column"
+                  style="background-color: #efefef"
+                  rowspan="2"
+                >
+                  Artikel
+                </th>
+                <th colspan="2">Station 1</th>
+                <th colspan="2">Station 2</th>
+                <th colspan="2">Station 3</th>
+                <th colspan="2">Station 4</th>
+                <th colspan="2">Station 6</th>
+                <th colspan="2">Station 7</th>
+                <th colspan="2">Station 8</th>
+                <th colspan="2">Station 9</th>
+                <th colspan="2">Station 10</th>
+                <th colspan="2">Station 11</th>
+                <th colspan="2">Station 12</th>
+                <th colspan="2">Station 13</th>
+                <th colspan="2">Station 14</th>
+                <th colspan="2">Station 15</th>
+              </tr>
+              <tr id="BZ-RZ-header">
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+                <th>BZ</th>
+                <th>RZ</th>
+              </tr>
+            </thead>
+            <tbody id="detailed-table-body"></tbody>
+          </table>
+          <script>
+            const articleList = [
+              "P1",
+              "P2",
+              "P3",
+              "E4",
+              "E5",
+              "E6",
+              "E7",
+              "E8",
+              "E9",
+              "E10",
+              "E11",
+              "E12",
+              "E13",
+              "E14",
+              "E15",
+              "E16",
+              "E17",
+              "E18",
+              "E19",
+              "E20",
+              "E26",
+              "E29",
+              "E30",
+              "E31",
+              "E49",
+              "E50",
+              "E51",
+              "E54",
+              "E55",
+              "E56",
+            ];
+
+            /* Fill Table with rows */
+            var tableBody = document.getElementById("undetailed-table-body");
+            var arbeitstationen = 15; // außer die 5!
+
+            for (var i = 1; i <= arbeitstationen; i++) {
+              if (i != 5) {
+                tableBody.innerHTML +=
+                  "<tr><td>" +
+                  i +
+                  '</td><td class="editable"><input name="shift_' +
+                  i +
+                  '" type="number" value="1" /></td><td class="editable"><input name="extra_minutes_' +
+                  i +
+                  '" type="number" value="100" /></td></tr>';
+              }
+            }
+
+            var detailedTableBody = document.getElementById(
+              "detailed-table-body"
+            );
+            for (var i = 0; i < articleList.length; i++) {
+              detailedTableBody.innerHTML +=
+                '<tr><td class="sticky-column" name="article_' +
+                articleList[i] +
+                '">' +
+                articleList[i] +
+                '</td><td name="station1_' +
+                articleList[i] +
+                '_BZ"></td><td name="station1_' +
+                articleList[i] +
+                '_RZ"></td><td name="station2_' +
+                articleList[i] +
+                '_BZ"></td><td name="station2_' +
+                articleList[i] +
+                '_RZ"></td><td name="station3_' +
+                articleList[i] +
+                '_BZ"></td><td name="station3_' +
+                articleList[i] +
+                '_RZ"></td><td name="station4_' +
+                articleList[i] +
+                '_BZ"></td><td name="station4_' +
+                articleList[i] +
+                '_RZ"></td><td name="station6_' +
+                articleList[i] +
+                '_BZ"></td><td name="station6_' +
+                articleList[i] +
+                '_RZ"></td><td name="station7_' +
+                articleList[i] +
+                '_BZ"></td><td name="station7_' +
+                articleList[i] +
+                '_RZ"></td><td name="station8_' +
+                articleList[i] +
+                '_BZ"></td><td name="station8_' +
+                articleList[i] +
+                '_RZ"></td><td name="station9_' +
+                articleList[i] +
+                '_BZ"></td><td name="station9_' +
+                articleList[i] +
+                '_RZ"></td><td name="station10_' +
+                articleList[i] +
+                '_BZ"></td><td name="station10_' +
+                articleList[i] +
+                '_RZ"></td><td name="station11_' +
+                articleList[i] +
+                '_BZ"></td><td name="station11_' +
+                articleList[i] +
+                '_RZ"></td><td name="station12_' +
+                articleList[i] +
+                '_BZ"></td><td name="station12_' +
+                articleList[i] +
+                '_RZ"></td><td name="station13_' +
+                articleList[i] +
+                '_BZ"></td><td name="station13_' +
+                articleList[i] +
+                '_RZ"></td><td name="station14_' +
+                articleList[i] +
+                '_BZ"></td><td name="station14_' +
+                articleList[i] +
+                '_RZ"></td><td name="station15_' +
+                articleList[i] +
+                '_BZ"></td><td name="station15_' +
+                articleList[i] +
+                '_RZ"></td></tr>';
+            }
+            detailedTableBody.innerHTML +=
+              '<tr><td class="sticky-column" name="subtotal">Σ</td><td name="station1_BZ_subtotal"></td><td name="station1_RZ_subtotal"></td><td name="station2_BZ_subtotal"></td><td name="station2_RZ_subtotal"></td><td name="station3_BZ_subtotal"></td><td name="station3_RZ_subtotal"></td><td name="station4_BZ_subtotal"></td><td name="station4_RZ_subtotal"></td><td name="station6_BZ_subtotal"></td><td name="station6_RZ_subtotal"></td><td name="station7_BZ_subtotal"></td><td name="station7_RZ_subtotal"></td><td name="station8_BZ_subtotal"></td><td name="station8_RZ_subtotal"></td><td name="station9_BZ_subtotal"></td><td name="station9_RZ_subtotal"></td><td name="station10_BZ_subtotal"></td><td name="station10_RZ_subtotal"></td><td name="station11_BZ_subtotal"></td><td name="station11_RZ_subtotal"></td><td name="station12_BZ_subtotal"></td><td name="station12_RZ_subtotal"></td><td name="station13_BZ_subtotal"></td><td name="station13_RZ_subtotal"></td><td name="station14_BZ_subtotal"></td><td name="station14_RZ_subtotal"></td><td name="station15_BZ_subtotal"></td><td name="station15_RZ_subtotal"></td></tr>' +
+              '<tr><td class="sticky-column" name="subtotal">Σ Gesamt</td><td colspan="2" name="station1_total"></td><td colspan="2" name="station2_total"></td><td colspan="2" name="station3_total"></td><td colspan="2" name="station4_total"></td><td colspan="2" name="station6_total"></td><td colspan="2" name="station7_total"></td><td colspan="2" name="station8_total"></td><td colspan="2" name="station9_total"></td><td colspan="2" name="station10_total"></td><td colspan="2" name="station11_total"></td><td colspan="2" name="station12_total"></td><td colspan="2" name="station13_total"></td><td colspan="2" name="station14_total"></td><td colspan="2" name="station15_total"></td></tr>' +
+              '<tr><td class="sticky-column" name="shift">Schicht</td><td colspan="2" name="station1_shift"></td><td colspan="2" name="station2_shift"></td><td colspan="2" name="station3_shift"></td><td colspan="2" name="station4_shift"></td><td colspan="2" name="station6_shift"></td><td colspan="2" name="station7_shift"></td><td colspan="2" name="station8_shift"></td><td colspan="2" name="station9_shift"></td><td colspan="2" name="station10_shift"></td><td colspan="2" name="station11_shift"></td><td colspan="2" name="station12_shift"></td><td colspan="2" name="station13_shift"></td><td colspan="2" name="station14_shift"></td><td colspan="2" name="station15_shift"></td></tr>' +
+              '<tr><td class="sticky-column" name="extra_work">Mehrarbeit</td><td colspan="2" name="station1_extra"></td><td colspan="2" name="station2_extra"></td><td colspan="2" name="station3_extra"></td><td colspan="2" name="station4_extra"></td><td colspan="2" name="station6_extra"></td><td colspan="2" name="station7_extra"></td><td colspan="2" name="station8_extra"></td><td colspan="2" name="station9_extra"></td><td colspan="2" name="station10_extra"></td><td colspan="2" name="station11_extra"></td><td colspan="2" name="station12_extra"></td><td colspan="2" name="station13_extra"></td><td colspan="2" name="station14_extra"></td><td colspan="2" name="station15_extra"></td></tr>';
+          </script>
+        </div>
+        <div
+          id="legend-container"
+          style="
+            position: relative;
+            margin-top: 40px;
+            margin-bottom: 100px;
+            display: none;
+            display: none;
+            /* flex-direction: column;
+            align-items: center; */
+          "
+        >
+          <h3>Erläuterungen:</h3>
+          <br />
+          <div
+            id="legende"
+            class="legende"
+            style="margin-right: 20px; margin-left: 20px"
+          >
+            <p>
+              <em>BZ</em> = Bearbeitungszeit in Minuten <br />
+              <em>RZ</em> = Rüstungszeit in Minuten
+            </p>
+          </div>
+          <br />
+          <div id="shift-legende" class="legende">
+            <table style="border: none; box-shadow: none">
+              <tr>
+                <td style="border-top: none">0 &lt Minuten &lt 2400</td>
+                <td style="border-top: none">1 Schicht</td>
+              </tr>
+              <tr>
+                <td>2400 &lt Minuten &lt 3600</td>
+                <td>1 Schicht + Mehrarbeit</td>
+              </tr>
+              <tr>
+                <td>3600 &lt Minuten &lt 4800</td>
+                <td>2 Schichten</td>
+              </tr>
+              <tr>
+                <td>4800 &lt Minuten &lt 6000</td>
+                <td>2 Schichten + Mehrarbeit</td>
+              </tr>
+              <tr>
+                <td>6000 &lt Minuten &lt 7200</td>
+                <td>3 Schichten</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='7_finances.html'"
+    >
+      Weiter
+      <img id="continue-icon" src="img/continueArrow.png" />
+    </button>
+  </body>
+  <footer>
+    © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
+  </footer>
+</html>
