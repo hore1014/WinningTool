@@ -22,7 +22,7 @@ languages = {
     "de": "de",
     "de": "en",
 }
-language = "de"  # default
+language = "en"  # default
 
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
@@ -431,15 +431,20 @@ def capacity_planer():
 
 @app.route("/6_capacity.html", methods=["POST"])
 def upload_shifts():
-    shifts = {}
+    shifts = []
     for station in stations:
         if station == "Station_5":
             continue
-        shifts[station] = (request.form.get(
-            f"shift_{station}"), request.form.get(f"extra_minutes_{station}"))
+        shifts.append(( # tuple
+            station.replace("Station_", ''),
+            request.form.get(f"shift_{station}"),
+            request.form.get(f"extra_minutes_{station}")
+        ))
+        
     print(shifts)
+    handler.xml_stationen = shifts
     # TODO: Schichten in die DB einlesen bzw ins XML schreiben; Format: Tupel (Schichten, Extraminuten pro Tag)
-
+    handler.write_to_xml()
     return redirect(url_for('xml_download'))
 
 
@@ -450,8 +455,9 @@ def xml_download():
 
 @app.route("/download.html", methods=["POST"])
 def create_results():
+    if os.path.exists(f'src/static/xml/input_results.xml'):
+        os.remove(f'src/static/xml/input_results.xml')
 
-    handler.write_to_xml()
-    # TODO: XML runterladbar machen
+    # TODO: Erfolgsmeldung nach Buttonklick
 
-    return redirect(url_for('home'))
+    return render_template("/download.html", period=period, lang=language, success=True)

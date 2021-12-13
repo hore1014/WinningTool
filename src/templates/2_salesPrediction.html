@@ -862,12 +862,12 @@
           sum += buy * sell;
         }
 
-        if (sum == 0) {
-          document.getElementById("continue-button").hidden = false;
-          document.getElementById("error").hidden = true;
-        } else {
+        if (sum !== 0) {
           document.getElementById("continue-button").hidden = true;
           document.getElementById("error").hidden = false;
+        } else {
+          document.getElementById("continue-button").hidden = false;
+          document.getElementById("error").hidden = true;
         }
       }
     </script>

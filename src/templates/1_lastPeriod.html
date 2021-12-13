@@ -71,6 +71,7 @@
           <div id="dropdown-content" class="dropdown-content">
             <button class="dropdownoption" onclick="changeLanguage('de')"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> German</button>
             <button class="dropdownoption" onclick="changeLanguage('en')"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> English</button>
+          </div>
           {% else %}
           <button onclick="dropDown()" class="dropbutton">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">

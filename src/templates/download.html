@@ -28,23 +28,23 @@
           Laden Sie die Periodenplanwerte in Form einer XML-Datei herunter.
         </p>
         <button class="accent-button download-button">
-          <a href="/test.xml" download>
+          <a href="{{ url_for('static', filename='xml/input_results.xml') }}" download>
             <span class="material-icons white-icon"> file_download </span>
             Datei herunterladen
           </a>
         </button>
         <br />
       </div>
-      <button
+    </form>
+    <button
       class="continue-button"
       type="submit"
       value="Upload"
-      onclick="location.href='index.html'"
+      onclick="location.href='/'"
     >
       Zurück zur Startseite
       <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
     </button>
-    </form>
   </body>
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021

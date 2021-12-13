@@ -17,10 +17,39 @@
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
-    <title>Stock Planer</title>
+    {% if lang == "en" %}
+    <title>Kapazitätsplanung</title>
+    {% else %}
+    <title>Kapazitätsplanung</title>
+    {% endif %}
   </head>
   <body>
     <nav>
+      {% if lang == "en" %}
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Previous Period</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html"
+            >Sales forecasts and production plan</a
+          >
+        </li>
+        <li class="active">
+          <a href="3_stockPlaner.html"
+            >Stock and production of intermediate products</a
+          >
+        </li>
+        <li class="active">
+          <a href="4_productionSequence.html"
+            >Production sequence and splitting</a
+          >
+        </li>
+        <li class="active">
+          <a>Orders</a>
+        </li>
+        <li class="active"><a>Capacity</a></li>
+      {% else %}
       <ul class="progressbar">
         <li class="active">
           <a href="1_lastPeriod.html">Vorherige Periode</a>
@@ -44,6 +73,8 @@
           <a href="5_orders_purchase.html">Bestellungen</a>
         </li>
         <li class="active"><a href="6_capacity.html">Kapazität</a></li>
+        {% endif %}
+        {% if lang == "en" %}
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton" type="button">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
@@ -63,8 +94,52 @@
             </button>
           </div>
         </div>
+        {% else %}
+        <div class="dropdown">
+          <button onclick="dropDown()" class="dropbutton" type="button">Sprache</button>
+          <div id="dropdown-content" class="dropdown-content">
+            <button class="dropdownoption" type="button">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/german.png') }}"
+              />
+              Deutsch
+            </button>
+            <button class="dropdownoption" type="button">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/english.png') }}"
+              />
+              Englisch
+            </button>
+          </div>
+        </div>
+        {% endif %}
       </ul>
       <script>
+        document.addEventListener("keyup", function (event) {
+          checkOvertime()
+        })
+
+        function checkOvertime() {
+          stations = ["Station_1", "Station_2", "Station_3", "Station_4", "Station_6", "Station_7", "Station_8", "Station_9",
+          "Station_10", "Station_11", "Station_12", "Station_13", "Station_14", "Station_15"];
+          counter = 0;
+          stations.forEach(element => { 
+            if (document.getElementsByName('extra_minutes_' + element)[0].value > 240) {
+              counter++;
+            }
+          });
+          if (counter > 0) {
+            document.getElementById("continue-button").hidden = true;
+            document.getElementById("error").hidden = false;
+          }
+          else {
+            document.getElementById("continue-button").hidden = false;
+            document.getElementById("error").hidden = true;
+          }
+        }
+
         /* When the user clicks on the button, 
         toggle between hiding and showing the dropdown content */
         function dropDown() {
@@ -130,6 +205,18 @@
             }
           </script>
 
+          <div id="error" hidden>
+            {% if lang == "en" %}
+            <p class="error">
+              It's not possible to do more than 240 minutes overtime per day.
+            </p>
+            {% else %}             
+            <p class="error">
+              Mehr als 240 Minuten Mehrarbeit pro Tag sind nicht möglich.
+            </p>
+            {% endif %}
+          </div>
+
           <div
             class="
               vertical-scrollable-table-wrapper
@@ -152,7 +239,7 @@
                     <input type="number" name="{{ 'shift_' + stations[station] }}" value="{{ shifts[stations[station]][0] }}">
                   </td>
                   <td class="editable">
-                    <input type="number" name="{{ 'extra_minutes_' + stations[station] }}" value="{{ shifts[stations[station]][1] / 5 }}">
+                    <input type="number" name="{{ 'extra_minutes_' + stations[station] }}" value="{{ (shifts[stations[station]][1] / 5)|int }}">
                   </td>
                 </tr>
                 {% endfor %}
@@ -445,6 +532,7 @@
       </div>
       <button
       class="finish-button"
+      id="continue-button"
       type="submit"
       value="Upload"
       onclick="location.href='download.html'"
