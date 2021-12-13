@@ -17,17 +17,41 @@
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
+    <title>Stock and production of intermediate products</title>
     <title>Lager und Produktion der Zwischenerzeugnisse</title>
   </head>
   <body>
     <nav>
+      {% if lang == "en" %}
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Previous Period</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html"
+            >Sales forecasts and production plan</a
+          >
+        </li>
+        <li class="active">
+          <a>Stock and production of intermediate products</a
+          >
+        </li>
+        <li>
+          <a
+            >Production sequence and splitting</a
+          >
+        </li>
+        <li><a>Orders</a></li>
+        <li><a>Capacity</a></li>
+        <li><a>Finances</a></li>
+      {% else %}
       <ul class="progressbar">
         <li class="active">
           <a href="1_lastPeriod.html">Vorherige Periode</a>
         </li>
         <li class="active">
           <a href="2_salesPrediction.html"
-            >Absatz-Prognosen und Produktionsplan</a
+            >Absatzprognosen und Produktionsplan</a
           >
         </li>
         <li class="active">
@@ -38,7 +62,28 @@
         </li>
         <li><a>Bestellungen</a></li>
         <li><a>Kapazität</a></li>
+        {% endif %}
+        
         <div class="dropdown">
+          {% if lang == "en" %}
+          <button onclick="dropDown()" class="dropbutton">Language</button>
+          <div id="dropdown-content" class="dropdown-content">
+            <button class="dropdownoption">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/german.png') }}"
+              />
+              German
+            </button>
+            <button class="dropdownoption">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/english.png') }}"
+              />
+              English
+            </button>
+          </div>
+          {% else %}
           <button onclick="dropDown()" class="dropbutton">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
             <button class="dropdownoption">
@@ -56,6 +101,7 @@
               Englisch
             </button>
           </div>
+          {% endif %}
         </div>
       </ul>
       <script>
@@ -82,11 +128,19 @@
     </nav>
 
     <div class="big-vertical-container">
+      {% if lang == "en" %}
+      <h3>
+        Enter the planned stock levels of intermediate products for the current period (period {{ period }}).
+      </h3>
+      <p>This will generate the production plan for the intermediate products.</p>
+      {% else %}
       <h3>
         Geben Sie den Planlagerbestand der Zwischenerzeugnisse für die aktuelle
         Periode an.
       </h3>
       <p>Daraus ergibt sich der Produktionsplan der Zwischenerzeugnisse.</p>
+      {% endif %}
+      
       <form method="post">
         <div
           style="
@@ -94,21 +148,33 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-          "
-        >
+          ">
+          {% if lang == "en" %}
+          <button class="accent-button">
+            <span class="material-icons white-icon"> file_upload </span>
+            Calculate
+          </button>
+          {% else %}
           <button class="accent-button">
             <span class="material-icons white-icon"> file_upload </span>
             Berechnen
           </button>
+          {% endif %}
         </div>
         <br />
         <div class="vertical-scrollable-table-wrapper">
           <table id="stock-table">
             <thead>
               <tr>
+                {% if lang == "en" %}
+                <th>Item</th>
+                <th>Planned stock level</th>
+                <th>Production</th>
+                {% else %}
                 <th>Artikel</th>
                 <th>Planlagerbestand</th>
                 <th>Produktion</th>
+                {% endif %}
               </tr>
             </thead>
             <tbody id="table-body">
@@ -431,6 +497,17 @@
     </div>
 
     {% if calculated %}
+    {% if lang == "en" %}
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='4_productionSequence.html'"
+    >
+      Continue
+      <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+    </button>
+    {% else %}
     <button
       class="continue-button"
       type="submit"
@@ -444,8 +521,15 @@
       />
     </button>
     {% endif %}
+    {% endif %}
   </body>
+  {% if lang == "en" %}
+  <footer>
+    © IbSys2 Project by René Hopfe, David Böhm and Amelie Rempel, 2021
+  </footer>
+  {% else %}
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
   </footer>
+  {% endif %}
 </html>

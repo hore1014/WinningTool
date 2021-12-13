@@ -13,7 +13,11 @@
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
-    <title>Daten aus der Vorperiode hochladen</title>
+    {% if lang == "en" %}
+    <title>Upload Data from Previous Period</title>
+    {% else %}
+    <title>Daten der vorigen Periode hochladen</title>
+    {% endif %}
 
     <script>
         /*Aufruf der Dateiauswahl-Button-Funktion*/
@@ -42,18 +46,36 @@
   <body>
     <nav>
       <ul class="progressbar">
+        {% if lang == "en" %}
+        <li class="active"><a>Previous Period</a></li>
+        <li><a>Sales forecasts and production plan</a></li>
+        <li><a>Stock and production of intermediate products</a></li>
+        <li><a>Production sequence and splitting</a></li>    
+        <li><a>Orders</a></li> 
+        <li><a>Capacity</a></li> 
+        <li><a>Finances</a></li>
+        {% else %}
         <li class="active"><a>Vorherige Periode</a></li>
-        <li><a>Absatz-Prognosen und Produktionsplan</a></li>
+        <li><a>Absatzprognosen und Produktionsplan</a></li>
         <li><a>Lager und Produktion der Zwischenerzeugnisse</a></li>
         <li><a>Produktionsreihenfolge und Splitting</a></li>    
         <li><a>Bestellungen</a></li> 
-        <li><a>Kapazität</a></li> 
+        <li><a>Kapazität</a></li>
+        <li><a>Finanzen</a></li>
+        {% endif %}
         <div class="dropdown">
+          {% if lang == "en" %}
+          <button onclick="dropDown()" class="dropbutton">Language</button>
+          <div id="dropdown-content" class="dropdown-content">
+            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> German</button>
+            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> English</button>
+          {% else %}
           <button onclick="dropDown()" class="dropbutton">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
             <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> Deutsch</button>
             <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> Englisch</button>
           </div>
+          {% endif %}
         </div>
       </ul>
       <script>
@@ -82,21 +104,60 @@
     <form method="post" enctype="multipart/form-data">
       <div class="upload-container">
         <img id="file-upload" src="{{ url_for('static', filename='img/FileUpload.png') }}" />
+        {% if lang == "en" %}
+        <h2>Upload final values of the previous period</h2>
+        <p>
+          Upload the final values of the previous period as XML file.
+        </p>
+        <h2>Endwerte der vorherigen Periode hochladen</h2>
+        {% else %}
         <h2>Endwerte der vorherigen Periode hochladen</h2>
         <p>
           Laden Sie die Endwerte der vorherigen Periode in Form einer XML-Datei
           hoch.
         </p>
+        {% endif %}
 
         <input class="file-selector" type="file" accept="text/xml" name="file" id="file-selector">
+        {% if lang == "en" %}
+        <label for="file-selector">Choose file</label>
+        {% else %}
         <label for="file-selector">Datei auswählen</label>
+        {% endif %}
         </input>
+        {% if lang == "en" %}
+        <button class="accent-button">
+          <span class="material-icons white-icon">
+              file_upload
+          </span>
+          Upload
+      </button>
+        {% else %}
         <button class="accent-button">
             <span class="material-icons white-icon">
                 file_upload
             </span>
             Hochladen
         </button>
+        {% endif %}
+
+        {% if lang == "en" %}
+        {% if error %}
+        <p class="error">Please choose a file!</p>
+        {% endif %}
+        {% if invalid %}
+        <p class="invalid">Either syntax or content of selected file is invalid!</p>
+        {% endif %}
+        {% if message %}
+        <p class="success">File for period {{ period }} has been uploaded succesfully.</p>
+        {% endif %}
+        {% if overwrite %}
+        <p class="info">Data for period {{ period }} has been updated.</p>
+        {% endif %}
+        <br>
+        <p>If this is your first period and there are no previous ones, do not upload a file and press "Continue".</p>
+        
+        {% else %}
         {% if error %}
         <p class="error">Bitte eine Datei auswählen!</p>
         {% endif %}
@@ -111,9 +172,20 @@
         {% endif %}
         <br>
         <p>Falls das Ihre erste Periode ist und es keine vorherigen gibt, laden Sie keine Datei hoch und drücken Sie auf "Weiter".</p>
+        {% endif %}
       </div>
     </form>
 
+    {% if lang == "en" %}
+    <button 
+      class="continue-button" 
+      type="submit" 
+      value="Upload" 
+      onclick="location.href='2_salesPrediction.html'">
+      Continue
+      <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
+  </button>
+    {% else %}
     <button 
       class="continue-button" 
       type="submit" 
@@ -122,8 +194,15 @@
       Weiter
       <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
     </button>
+    {% endif %}
   </body>
+  {% if lang == "en" %}
+  <footer>
+    © IbSys2 Project by René Hopfe, David Böhm and Amelie Rempel, 2021
+  </footer>
+  {% else %}
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
   </footer>
+  {% endif %}
 </html>
