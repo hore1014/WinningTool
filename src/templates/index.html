@@ -18,12 +18,24 @@
   <body>
     <div class="container">
       <h1>SUPPLY CHAIN PLANER</h1>
+      {% if lang == "en" %}
+      <button class="accent-button" onclick="location.href='1_lastPeriod.html'">
+        Start planning next period
+      </button>
+      {% else %}
       <button class="accent-button" onclick="location.href='1_lastPeriod.html'">
         Planung der nächsten Periode starten
       </button>
+      {% endif %}
     </div>
   </body>
+  {% if lang == "en" %}
   <footer>
-    © IbSys2 проект от René Hopfe, David Böhm и Amelie Rempel, 2021
+    © IbSys2 Project by René Hopfe, David Böhm and Amelie Rempel, 2021
   </footer>
+  {% else %}
+  <footer>
+    © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
+  </footer>
+  {% endif %}
 </html>

@@ -15,12 +15,17 @@
     />
     <meta
       name="description"
-      content="The Supply Chain Planner is used to plan orders, inventory, production and sales"
+      content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
+    {% if lang == "en" %}
+    <title>Produktionsreihenfolge und Splitting</title>
+    {% else %}
     <title>Production sequence and splitting</title>
+    {% endif %}
   </head>
   <body>
     <nav>
+      {% if lang == "en" %}
       <ul class="progressbar">
         <li class="active">
           <a href="1_lastPeriod.html">Previous Period</a>
@@ -42,10 +47,34 @@
         <li><a>Capacity</a></li>
         <li><a>Finances</a></li>
       </ul>
+      {% else %}
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Vorherige Periode</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html"
+            >Absatz-Prognosen und Produktionsplan</a
+          >
+        </li>
+        <li class="active">
+          <a href="3_stockPlaner.html"
+            >Lager und Produktion der Zwischenerzeugnisse</a
+          >
+        </li>
+        <li class="active">
+          <a>Produktionsreihenfolge und Splitting</a>
+        </li>
+        <li><a>Bestellungen</a></li>
+        <li><a>Kapazität</a></li>
+        <li><a>Finanzen</a></li>
+      </ul>
+      {% endif %}
     </nav>
 
     <div class="big-horizontal-container starts-below-navbar">
       <div class="centered-container">
+        {% if lang == "en" %}
         <h3>
           Put the orders in the production sequence you wish and enter the quantity to be produced.
         </h3>
@@ -54,10 +83,23 @@
           <br />
           You can also add new cells via the "plus" sign to split a job.
         </p>
+        {% else %}
+        <h3>
+          Bringen Sie die Aufträge in Ihre gewünschte Produktionsreihenfolge und
+          geben Sie die zu produzierende Anzahl ein.
+        </h3>
+        <p>
+          Die Aufträge werden gemäß der Reihenfolge (von links nach rechts) produziert.
+          <br />
+          Sie können auch neue Zellen über das "Plus"-Zeichen hinzufügen, um
+          einen Auftrag zu splitten.
+        </p>
+        {% endif %}
       </div>
 
       <div class="centered-container">
         <form class="new-column-form">
+          {% if lang == "en" %}
           <span>New production job<em>(splitting)</em> :</span>
           <input
             type="text"
@@ -65,13 +107,30 @@
             name="article-name"
             placeholder="item name"
           />
+          {% else %}
+          <span>Neuer Produktionsauftrag <em>(Splitting)</em> :</span>
+          <input
+            type="text"
+            id="article-name"
+            name="article-name"
+            placeholder="Artikelname"
+          />
+          {% endif %}
+          {% if lang == "en" %}
           <button type="button" id="addColumnButton" class="accent-button">
             <span class="material-icons white-icon"> add </span> Add new column
           </button>
+          {% else %}
+          <button type="button" id="addColumnButton" class="accent-button">
+            <span class="material-icons white-icon"> add </span> Neue Spalte
+            hinzufügen
+          </button>
+          {% endif %}
         </form>
       </div>
 
       {% if error == "sum" %}
+      {% if lang == "en" %}
       <p class="error">
         The quantities of the split products must correspond in total to the initial quantity!
       </p>
@@ -83,6 +142,20 @@
       <p class="error">
         A maximum of 60 production orders may be created!
       </p>
+      {% else %}
+      <p class="error">
+        Die Mengen der aufgeteilten Produkte müssen in Summe der Ausgangsmenge
+        entsprechen!
+      </p>
+      {% endif %} {% if error == "keys" %}
+      <p class="error">
+        Es dürfen keine Produkte aus der Produktionsplanung ausgelassen werden!
+      </p>
+      {% endif %} {% if error == "limit" %}
+      <p class="error">
+        Es dürfen maximal 60 Produktionsaufträge erstellt werden!
+      </p>
+      {% endif %}
       {% endif %}
 
       <form method="post">
@@ -96,10 +169,18 @@
                       <th></th>
                     </tr>
                     <tr>
+                      {% if lang == "en" %}
                       <th>Item</th>
+                      {% else %}
+                      <th>Artikel</th>
+                      {% endif %}
                     </tr>
                     <tr>
+                      {% if lang == "en" %}
                       <th>Amount</th>
+                      {% else %}
+                      <th>Anzahl</th>
+                      {% endif %}
                     </tr>
                     <tr>
                       <th id="last-header"></th>
@@ -144,6 +225,7 @@
           <input type="text" name="results_list" value="{{ results_list }}" />
         </div>
 
+        {% if lang == "en" %}
         <button
           class="continue-button"
           type="submit"
@@ -156,6 +238,20 @@
             src="{{ url_for('static', filename='img/continueArrow.png') }}"
           />
         </button>
+        {% else %}
+        <button
+          class="continue-button"
+          type="submit"
+          value="Upload"
+          onclick="update_results()"
+        >
+          Weiter
+          <img
+            id="continue-icon"
+            src="{{ url_for('static', filename='img/continueArrow.png') }}"
+          />
+        </button>
+        {% endif %}
       </form>
 
       <script>
@@ -524,7 +620,13 @@
       });
     }
   </script>
+  {% if lang == "en" %}
   <footer>
     © IbSys2 Project by René Hopfe, David Böhm and Amelie Rempel, 2021
   </footer>
+  {% else %}
+  <footer>
+    © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
+  </footer>
+  {% endif %}
 </html>

@@ -17,10 +17,37 @@
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
+    <title>Orders</title>
     <title>Bestellungen</title>
   </head>
   <body>
     <nav>
+      {% if lang == "en" %}
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Previous Period</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html"
+            >Sales forecasts and production plan</a
+          >
+        </li>
+        <li class="active">
+          <a href="3_stockPlaner.html"
+            >Stock and production of intermediate products</a
+          >
+        </li>
+        <li class="active">
+          <a href="4_productionSequence.html"
+            >Production sequence and splitting</a
+          >
+        </li>
+        <li class="active">
+          <a>Orders</a>
+        </li>
+        <li><a>Capacity</a></li>
+        <li><a>Finances</a></li>
+      {% else %}
       <ul class="progressbar">
         <li class="active">
           <a href="1_lastPeriod.html">Vorherige Periode</a>
@@ -46,24 +73,38 @@
         <li><a>Kapazität</a></li>
         <li><a>Finanzen</a></li>
       </ul>
+      {% endif %}
     </nav>
 
     <form method="post">
       <div class="centerd-big-elements-container">
+        {% if lang == "en" %}
+        <h3 class="centered-header">
+          Schedule your orders of purchase items.
+        </h3>
+        {% else %}
         <h3 class="centered-header">
           Planen Sie Ihre Bestellungen der Kaufteile.
         </h3>
+        {% endif %}
         <div class="details-button-container">
           <button class="details-button" type="button" onclick="showOtherTable()">
             <span class="material-icons"> article </span>
+            {% if lang == "en" %}
+            <span id="details-button-text">Detailed view</span>
+            {% else %}
             <span id="details-button-text">Detaillierte Ansicht</span>
+            {% endif %}
           </button>
         </div>
         <table class="page-divider">
           <tr>
             <td class="page-division">
+              <input type="hidden"  id="language" value="{{ lang }}">
               <script>
                 function showOtherTable() {
+                  var language = document.querySelector('#language').value
+
                   var detailedTable = document.getElementById("detailed-table");
                   var stickyDetailedHeader = document.getElementById("sticky-table-header");
                   var undetailedTable =
@@ -71,28 +112,50 @@
                   var detailsButtonText = document.getElementById(
                     "details-button-text"
                   );
-
-                  if (detailsButtonText.innerHTML == "Detaillierte Ansicht") {
-                    undetailedTable.style.display = "none";
-                    detailedTable.style.display = "block";
-                    stickyDetailedHeader.style.display = "block";
-                    detailsButtonText.textContent = "Minimierte Ansicht";
-                  } else {
-                    detailedTable.style.display = "none";
-                    stickyDetailedHeader.style.display = "none";
-                    undetailedTable.style.display = "block";
-                    detailsButtonText.textContent = "Detaillierte Ansicht";
+                  if(language == "en"){
+                    if (detailsButtonText.innerHTML == "Detailed view") {
+                      undetailedTable.style.display = "none";
+                      detailedTable.style.display = "block";
+                      stickyDetailedHeader.style.display = "block";
+                      detailsButtonText.textContent = "Minimized view";
+                    } else {
+                      detailedTable.style.display = "none";
+                      stickyDetailedHeader.style.display = "none";
+                      undetailedTable.style.display = "block";
+                      detailsButtonText.textContent = "Detailed view";
+                    }
                   }
+                  else {
+                      if (detailsButtonText.innerHTML == "Detaillierte Ansicht") {
+                      undetailedTable.style.display = "none";
+                      detailedTable.style.display = "block";
+                      stickyDetailedHeader.style.display = "block";
+                      detailsButtonText.textContent = "Minimierte Ansicht";
+                    } else {
+                      detailedTable.style.display = "none";
+                      stickyDetailedHeader.style.display = "none";
+                      undetailedTable.style.display = "block";
+                      detailsButtonText.textContent = "Detaillierte Ansicht";
+                    }
+                  }
+                  
                 }
               </script>
               <div class="vertical-scrollable-table-wrapper ">
                 <table id="undetailed-table">
                   <thead>
                     <tr>
+                      {% if lang == "en" %}
+                      <th>Item</th>
+                      <th>Discount amount</th>
+                      <th>Normal order amount</th>
+                      <th>Rush order amount</th>
+                      {% else %}
                       <th>Artikel</th>
                       <th>Diskontmenge</th>
                       <th>Bestellmenge Normal</th>
                       <th>Bestellmenge Eil</th>
+                      {% endif %}
                     </tr>
                   </thead>
                   <tbody id="undetailed-table-body">
@@ -134,6 +197,39 @@
                     <col />
                     <col />
                     <tr>
+                      {% if lang == "en" %}
+                      <th class="sticky-column sticky-column-header" rowspan="2">Item</th>
+                      <th colspan="3">Period {{ period }}</th>
+                      <th colspan="3">Period {{ period + 1 }}</th>
+                      <th colspan="3">Period {{ period + 2 }}</th>
+                      <th colspan="3">Period {{ period + 3 }}</th>
+                      <th rowspan="2">Range <br />(in days)</th>
+                      <th rowspan="2">
+                        Normal order duration <br />
+                        (in days)
+                      </th>
+                      <th rowspan="2">
+                        Rush order duration<br />
+                        (in days)
+                      </th>
+                      <th rowspan="2">Discount amount</th>
+                      <th rowspan="2">Normal order amount</th>
+                      <th rowspan="2">Rush order amount</th>
+                    </tr>
+                    <tr>
+                      <th>Initial stock level</th>
+                      <th>Consumption</th>
+                      <th>Final stock level</th>
+                      <th>Initial stock level</th>
+                      <th>Consumption</th>
+                      <th>Final stock level</th>
+                      <th>Initial stock level</th>
+                      <th>Consumption</th>
+                      <th>Final stock level</th>
+                      <th>Initial stock level</th>
+                      <th>Consumption</th>
+                      <th>Final stock level</th>
+                      {% else %}
                       <th class="sticky-column sticky-column-header" rowspan="2">Artikel</th>
                       <th colspan="3">Periode {{ period }}</th>
                       <th colspan="3">Periode {{ period + 1 }}</th>
@@ -165,6 +261,7 @@
                       <th>Anfangsbestand</th>
                       <th>Verbrauch</th>
                       <th>Endbestand</th>
+                      {% endif %}
                     </tr>
                   </thead>
                 </table>
@@ -184,6 +281,39 @@
                     <col />
                     <col />
                     <tr>
+                      {% if lang == "en" %}
+                      <th class="sticky-column" rowspan="2">Item</th>
+                      <th colspan="3">Period {{ period }}</th>
+                      <th colspan="3">Period {{ period + 1 }}</th>
+                      <th colspan="3">Period {{ period + 2 }}</th>
+                      <th colspan="3">Period {{ period + 3 }}</th>
+                      <th rowspan="2">Range <br />(in days)</th>
+                      <th rowspan="2">
+                        Normal order duration <br />
+                        (in days)
+                      </th>
+                      <th rowspan="2">
+                        Rush order duration<br />
+                        (in days)
+                      </th>
+                      <th rowspan="2">Discount amount</th>
+                      <th rowspan="2">Normal order amount</th>
+                      <th rowspan="2">Rush order amount</th>
+                    </tr>
+                    <tr>
+                      <th>Initial stock level</th>
+                      <th>Consumption</th>
+                      <th>Final stock level</th>
+                      <th>Initial stock level</th>
+                      <th>Consumption</th>
+                      <th>Final stock level</th>
+                      <th>Initial stock level</th>
+                      <th>Consumption</th>
+                      <th>Final stock level</th>
+                      <th>Initial stock level</th>
+                      <th>Consumption</th>
+                      <th>Final stock level</th>
+                      {% else %}
                       <th class="sticky-column" rowspan="2">Artikel</th>
                       <th colspan="3">Periode {{ period }}</th>
                       <th colspan="3">Periode {{ period + 1 }}</th>
@@ -215,6 +345,7 @@
                       <th>Anfangsbestand</th>
                       <th>Verbrauch</th>
                       <th>Endbestand</th>
+                      {% endif %}
                     </tr>
                   </thead>
                   <tbody id="detailed-table-body">
@@ -361,6 +492,15 @@
                   <div id="icon-container">
                     <img id="warning-icon" src="{{ url_for('static', filename='img/warning.png') }}" />
                   </div>
+                  {% if lang == "en" %}
+                  <h3 class="warning-header">
+                    There are items that will not arrive in time, despite placing a rush order!
+                  </h3>
+                  <p class="warning-text">
+                    Look at the trading place to see if the item is available there and add it at "Trade".
+                    <br />
+                  </p>
+                  {% else %}
                   <h3 class="warning-header">
                     Es gibt Artikel, die trotz Eilbestellung nicht abgedeckt werden
                     können!
@@ -370,6 +510,24 @@
                     kaufen ist und tragen Sie die Artikel unter "Handel" ein.
                     <br />
                   </p>
+                  {% endif %}
+                  {% if lang == "en" %}
+                  <button
+                    class="return-button"
+                    type="button"
+                    value="Upload"
+                    onclick="location.href='2_salesPrediction.html'"
+                  >
+                    <table>
+                      <tr>
+                        <td>
+                          <img id="return-icon" src="{{ url_for('static', filename='img/returnArrow.png') }}" />
+                        </td>
+                        <td>Back to sales and trade planning</td>
+                      </tr>
+                    </table>
+                  </button>
+                  {% else %}
                   <button
                     class="return-button"
                     type="button"
@@ -385,10 +543,17 @@
                       </tr>
                     </table>
                   </button>
+                  {% endif %}
+                  {% if lang == "en" %}
+                  <p class="warning-text">
+                    Or reduce the inventory of the parts that need the particular purchase item.
+                  </p>
+                  {% else %}
                   <p class="warning-text">
                     Oder reduzieren Sie den Lagerbestand der Teile, die das
                     jeweilige Kaufteil benötigen.
                   </p>
+                  {% endif %}
 
                   <button
                     class="return-button"
@@ -401,9 +566,15 @@
                         <td>
                           <img id="return-icon" src="{{ url_for('static', filename='img/returnArrow.png') }}" />
                         </td>
+                        {% if lang == "en" %}
+                        <td>
+                          Back to stock and production of intermediate products
+                        </td>
+                        {% else %}
                         <td>
                           Zurück zum Lager und Produktion der Zwischenerzeugnisse
                         </td>
+                        {% endif %}
                       </tr>
                     </table>
                   </button>
@@ -421,6 +592,20 @@
         </div>
       </div>
 
+      {% if lang == "en" %}
+      <button
+        class="continue-button"
+        type="submit"
+        value="Upload"
+        onclick="location.href='6_capacity.html'"
+      >
+        Continue
+        <img
+          id="continue-icon"
+          src="{{ url_for('static', filename='img/continueArrow.png') }}"
+        />
+      </button>
+      {% else %}
       <button
         class="continue-button"
         type="submit"
@@ -433,9 +618,16 @@
           src="{{ url_for('static', filename='img/continueArrow.png') }}"
         />
       </button>
+      {% endif %}
     </form>
   </body>
+  {% if lang == "en" %}
+  <footer>
+    © IbSys2 Project by René Hopfe, David Böhm and Amelie Rempel, 2021
+  </footer>
+  {% else %}
   <footer>
     © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
   </footer>
+  {% endif %}
 </html>
