@@ -85,7 +85,7 @@ input[type="text"]:focus {
 }
 
 input[type="number"] {
-  font-size: 16px;
+  font-size: 15px;
   text-align: center;
   padding: 20px;
   width: 100%;
