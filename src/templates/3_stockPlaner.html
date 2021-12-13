@@ -593,10 +593,10 @@
          
           <table id="detailed-stock-table" style="display: none">
             <thead>
-              {%if lang == "en"%}
+              {% if lang == "en" %}
               <tr>
                 <th colspan="2" rowspan="2"></th>
-                <th colspan="30">Products that trigger demand</th>
+                <th colspan="21">Bill of Materials processing</th>
                 <th colspan="6">
                   Additional factors that go into the quantity of parts to be produced.
                 </th>
@@ -605,7 +605,7 @@
               {% else %}
               <tr>
                 <th colspan="2" rowspan="2"></th>
-                <th colspan="30">Stücklistenauflösung</th>
+                <th colspan="21">Stücklistenauflösung</th>
                 <th colspan="6">
                   Zusätzliche Faktoren, die in die Menge der zu produzierenden
                   Teile einfließen.
@@ -620,20 +620,11 @@
                 <th>E4</th>
                 <th>E5</th>
                 <th>E6</th>
-                <th>E7</th>
-                <th>E8</th>
-                <th>E9</th>
                 <th>E10</th>
                 <th>E11</th>
                 <th>E12</th>
-                <th>E13</th>
-                <th>E14</th>
-                <th>E15</th>
                 <th>E16</th>
                 <th>E17</th>
-                <th>E18</th>
-                <th>E19</th>
-                <th>E20</th>
                 <th>E26</th>
                 <th>E29</th>
                 <th>E30</th>
@@ -667,7 +658,7 @@
                 <th
                   class="sticky-column sticky-column-header"
                   rowspan="32"
-                  style="writing-mode: vertical-lr; text-align: left"
+                  style="writing-mode: vertical-rl; text-align: left"
                 >
                   Products that we produce
                 </th>
@@ -675,15 +666,33 @@
                 <th
                   class="sticky-column sticky-column-header"
                   rowspan="32"
-                  style="writing-mode: vertical-lr; text-align: left"
+                  style="writing-mode: vertical-rl; text-align: left"
                 >
                   Produkte, die wir produzieren
                 </th>
                 {% endif %}
               </tr>
+              {% for article in range(0, len) %}
+              <tr>
+                <th class="sticky-column sticky-column-header" style="left: 42px;">
+                  {{ articles[article] }}
+                </th>
+                {% for column in range(0, len_h) %}
+                <td name="{{ articles[article] + 'needed_for_' + headers[column] }}">{{ 0 }}</td>
+                {% endfor %}
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              {% endfor %}
             </tbody>
           </table>
           <script>
+            /*
             const articleList = [
             "P1",
             "P2",
@@ -717,7 +726,7 @@
             "E56",
           ];
 
-          /* Fill-Table with Rows */
+          // Fill-Table with Rows
           var detailedTableBody = document.getElementById("detailed-table-body");
 
           for (var i = 0; i < articleList.length; i++) {
@@ -728,6 +737,7 @@
               articleList[i] +
               '" type="number" value="100" /></td><td name="current_stock"></td><td name="in_work"></td><td name="waiting"></td><td name="direct_buy"></td><td name="direct_sell"></td><td name="total_production"></td></tr>';
           }
+          */
         </script>
         </div>
       </form>
