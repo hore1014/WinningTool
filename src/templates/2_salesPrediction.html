@@ -497,10 +497,12 @@
                     <td>Item</td>
                     <td>Order amount</td>
                     <td>Sales volume</td>
+                    <td>Penalty Price </td>
                     <td>
                       Price <br />
                       (€ per item)
-                  </td
+                    </td>
+                    <td>Penalty Price <br> (€ per item)</td>
                     {% else %}                    
                     <td>Artikel</td>
                     <td>Bestellmenge</td>
@@ -509,6 +511,7 @@
                       Preis <br />
                       (€ pro Stück)
                     </td>
+                    <td>Bußgeld<br> (€ pro Stück)</td>
                     {% endif %}
                   </tr>
                 </thead>
@@ -536,6 +539,13 @@
                       <input
                         type="number"
                         name="{{ 'price_' + all_parts[article] }}"
+                        value="{{ 0 }}"
+                      />
+                    </td>
+                    <td class="editable">
+                      <input
+                        type="number"
+                        name="{{ 'penalty_' + all_parts[article] }}"
                         value="{{ 0 }}"
                       />
                     </td>
