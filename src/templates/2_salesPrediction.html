@@ -356,10 +356,13 @@
                 content.style.display = "none";
                 document.getElementById("arrow-down").style.transform =
                   "rotate(0deg)";
+                document.getElementById("main-container").style.marginTop = "0";
               } else {
                 content.style.display = "block";
                 document.getElementById("arrow-down").style.transform =
                   "rotate(180deg) translateY(5px)";
+                document.getElementById("main-container").style.marginTop =
+                  "300px";
               }
             });
           }
