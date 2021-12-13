@@ -322,7 +322,7 @@ def write_to_xml():
     data = exml.export_xml(xml_absatz, xml_absatz_direkt,
                            xml_bestellungen, xml_produktion, xml_stationen)
 
-    with open(f'src/templates/input_results.xml', 'w') as file:
+    with open(f'src/static/xml/input_results.xml', 'w') as file:
         file.write(data)
 
 

@@ -455,8 +455,8 @@ def xml_download():
 
 @app.route("/download.html", methods=["POST"])
 def create_results():
-    if os.path.exists(f'src/templates/input_results.xml'):
-        os.remove(f'src/templates/input_results.xml')
+    if os.path.exists(f'src/static/xml/input_results.xml'):
+        os.remove(f'src/static/xml/input_results.xml')
 
     # TODO: Erfolgsmeldung nach Buttonklick
 
