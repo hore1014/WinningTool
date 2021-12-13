@@ -30,14 +30,14 @@
       <div class="dropdown" style="margin: 10px">
         <button type="button" onclick="dropDown()" class="dropbutton">Language</button>
         <div id="dropdown-content" class="dropdown-content">
-          <button type="button" class="dropdownoption" onclick="changeLanguage('de')">
+          <button type="button" class="dropdownoption" onclick="location.href='/?lang=de'">
             <img
               class="flag"
               src="{{ url_for('static', filename='img/german.png') }}"
             />
             German
           </button>
-          <button type="button" class="dropdownoption" onclick="changeLanguage('en')">
+          <button type="button" class="dropdownoption" onclick="location.href='/?lang=en'">
             <img
               class="flag"
               src="{{ url_for('static', filename='img/english.png') }}"
@@ -50,14 +50,14 @@
       <div class="dropdown" style="margin: 10px">
         <button type="button" onclick="dropDown()" class="dropbutton">Sprache</button>
         <div id="dropdown-content" class="dropdown-content">
-          <button type="button" class="dropdownoption" onclick="changeLanguage('de')">
+          <button type="button" class="dropdownoption" onclick="location.href='/?lang=de'">
             <img
               class="flag"
               src="{{ url_for('static', filename='img/german.png') }}"
             />
             Deutsch
           </button>
-          <button type="button" class="dropdownoption" onclick="changeLanguage('en')">
+          <button type="button" class="dropdownoption" onclick="location.href='/?lang=en'">
             <img
               class="flag"
               src="{{ url_for('static', filename='img/english.png') }}"

@@ -37,6 +37,8 @@ app.config["SECRET_KEY"] = os.urandom(24).hex()  # random key
 
 @app.route("/")
 def home():
+    args = request.args
+    language = args.get("lang")
     return render_template("/index.html", lang=language)
 
 

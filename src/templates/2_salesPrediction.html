@@ -517,9 +517,7 @@
                     <td name="{{ 'article_' + all_parts[article] }}">
                       {{ all_parts[article] }}
                     </td>
-                    <td class="">
-                      
-                    </td>
+                    <td></td>
                     <td class="editable">
                       <input
                         type="number"
@@ -873,13 +871,18 @@
         var sum = 0;
 
         for (var row = 1; row < tradeTable.rows.length; row++) {
-          buy =
+          if (row === 1 || row === 2 || row === 3) {
+            buy = 0
+          }
+          else {
+            buy =
             tradeTable.rows[row].cells[1].getElementsByTagName("input")[0]
               .value;
+          }
           sell =
             tradeTable.rows[row].cells[2].getElementsByTagName("input")[0]
               .value;
-          // console.log(`buy: ${buy}, sell: ${sell}`);
+          console.log(`buy: ${buy}, sell: ${sell}`);
           sum += buy * sell;
         }
 
