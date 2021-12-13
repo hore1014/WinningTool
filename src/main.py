@@ -205,7 +205,7 @@ def upload_prediction():
 
     # trading data
     tradeData = {}
-    tradeData_db = []
+    tradeData_db = []  # list of dicts for db
     for article in handler.lookupArticles.p_e_k_list:
         if (article not in ["P1", "P2", "P3"]):
             buy = request.form.get('order_amount_' + article)
@@ -214,8 +214,10 @@ def upload_prediction():
         sell = request.form.get('sell_amount_' + article)
         price = request.form.get('price_' + article)
         if (article in ["P1", "P2", "P3"]):
+            buy = 0
             penalty = request.form.get('penalty_' + article)
         else:
+            buy = request.form.get('order_amount_' + article)
             penalty = 0
 
         if (buy != sell):
@@ -226,7 +228,8 @@ def upload_prediction():
                 "Direktverkauf": sell,
                 "Preis": price
             })
-            tradeData[article] = (buy, sell, price, penalty)
+
+        tradeData[article] = (buy, sell, price, penalty)
 
     # Daten in die DB schreiben
     handler.write_input_to_db(salesData, "Absatzprognose")
@@ -244,6 +247,7 @@ def upload_prediction():
             (el['Artikel'], el['Aktuell_0'])
         )
 
+    print(tradeData)
     for el in ['P1', 'P2', 'P3']:
         handler.xml_absatz_direkt.append((
             # article, sell-amount, price, penalty
