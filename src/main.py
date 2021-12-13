@@ -213,7 +213,7 @@ def upload_prediction():
             penalty = request.form.get('penalty_' + article)
         else:
             penalty = 0
-            
+
         if (buy != sell):
             tradeData_db.append({
                 "Periode": period,
@@ -224,7 +224,7 @@ def upload_prediction():
             })
             tradeData[article] = (buy, sell, price, penalty)
         else:
-            print("Gleiche Artikel können nicht gekauft und verkauft werden!" )
+            print("Gleiche Artikel können nicht gekauft und verkauft werden!")
 
     # Daten in die DB schreiben
     handler.write_input_to_db(salesData, "Absatzprognose")
@@ -246,7 +246,7 @@ def upload_prediction():
         handler.xml_absatz_direkt.append((
             # article, sell-amount, price, penalty
             el, tradeData[el][1], tradeData[el][2], tradeData[el][3]
-            ))
+        ))
 
     return redirect(url_for('stock_planer'))
 

@@ -536,7 +536,7 @@
               {% else %}
               <tr>
                 <th colspan="2" rowspan="2"></th>
-                <th colspan="30">Stücklistenauflösung</th>
+                <th colspan="21">Stücklistenauflösung</th>
                 <th colspan="6">
                   Zusätzliche Faktoren, die in die Menge der zu produzierenden
                   Teile einfließen.
@@ -605,8 +605,11 @@
               </tr>
               {% for article in range(0, len) %}
               <tr>
-                {% for article2 in range(0, len_h) %}
-                <td name="{{ + 'needed_for_' +  }}">{{  }}</td>
+                <th class="sticky-column sticky-column-header" style="left: 42px;">
+                  {{ articles[article] }}
+                </th>
+                {% for column in range(0, len_h) %}
+                <td name="{{ articles[article] + 'needed_for_' + headers[column] }}">{{ 0 }}</td>
                 {% endfor %}
                 <td></td>
                 <td></td>
@@ -620,6 +623,7 @@
             </tbody>
           </table>
           <script>
+            /*
             const articleList = [
             "P1",
             "P2",
@@ -653,7 +657,7 @@
             "E56",
           ];
 
-          /* Fill-Table with Rows */
+          // Fill-Table with Rows
           var detailedTableBody = document.getElementById("detailed-table-body");
 
           for (var i = 0; i < articleList.length; i++) {
@@ -664,6 +668,7 @@
               articleList[i] +
               '" type="number" value="100" /></td><td name="current_stock"></td><td name="in_work"></td><td name="waiting"></td><td name="direct_buy"></td><td name="direct_sell"></td><td name="total_production"></td></tr>';
           }
+          */
         </script>
         </div>
       </form>
