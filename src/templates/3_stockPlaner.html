@@ -137,7 +137,11 @@
       >
         <button class="details-button" onclick="hideManualContent()">
           <span class="material-icons"> menu_book </span>
+          {% if lang == "en" %}
+          <span>Part lists overview</span>
+          {% else %}
           <span>Stücklisten-Übersicht</span>
+          {% endif %}
         </button>
       </div>
       <script>
@@ -160,9 +164,15 @@
         class="manual-content"
         style="display: none; width: 35%; overflow-x: hidden"
       >
-        <img class="manual-page" src="{{ url_for('static', filename='img/manualPages/Stückliste_P1.jpg') }}" />
-        <img class="manual-page" src="{{ url_for('static', filename='img/manualPages/Stückliste_P2.jpg') }}" />
-        <img class="manual-page" src="{{ url_for('static', filename='img/manualPages/Stückliste_P3.jpg') }}" />
+        {% if lang == "en" %}
+        <img class="manual-page" src="{{ url_for('static', filename='img/manualPages/en/Stückliste_P1_en.jpg') }}" />
+        <img class="manual-page" src="{{ url_for('static', filename='img/manualPages/en/Stückliste_P2_en.jpg') }}" />
+        <img class="manual-page" src="{{ url_for('static', filename='img/manualPages/en/Stückliste_P3_en.jpg') }}" />
+        {% else %}
+        <img class="manual-page" src="{{ url_for('static', filename='img/manualPages/de/Stückliste_P1.jpg') }}" />
+        <img class="manual-page" src="{{ url_for('static', filename='img/manualPages/de/Stückliste_P2.jpg') }}" />
+        <img class="manual-page" src="{{ url_for('static', filename='img/manualPages/de/Stückliste_P3.jpg') }}" />
+        {% endif %}
       </div>
     </div>
 
@@ -225,14 +235,14 @@
           );
 
           if(language == "en"){
-              if (detailsButtonText.innerHTML == "Detailled view") {
+              if (detailsButtonText.innerHTML == "Detailed view") {
                 undetailedTable.style.display = "none";
                 detailedTable.style.display = "block";
                 detailsButtonText.textContent = "Minimized view";
               } else {
                 detailedTable.style.display = "none";
                 undetailedTable.style.display = "block";
-                detailsButtonText.textContent = "Detailled view";
+                detailsButtonText.textContent = "Detailed view";
               }
           }
           else{
@@ -580,8 +590,7 @@
               </tr>
             </tbody>
           </table>
-
-          <!-- TODO: Zu übersetzen -->
+         
           <table id="detailed-stock-table" style="display: none">
             <thead>
               {%if lang == "en"%}
@@ -636,12 +645,12 @@
                 <th>E55</th>
                 <th>E56</th>
                 {% if lang == "en" %}
-                <th>Planlagerbestand</th>
-                <th>Lagerbestand</th>
-                <th>Bearbeitung</th>
-                <th>Warteschlange</th>
-                <th>Direktkäufe</th>
-                <th>Direktverkäufe</th>
+                <th>Planned inventory</th>
+                <th>Inventory</th>
+                <th>Processing</th>
+                <th>Queues</th>
+                <th>Direct purchases</th>
+                <th>Direct sales</th>
                 {% else %}
                 <th>Planlagerbestand</th>
                 <th>Lagerbestand</th>
