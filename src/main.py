@@ -17,11 +17,10 @@ sequence = []
 k_list = lookupArticles.k_list
 
 languages = {
-    "German": "de",
-    "English": "en",
+    "de": "de",
+    "de": "en",
 }
-# TODO Get value from user input (use a dict)
-language = languages["English"]
+language = "de" # default 
 
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
@@ -34,12 +33,14 @@ app.config["SECRET_KEY"] = os.urandom(24).hex()  # random key
 def home():
     return render_template("/index.html", lang = language)
 
-# TODO Mit Button verknüpfen
 @app.route("/", methods=["POST"])
-def reset():
-    handler.delete_all_xml()
-    return render_template("/index.html", lang = language)
+def update():
+    global language
+    language = request.form.get('lang')
+    print(f"main: language")
+    #handler.delete_all_xml()
 
+    return render_template("/index.html", lang = language)
 
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
