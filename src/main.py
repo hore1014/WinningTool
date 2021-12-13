@@ -298,7 +298,9 @@ def upload_Sequence():
             continue
         sum = 0
         for amount in item:
-            sum += int(amount) if amount != "" or int(amount) > 0 else 0
+            if (amount == "" or int(amount) < 0):
+                continue
+            sum += int(amount)
         if (production[article]["sum"] != sum):
             print("Error detected!")
             return render_template(f"{language}/4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="sum")
