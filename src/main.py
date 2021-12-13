@@ -37,8 +37,9 @@ app.config["SECRET_KEY"] = os.urandom(24).hex()  # random key
 
 @app.route("/")
 def home():
-    args = request.args
-    language = args.get("lang")
+    global language
+    language = request.args.get("lang") if request.args.get(
+        "lang") != None else language
     return render_template("/index.html", lang=language)
 
 
@@ -49,15 +50,17 @@ def update():
     # print(f"main: language")
     # handler.delete_all_xml()
 
-    return redirect(url_for('lastPeriod'))
+    return redirect(url_for('lastPeriod') + f"?lang={language}")
 
 
-@app.route("/1_lastPeriod.html")
+@app.route("/1_lastPeriod")
 def lastPeriod():
+    args = request.args
+    language = args.get("lang")
     return render_template("/1_lastPeriod.html", error=False, message=False, lang=language)
 
 
-@app.route("/1_lastPeriod.html", methods=["POST"])
+@app.route("/1_lastPeriod", methods=["POST"])
 def upload_file():
     dataOverwritten = False  # default
 
@@ -109,8 +112,10 @@ def upload_file():
     return render_template("/1_lastPeriod.html", error=False, message=True, period=file_period, lang=language)
 
 
-@app.route("/2_salesPrediction.html")
+@app.route("/2_salesPrediction")
 def salesPrediction():
+    args = request.args
+    language = args.get("lang")
     # init database
     handler.init_db()
     # Get default values
@@ -140,7 +145,7 @@ def salesPrediction():
     # TODO: zwei dicts statt der vielen Einzelwerte übergeben
 
 
-@app.route("/2_salesPrediction.html", methods=["POST"])
+@app.route("/2_salesPrediction", methods=["POST"])
 def upload_prediction():
     global stock_P1
     global stock_P2
@@ -256,11 +261,13 @@ def upload_prediction():
             el, tradeData[el][1], tradeData[el][2], tradeData[el][3]
         ))
 
-    return redirect(url_for('stock_planer'))
+    return redirect(url_for('stock_planer') + f"?lang={language}")
 
 
-@ app.route("/3_stockPlaner.html")
+@app.route("/3_stockPlaner")
 def stock_planer():
+    args = request.args
+    language = args.get("lang")
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     current_parts = handler.get_parts_inventory(period)
     for article in lookupArticles.e_list:
@@ -285,7 +292,7 @@ def stock_planer():
                            lang=language)
 
 
-@ app.route("/3_stockPlaner.html", methods=["POST"])
+@app.route("/3_stockPlaner", methods=["POST"])
 def upload_plan():
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     result_data = []
@@ -319,8 +326,10 @@ def upload_plan():
                            lang=language)
 
 
-@ app.route("/4_productionSequence.html")
+@ app.route("/4_productionSequence")
 def production_sequence():
+    args = request.args
+    language = args.get("lang")
     global sequence
     sequence = ["E16", "E7", "E8", "E9", "E13", "E14", "E15", "E18", "E19", "E20", "E4", "E5", "E6", "E10",
                 "E11", "E12", "E29", "E49", "E54", "E17", "E30", "E50", "E55", "E26", "E31", "E51", "E56", "P1", "P3", "P2"]
@@ -338,7 +347,7 @@ def production_sequence():
                            lang=language)
 
 
-@app.route("/4_productionSequence.html", methods=["POST"])
+@app.route("/4_productionSequence", methods=["POST"])
 def upload_Sequence():
     production = handler.production
     data = request.form.to_dict(flat=False)
@@ -412,8 +421,10 @@ def upload_Sequence():
     return redirect(url_for('procurement_planer'))
 
 
-@app.route("/5_orders_purchase.html")
+@app.route("/5_orders_purchase")
 def procurement_planer():
+    args = request.args
+    language = args.get("lang")
     current_parts = handler.get_parts_inventory(period)
     # calculate forecasts and suggestion for orders
     forecasts = handler.get_consumption_forecast()
@@ -435,7 +446,7 @@ def procurement_planer():
         lang=language)
 
 
-@app.route("/5_orders_purchase.html", methods=["POST"])
+@app.route("/5_orders_purchase", methods=["POST"])
 def upload_orders():
     orders = []
     for article in lookupArticles.k_list:
@@ -450,8 +461,10 @@ def upload_orders():
     return redirect(url_for('capacity_planer'))
 
 
-@app.route("/6_capacity.html")
+@app.route("/6_capacity")
 def capacity_planer():
+    args = request.args
+    language = args.get("lang")
     capacity = handler.get_capacity()
     shifts = handler.get_shifts()
     article_list = ["P1", "P2", "P3"]
@@ -470,7 +483,7 @@ def capacity_planer():
     )
 
 
-@app.route("/6_capacity.html", methods=["POST"])
+@app.route("/6_capacity", methods=["POST"])
 def upload_shifts():
     shifts = []
     for station in stations:
@@ -489,12 +502,14 @@ def upload_shifts():
     return redirect(url_for('xml_download'))
 
 
-@app.route("/download.html")
+@app.route("/download")
 def xml_download():
+    args = request.args
+    language = args.get("lang")
     return render_template("/download.html", period=period, lang=language)
 
 
-@app.route("/download.html", methods=["POST"])
+@app.route("/download", methods=["POST"])
 def create_results():
     # if os.path.exists(f'src/static/xml/input_results.xml'):
     #     os.remove(f'src/static/xml/input_results.xml')

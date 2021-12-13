@@ -32,7 +32,7 @@
       <ul class="progressbar">
         {% if lang == "en" %}
         <li class="active">
-          <a href="1_lastPeriod.html">Previous Period</a>
+          <a href="1_lastPeriod?lang=en">Previous Period</a>
         </li>
         <li class="active">
           <a>Sales forecasts and production plan</a>
@@ -47,7 +47,7 @@
         <li><a>Capacity</a></li>
         {% else %}
         <li class="active">
-          <a href="1_lastPeriod.html">Vorherige Periode</a>
+          <a href="1_lastPeriod?lang=de">Vorherige Periode</a>
         </li>
         <li class="active">
           <a>Absatzprognosen und Produktionsplan</a>
@@ -66,14 +66,14 @@
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton">Language</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption" onclick="changeLanguage('de')">
+            <button class="dropdownoption" onclick="location.href='/2_salesPrediction?lang=de'">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/german.png') }}"
               />
               German
             </button>
-            <button class="dropdownoption" onclick="changeLanguage('en')">
+            <button class="dropdownoption" onclick="location.href='/2_salesPrediction?lang=en'">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/english.png') }}"
@@ -86,14 +86,14 @@
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption" onclick="changeLanguage('de')">
+            <button class="dropdownoption" onclick="location.href='/2_salesPrediction?lang=de'">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/german.png') }}"
               />
               Deutsch
             </button>
-            <button class="dropdownoption" onclick="changeLanguage('en')">
+            <button class="dropdownoption" onclick="location.href='/2_salesPrediction?lang=en'">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/english.png') }}"
@@ -709,7 +709,7 @@
         class="continue-button"
         type="submit"
         value="Upload"
-        onclick="location.href='3_stockPlaner.html'"
+        onclick="location.href='3_stockPlaner?lang=en'"
       >
         Continue
         <img
@@ -723,7 +723,7 @@
         class="continue-button"
         type="submit"
         value="Upload"
-        onclick="location.href='3_stockPlaner.html'"
+        onclick="location.href='3_stockPlaner?lang=de'"
       >
         Weiter
         <img

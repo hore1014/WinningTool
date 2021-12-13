@@ -28,64 +28,64 @@
       {% if lang == "en" %}
       <ul class="progressbar">
         <li class="active">
-          <a href="1_lastPeriod.html">Previous Period</a>
+          <a href="1_lastPeriod?lang=en">Previous Period</a>
         </li>
         <li class="active">
-          <a href="2_salesPrediction.html"
+          <a href="2_salesPrediction?lang=en"
             >Sales forecasts and production plan</a
           >
         </li>
         <li class="active">
-          <a href="3_stockPlaner.html"
+          <a href="3_stockPlaner?lang=en"
             >Stock and production of intermediate products</a
           >
         </li>
         <li class="active">
-          <a href="4_productionSequence.html"
+          <a href="4_productionSequence?lang=en"
             >Production sequence and splitting</a
           >
         </li>
         <li class="active">
-          <a href="5_orders_purchase.html">Orders</a>
+          <a href="5_orders_purchase?lang=en">Orders</a>
         </li>
         <li class="active"><a>Capacity</a></li>
       {% else %}
       <ul class="progressbar">
         <li class="active">
-          <a href="1_lastPeriod.html">Vorherige Periode</a>
+          <a href="1_lastPeriod?lang=de">Vorherige Periode</a>
         </li>
         <li class="active">
-          <a href="2_salesPrediction.html"
+          <a href="2_salesPrediction?lang=de"
             >Absatzprognosen und Produktionsplan</a
           >
         </li>
         <li class="active">
-          <a href="3_stockPlaner.html"
+          <a href="3_stockPlaner?lang=de"
             >Lager und Produktion der Zwischenerzeugnisse</a
           >
         </li>
         <li class="active">
-          <a href="4_productionSequence.html"
+          <a href="4_productionSequence?lang=de"
             >Produktionsreihenfolge und Splitting</a
           >
         </li>
         <li class="active">
-          <a href="5_orders_purchase.html">Bestellungen</a>
+          <a href="5_orders_purchase?lang=de">Bestellungen</a>
         </li>
-        <li class="active"><a href="6_capacity.html">Kapazität</a></li>
+        <li class="active">Kapazität</li>
         {% endif %}
         {% if lang == "en" %}
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton" type="button">Language</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption" type="button">
+            <button class="dropdownoption" type="button" onclick="location.href='6_capacity?lang=de'">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/german.png') }}"
               />
               German
             </button>
-            <button class="dropdownoption" type="button">
+            <button class="dropdownoption" type="button" onclick="location.href='6_capacity?lang=en'">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/english.png') }}"
@@ -98,14 +98,14 @@
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton" type="button">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption" type="button">
+            <button class="dropdownoption" type="button" onclick="location.href='6_capacity?lang=de'">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/german.png') }}"
               />
               Deutsch
             </button>
-            <button class="dropdownoption" type="button">
+            <button class="dropdownoption" type="button" onclick="location.href='6_capacity?lang=en'">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/english.png') }}"
@@ -661,7 +661,7 @@
       id="continue-button"
       type="submit"
       value="Upload"
-      onclick="location.href='download.html'"
+      onclick="location.href='download?lang=en'"
     >
       Finish
       <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
@@ -672,7 +672,7 @@
       id="continue-button"
       type="submit"
       value="Upload"
-      onclick="location.href='download.html'"
+      onclick="location.href='download?lang=de'"
       >
       Abschließen
     </button>
