@@ -150,19 +150,48 @@
           ">
           {% if lang == "en" %}
           <button class="accent-button">
-            <span class="material-icons white-icon"> file_upload </span>
+            <span class="material-icons white-icon"> calculate </span>
             Calculate
           </button>
           {% else %}
           <button class="accent-button">
-            <span class="material-icons white-icon"> file_upload </span>
+            <span class="material-icons white-icon"> calculate </span>
             Berechnen
           </button>
           {% endif %}
         </div>
         <br />
-        <div class="vertical-scrollable-table-wrapper">
-          <table id="stock-table">
+        <!-- TODO: zu übersetzen -->
+      <div class="details-button-container">
+        <button class="details-button" type="button" onclick="showOtherTable()">
+          <span class="material-icons"> article </span>
+          <span id="details-button-text">Detaillierte Ansicht</span>
+        </button>
+      </div>
+      <script>
+        function showOtherTable() {
+          var detailedTable = document.getElementById("detailed-stock-table");
+          var undetailedTable = document.getElementById(
+            "undetailed-stock-table"
+          );
+          var detailsButtonText = document.getElementById(
+            "details-button-text"
+          );
+
+          if (detailsButtonText.innerHTML == "Detaillierte Ansicht") {
+            undetailedTable.style.display = "none";
+            detailedTable.style.display = "block";
+            detailsButtonText.textContent = "Minimierte Ansicht";
+          } else {
+            detailedTable.style.display = "none";
+            undetailedTable.style.display = "block";
+            detailsButtonText.textContent = "Detaillierte Ansicht";
+          }
+        }
+      </script>
+      <br />
+        <div class="vertical-scrollable-table-wrapper horizontal-scrollable-table-wrapper" style="max-width: 1300px">
+          <table id="undetailed-stock-table">
             <thead>
               <tr>
                 {% if lang == "en" %}
@@ -491,6 +520,116 @@
               </tr>
             </tbody>
           </table>
+
+          <!-- TODO: Zu übersetzen -->
+          <table id="detailed-stock-table" style="display: none">
+            <thead>
+              <tr>
+                <th colspan="2" rowspan="2"></th>
+                <th colspan="30">Produkte, die den Bedarf auslösen</th>
+                <th colspan="6">
+                  Zusätzliche Faktoren, die in die Menge der zu produzierenden
+                  Teile einfließen.
+                </th>
+                <th rowspan="2">Gesamt-produktion</th>
+              </tr>
+              <tr>
+                <th>P1</th>
+                <th>P2</th>
+                <th>P3</th>
+                <th>E4</th>
+                <th>E5</th>
+                <th>E6</th>
+                <th>E7</th>
+                <th>E8</th>
+                <th>E9</th>
+                <th>E10</th>
+                <th>E11</th>
+                <th>E12</th>
+                <th>E13</th>
+                <th>E14</th>
+                <th>E15</th>
+                <th>E16</th>
+                <th>E17</th>
+                <th>E18</th>
+                <th>E19</th>
+                <th>E20</th>
+                <th>E26</th>
+                <th>E29</th>
+                <th>E30</th>
+                <th>E31</th>
+                <th>E49</th>
+                <th>E50</th>
+                <th>E51</th>
+                <th>E54</th>
+                <th>E55</th>
+                <th>E56</th>
+                <th>Planlagerbestand</th>
+                <th>Lagerbestand</th>
+                <th>Bearbeitung</th>
+                <th>Warteschlange</th>
+                <th>Direktkäufe</th>
+                <th>Direktverkäufe</th>
+              </tr>
+            </thead>
+            <tbody id="detailed-table-body">
+              <tr>
+                <th
+                  class="sticky-column sticky-column-header"
+                  rowspan="32"
+                  style="writing-mode: vertical-lr; text-align: left"
+                >
+                  Produkte, die wir produzieren
+                </th>
+              </tr>
+            </tbody>
+          </table>
+          <script>
+            const articleList = [
+            "P1",
+            "P2",
+            "P3",
+            "E4",
+            "E5",
+            "E6",
+            "E7",
+            "E8",
+            "E9",
+            "E10",
+            "E11",
+            "E12",
+            "E13",
+            "E14",
+            "E15",
+            "E16",
+            "E17",
+            "E18",
+            "E19",
+            "E20",
+            "E26",
+            "E29",
+            "E30",
+            "E31",
+            "E49",
+            "E50",
+            "E51",
+            "E54",
+            "E55",
+            "E56",
+          ];
+
+          /* Fill-Table with Rows */
+          var detailedTableBody = document.getElementById("detailed-table-body");
+
+          for (var i = 0; i < articleList.length; i++) {
+            detailedTableBody.innerHTML +=
+              '<tr><th class="sticky-column sticky-column-header" style="left: 42px;">' +
+              articleList[i] +
+              '</th><td name="need_of_P1"></td><td name="need_of_P2"></td><td name="need_of_P3"></td><td name="need_of_E4"></td><td name="need_of_E5"></td><td name="need_of_E6"></td><td name="need_of_E7"></td><td name="need_of_E8"></td><td name="need_of_E9"></td><td name="need_of_E10"></td><td name="need_of_E11"></td><td name="need_of_E12"></td><td name="need_of_E13"></td><td name="need_of_E14"></td><td name="need_of_E14"></td><td name="need_of_E16"></td><td name="need_of_E17"></td><td name="need_of_E18"></td><td name="need_of_E19"></td><td name="need_of_E20"></td><td name="need_of_E26"></td><td name="need_of_E29"></td><td name="need_of_E30"></td><td name="need_of_E31"></td><td name="need_of_E49"></td><td name="need_of_E50"></td><td name="need_of_E51"></td><td name="need_of_E54"></td><td name="need_of_E55"></td><td name="need_of_E56"></td><td class="editable"><input name="planned_stock_' +
+              articleList[i] +
+              '" type="number" value="100" /></td><td name="current_stock"></td><td name="in_work"></td><td name="waiting"></td><td name="direct_buy"></td><td name="direct_sell"></td><td name="total_production"></td></tr>';
+          }
+        </script>
         </div>
       </form>
     </div>

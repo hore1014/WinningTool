@@ -417,6 +417,11 @@ button {
   display: flex;
 }
 
+.download-button a {
+  text-decoration: none;
+  color: white;
+}
+
 /* Dropdown-Button ---------------------------------------*/
 
 .dropbutton {
@@ -535,6 +540,17 @@ table td em {
 #detailed-capacity-table th {
   padding: 15px;
   font-size: 14px;
+}
+
+#detailed-stock-table td,
+#detailed-stock-table th,
+#detailed-stock-table input {
+  padding: 13px;
+  font-size: 13px;
+}
+
+#detailed-stock-table .editable {
+  padding: 0;
 }
 
 #detailed-table,
