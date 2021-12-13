@@ -115,6 +115,39 @@
         }
       </script>
     </nav>
+    <!-- TODO: übersetzen -->
+    <div id="manual" class="manual" style="width: auto; height: auto">
+      <div
+        class="details-button-container"
+        style="text-align: left; margin-right: 10px"
+      >
+        <button class="details-button" onclick="hideManualContent()">
+          <span class="material-icons"> menu_book </span>
+          <span>Kaufteile Stammdaten</span>
+        </button>
+      </div>
+      <script>
+        function hideManualContent() {
+          var manual = document.getElementById("manual");
+          var manualContent = document.getElementById("manual-content");
+
+          if (manualContent.style.display == "none") {
+            manualContent.style.display = "block";
+            manual.style.width = "35%";
+            manual.style.height = "70%";
+          } else {
+            manualContent.style.display = "none";
+            manual.style.width = "auto";
+          }
+        }
+      </script>
+      <div id="manual-content" class="manual-content" style="display: none; width:35%; overflow-x: hidden;">
+        <img
+          class="manual-page"
+          src="{{ url_for('static', filename='img/manualPages/StammdatenKaufteile.jpg') }}"
+        />
+      </div>
+    </div>
 
     <form method="post">
       <div class="centerd-big-elements-container">

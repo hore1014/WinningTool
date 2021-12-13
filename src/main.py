@@ -204,6 +204,7 @@ def upload_prediction():
 
     # trading data
     tradeData = {}
+    tradeData_db = []
     for article in handler.lookupArticles.p_e_k_list:
         buy = request.form.get('order_amount_' + article)
         sell = request.form.get('sell_amount_' + article)
@@ -212,11 +213,18 @@ def upload_prediction():
             penalty = request.form.get('penalty_' + article)
         else:
             penalty = 0
+            
         if (buy != sell):
+            tradeData_db.append({
+                "Periode": period,
+                "Artikel": article,
+                "Direktkauf": buy,
+                "Direktverkauf": sell,
+                "Preis": price
+            })
             tradeData[article] = (buy, sell, price, penalty)
-
-    print(tradeData)
-    # TODO: tradeData in die DB schreiben
+        else:
+            print("Gleiche Artikel können nicht gekauft und verkauft werden!" )
 
     # Daten in die DB schreiben
     handler.write_input_to_db(salesData, "Absatzprognose")
@@ -225,11 +233,20 @@ def upload_prediction():
     handler.write_input_to_db(stockData, "Strategie_Lagerbestand")
     print("Daten für die Lagerbestandstrategie der P-Teile wurden in die Datenbank geschrieben")
 
+    handler.write_input_to_db(tradeData_db, "Handel")
+    print("Daten für den Handel wurden in die Datenbank geschrieben")
+
     # Daten für exportXml speichern
     for el in salesData:
         handler.xml_absatz.append(
             (el['Artikel'], el['Aktuell_0'])
         )
+
+    for el in ['P1', 'P2', 'P3']:
+        handler.xml_absatz_direkt.append((
+            # article, sell-amount, price, penalty
+            el, tradeData[el][1], tradeData[el][2], tradeData[el][3]
+            ))
 
     return redirect(url_for('stock_planer'))
 
