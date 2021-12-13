@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from . import handler
 from .handler import lookupArticles
 from .procurement import lookupProcurement
-#from database import lookupArticles
+# from database import lookupArticles
 
 app = Flask(__name__)
 port = 5000  # default
@@ -17,6 +17,10 @@ sequence = []
 k_list = lookupArticles.k_list
 stations = ["Station_1", "Station_2", "Station_3", "Station_4", "Station_5", "Station_6", "Station_7",
             "Station_8", "Station_9", "Station_10", "Station_11", "Station_12", "Station_13", "Station_14", "Station_15"]
+header_list = ["P1", "P2", "P3", "E4", "E5", "E6", "E10", "E11", "E12", "E16",
+               "E17", "E26", "E29", "E30", "E31", "E49", "E50", "E51", "E54", "E55", "E56"]
+article_list = ["P1", "P2", "P3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "E11", "E12", "E13", "E14", "E15",
+                "E16", "E17", "E18", "E19", "E20", "E26", "E29", "E30", "E31", "E49", "E50", "E51", "E54", "E55", "E56"]
 
 languages = {
     "de": "de",
@@ -38,9 +42,9 @@ def home():
 
 @app.route("/", methods=["POST"])
 def update():
-    #global language
-    #language = request.form.get('lang')
-    #print(f"main: language")
+    # global language
+    # language = request.form.get('lang')
+    # print(f"main: language")
     # handler.delete_all_xml()
 
     return redirect(url_for('lastPeriod'))
@@ -201,18 +205,21 @@ def upload_prediction():
 
     # trading data
     tradeData = {}
-    tradeData_db = []
+    tradeData_db = []  # list of dicts for db
     for article in handler.lookupArticles.p_e_k_list:
-        buy = request.form.get('order_amount_' + article)
-        if buy == None:
+        if (article not in ["P1", "P2", "P3"]):
+            buy = request.form.get('order_amount_' + article)
+        else:
             buy = 0
         sell = request.form.get('sell_amount_' + article)
         price = request.form.get('price_' + article)
         if (article in ["P1", "P2", "P3"]):
+            buy = 0
             penalty = request.form.get('penalty_' + article)
         else:
+            buy = request.form.get('order_amount_' + article)
             penalty = 0
-            
+
         if (buy != sell):
             tradeData_db.append({
                 "Periode": period,
@@ -221,9 +228,8 @@ def upload_prediction():
                 "Direktverkauf": sell,
                 "Preis": price
             })
-            tradeData[article] = (buy, sell, price, penalty)
-        else:
-            print("Gleiche Artikel können nicht gekauft und verkauft werden!" )
+
+        tradeData[article] = (buy, sell, price, penalty)
 
     # Daten in die DB schreiben
     handler.write_input_to_db(salesData, "Absatzprognose")
@@ -241,16 +247,17 @@ def upload_prediction():
             (el['Artikel'], el['Aktuell_0'])
         )
 
+    print(tradeData)
     for el in ['P1', 'P2', 'P3']:
         handler.xml_absatz_direkt.append((
             # article, sell-amount, price, penalty
             el, tradeData[el][1], tradeData[el][2], tradeData[el][3]
-            ))
+        ))
 
     return redirect(url_for('stock_planer'))
 
 
-@app.route("/3_stockPlaner.html")
+@ app.route("/3_stockPlaner.html")
 def stock_planer():
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     current_parts = handler.get_parts_inventory(period)
@@ -265,10 +272,14 @@ def stock_planer():
                            period=period,
                            stock_data=stock_data,
                            prod_data=prod_data,
+                           articles=article_list,
+                           headers=header_list,
+                           len=len(article_list),
+                           len_h=len(header_list),
                            lang=language)
 
 
-@app.route("/3_stockPlaner.html", methods=["POST"])
+@ app.route("/3_stockPlaner.html", methods=["POST"])
 def upload_plan():
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     result_data = []
@@ -295,10 +306,14 @@ def upload_plan():
                            calculated=True,
                            stock_data=stock_data,
                            prod_data=prod_data,
+                           articles=article_list,
+                           headers=header_list,
+                           len=len(article_list),
+                           len_h=len(header_list),
                            lang=language)
 
 
-@app.route("/4_productionSequence.html")
+@ app.route("/4_productionSequence.html")
 def production_sequence():
     global sequence
     sequence = ["E16", "E7", "E8", "E9", "E13", "E14", "E15", "E18", "E19", "E20", "E4", "E5", "E6", "E10",
