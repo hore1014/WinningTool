@@ -41,7 +41,7 @@ def update():
     print(f"main: language")
     # handler.delete_all_xml()
 
-    return render_template("/index.html", lang=language)
+    return redirect(url_for('lastPeriod'))
 
 
 @app.route("/1_lastPeriod.html")
