@@ -30,14 +30,14 @@
       <div class="dropdown" style="margin: 10px">
         <button type="button" onclick="dropDown()" class="dropbutton">Language</button>
         <div id="dropdown-content" class="dropdown-content">
-          <button class="dropdownoption" onclick="changeLanguage('de')">
+          <button type="button" class="dropdownoption" onclick="changeLanguage('de')">
             <img
               class="flag"
               src="{{ url_for('static', filename='img/german.png') }}"
             />
             German
           </button>
-          <button class="dropdownoption" onclick="changeLanguage('en')">
+          <button type="button" class="dropdownoption" onclick="changeLanguage('en')">
             <img
               class="flag"
               src="{{ url_for('static', filename='img/english.png') }}"
@@ -50,14 +50,14 @@
       <div class="dropdown" style="margin: 10px">
         <button type="button" onclick="dropDown()" class="dropbutton">Sprache</button>
         <div id="dropdown-content" class="dropdown-content">
-          <button class="dropdownoption" onclick="changeLanguage('de')">
+          <button type="button" class="dropdownoption" onclick="changeLanguage('de')">
             <img
               class="flag"
               src="{{ url_for('static', filename='img/german.png') }}"
             />
             Deutsch
           </button>
-          <button class="dropdownoption" onclick="changeLanguage('en')">
+          <button type="button" class="dropdownoption" onclick="changeLanguage('en')">
             <img
               class="flag"
               src="{{ url_for('static', filename='img/english.png') }}"
@@ -89,7 +89,9 @@
         };
 
         function changeLanguage(lang) {
+          console.log(lang)
           document.getElementsByName("lang")[0].value = lang;
+          console.log(document.getElementsByName("lang")[0].value)
         }
       </script>
       <div class="container" style="position: absolute; top: 0">

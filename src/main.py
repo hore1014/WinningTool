@@ -15,6 +15,8 @@ stock_P2 = 0
 stock_P3 = 0
 sequence = []
 k_list = lookupArticles.k_list
+stations = ["Station_1", "Station_2", "Station_3", "Station_4", "Station_5", "Station_6", "Station_7",
+            "Station_8", "Station_9", "Station_10", "Station_11", "Station_12", "Station_13", "Station_14", "Station_15"]
 
 languages = {
     "de": "de",
@@ -410,7 +412,21 @@ def upload_orders():
 @app.route("/6_capacity.html")
 def capacity_planer():
     capacity = handler.get_capacity()
-    return render_template("/6_capacity.html", period=period, lang=language)
+    shifts = handler.get_shifts()
+    article_list = ["P1", "P2", "P3"]
+    article_list.extend(lookupArticles.e_list)
+
+    return render_template(
+        "/6_capacity.html",
+        period=period,
+        lang=language,
+        len=len(stations),
+        len_a=len(article_list),
+        stations=stations,
+        shifts=shifts,
+        articles=article_list,
+        capacity=capacity
+    )
 
 
 @app.route("/6_capacity.html", methods=["POST"])

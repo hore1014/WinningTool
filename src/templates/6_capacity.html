@@ -45,16 +45,16 @@
         </li>
         <li class="active"><a href="6_capacity.html">Kapazität</a></li>
         <div class="dropdown">
-          <button onclick="dropDown()" class="dropbutton">Sprache</button>
+          <button onclick="dropDown()" class="dropbutton" type="button">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption">
+            <button class="dropdownoption" type="button">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/german.png') }}"
               />
               Deutsch
             </button>
-            <button class="dropdownoption">
+            <button class="dropdownoption" type="button">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/english.png') }}"
@@ -144,7 +144,19 @@
                   <th>Mehrarbeit <br />(in Minuten)</th>
                 </tr>
               </thead>
-              <tbody id="undetailed-table-body"></tbody>
+              <tbody id="undetailed-table-body">
+                {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
+                <tr>
+                  <td>{{ station + 1 }}</td>
+                  <td class="editable">
+                    <input type="number" name="{{ 'shift_' + stations[station] }}" value="{{ shifts[stations[station]][0] }}">
+                  </td>
+                  <td class="editable">
+                    <input type="number" name="{{ 'extra_minutes_' + stations[station] }}" value="{{ shifts[stations[station]][1] / 5 }}">
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
             </table>
             <table id="detailed-capacity-table" style="display: none">
               <thead>
@@ -202,9 +214,57 @@
                   <th>RZ</th>
                 </tr>
               </thead>
-              <tbody id="detailed-table-body"></tbody>
+              <tbody id="detailed-table-body">
+                {% for article in range(0, len_a) %}
+                <tr>
+                  <td class="sticky-column">{{ articles[article] }}</td>
+                  {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
+                  {% if articles[article] in capacity[stations[station]] %}
+                  <td name="{{ 'station_' + station|string + '_' + articles[article] + 'BZ' }}">{{ capacity[stations[station]][articles[article]][0] }}</td>
+                  <td name="{{ 'station_' + station|string + '_' + articles[article] + 'RZ' }}">{{ capacity[stations[station]][articles[article]][1] }}</td>
+                  {% else %}
+                  <td name="{{ 'station_' + station|string + '_' + articles[article] + 'BZ' }}"></td>
+                  <td name="{{ 'station_' + station|string + '_' + articles[article] + 'RZ' }}"></td>
+                  {% endif %}
+                  {% endfor %}
+                </tr>
+                {% endfor %}
+                <tr>
+                  <td class="sticky-column" name="tooling_factor">Tooling Faktor</td>
+                  {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
+                  <td name="{{ 'station_' + station|string + '_tooling_factor' }}"><em>{{ capacity[stations[station]]['factor'][0] }}</em></td>
+                  <td name="{{ 'station_' + station|string + '_tooling_factor_amount' }}">{{ capacity[stations[station]]['factor'][1] }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td class="sticky-column" name="subtotal">Σ</td>
+                  {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
+                  <td name="{{ 'station_' + station|string + '_BZ_subtotal' }}">{{ capacity[stations[station]]['ass_sum'] }}</td>
+                  <td name="{{ 'station_' + station|string + '_RZ_subtotal' }}">{{ capacity[stations[station]]['tool_sum'] }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td class="sticky-column" name="total">Σ Gesamt</td>
+                  {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
+                  <td colspan="2" name="{{ 'station_' + station|string + '_total' }}">{{ capacity[stations[station]]['sum'] }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td class="sticky-column" name="shift">Schicht</td>
+                  {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
+                  <td colspan="2" name="{{ 'shift_' + stations[station] }}">{{ shifts[stations[station]][0] }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td class="sticky-column" name="extra_work">Mehrarbeit</td>
+                  {% for station in [0,1,2,3,5,6,7,8,9,10,11,12,13,14] %}
+                  <td colspan="2" name="{{ 'station_' + station|string + '_extra' }}">{{ shifts[stations[station]][1] / 5 }}</td>
+                  {% endfor %}
+                </tr>
+              </tbody>
             </table>
             <script>
+              /*
               const articleList = [
                 "P1",
                 "P2",
@@ -238,7 +298,7 @@
                 "E56",
               ];
 
-              /* Fill Table with rows */
+              // Fill Table with rows
               var tableBody = document.getElementById("undetailed-table-body");
               var arbeitstationen = 15; // außer die 5!
 
@@ -328,6 +388,7 @@
                 '<tr><td class="sticky-column" name="total">Σ Gesamt</td><td colspan="2" name="station1_total"></td><td colspan="2" name="station2_total"></td><td colspan="2" name="station3_total"></td><td colspan="2" name="station4_total"></td><td colspan="2" name="station6_total"></td><td colspan="2" name="station7_total"></td><td colspan="2" name="station8_total"></td><td colspan="2" name="station9_total"></td><td colspan="2" name="station10_total"></td><td colspan="2" name="station11_total"></td><td colspan="2" name="station12_total"></td><td colspan="2" name="station13_total"></td><td colspan="2" name="station14_total"></td><td colspan="2" name="station15_total"></td></tr>' +
                 '<tr><td class="sticky-column" name="shift">Schicht</td><td colspan="2" name="station1_shift"></td><td colspan="2" name="station2_shift"></td><td colspan="2" name="station3_shift"></td><td colspan="2" name="station4_shift"></td><td colspan="2" name="station6_shift"></td><td colspan="2" name="station7_shift"></td><td colspan="2" name="station8_shift"></td><td colspan="2" name="station9_shift"></td><td colspan="2" name="station10_shift"></td><td colspan="2" name="station11_shift"></td><td colspan="2" name="station12_shift"></td><td colspan="2" name="station13_shift"></td><td colspan="2" name="station14_shift"></td><td colspan="2" name="station15_shift"></td></tr>' +
                 '<tr><td class="sticky-column" name="extra_work">Mehrarbeit</td><td colspan="2" name="station1_extra"></td><td colspan="2" name="station2_extra"></td><td colspan="2" name="station3_extra"></td><td colspan="2" name="station4_extra"></td><td colspan="2" name="station6_extra"></td><td colspan="2" name="station7_extra"></td><td colspan="2" name="station8_extra"></td><td colspan="2" name="station9_extra"></td><td colspan="2" name="station10_extra"></td><td colspan="2" name="station11_extra"></td><td colspan="2" name="station12_extra"></td><td colspan="2" name="station13_extra"></td><td colspan="2" name="station14_extra"></td><td colspan="2" name="station15_extra"></td></tr>';
+              */
             </script>
           </div>
           <div

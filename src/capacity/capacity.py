@@ -48,6 +48,7 @@ def calculate_capacity(production, processing, queued, missing, tooling_factors)
         total_tooling_time = 0
         tuple_part_1 = 0
         tuple_part_2 = 0
+        tooling_factor_amount = 0
         # adding up assemly and tooling times
         for key in assembly_times[station]:
             tuple_part_1 = assembly_times[station][key]
@@ -59,11 +60,18 @@ def calculate_capacity(production, processing, queued, missing, tooling_factors)
             total_tooling_time += cd.tooling_time[station][key] if assembly_times[station][key] != 0 else 0
             total_tooling_time += cd.tooling_time[station][key] if key in processing or key in queued or key in missing else 0
             # print(f"Rüstzeit Artikel {key}: {tuple_part_2}")
+            # adding data to separate dict for display in extended view
+            # assembly_tooling_times[station][key] = ()
             # adding processing time and tooling time for every article as tuple to results
             results[station][key] = (tuple_part_1, tuple_part_2)
-        total_tooling_time = total_tooling_time * tooling_factors[station]
+        tooling_factor_amount = int(ceil(
+            ((total_tooling_time * tooling_factors[station]) - total_tooling_time) / 5) * 5)
+        total_tooling_time = total_tooling_time + tooling_factor_amount
         # round up to next 5 minutes
-        total_tooling_time = int(ceil(total_tooling_time / 5) * 5)
+        results[station]["factor"] = (
+            tooling_factors[station], tooling_factor_amount)
+        results[station]["ass_sum"] = total_assembly_time
+        results[station]["tool_sum"] = total_tooling_time
         results[station]["sum"] = total_assembly_time + total_tooling_time
 
     return results
@@ -75,7 +83,7 @@ def calculate_shifts(capacity):
                "Station_8": (0, 0), "Station_9": (0, 0), "Station_10": (0, 0), "Station_11": (0, 0), "Station_12": (0, 0), "Station_13": (0, 0), "Station_14": (0, 0), "Station_15": (0, 0), }
 
     for station in capacity:
-        minutes = capacity[station]
+        minutes = capacity[station]["sum"]
         # first shift has max 2400 minutes
         if (minutes > 0 and minutes < 2401):
             results[station] = (1, 0)
