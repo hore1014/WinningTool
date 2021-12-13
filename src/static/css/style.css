@@ -119,6 +119,12 @@ input::-webkit-inner-spin-button {
   /*overflow-y: scroll;*/
 }
 
+.container h3,
+.container p,
+.container h2 {
+  text-align: center;
+}
+
 .centered-container {
   margin: 0 auto;
   left: 50%;
