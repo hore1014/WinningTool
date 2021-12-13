@@ -264,9 +264,9 @@ def stock_planer():
     for article in lookupArticles.e_list:
         stock_data[article] = current_parts[article][0]
 
-    prod_data = {"P1": 0, "P2": 0, "P3": 0}
+    prod_data = {"P1": {}, "P2": {}, "P3": {}}
     for article in lookupArticles.e_list:
-        prod_data[article] = 0
+        prod_data[article] = {"sum": 0}
 
     return render_template("/3_stockPlaner.html",
                            period=period,
@@ -276,6 +276,10 @@ def stock_planer():
                            headers=header_list,
                            len=len(article_list),
                            len_h=len(header_list),
+                           processing=handler.get_parts_processing(period),
+                           queued=handler.get_parts_in_queue(period),
+                           missing=handler.get_missing_parts(period),
+                           trade=handler.get_parts_trade(period),
                            lang=language)
 
 

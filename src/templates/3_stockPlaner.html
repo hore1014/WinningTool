@@ -225,14 +225,14 @@
           );
 
           if(language == "en"){
-              if (detailsButtonText.innerHTML == "Detailled view") {
+              if (detailsButtonText.innerHTML == "Detailed view") {
                 undetailedTable.style.display = "none";
                 detailedTable.style.display = "block";
                 detailsButtonText.textContent = "Minimized view";
               } else {
                 detailedTable.style.display = "none";
                 undetailedTable.style.display = "block";
-                detailsButtonText.textContent = "Detailled view";
+                detailsButtonText.textContent = "Detailed view";
               }
           }
           else{
@@ -588,7 +588,7 @@
               <tr>
                 <th colspan="2" rowspan="2"></th>
                 <th colspan="21">Bill of Materials processing</th>
-                <th colspan="6">
+                <th colspan="7">
                   Additional factors that go into the quantity of parts to be produced.
                 </th>
                 <th rowspan="2">Total production</th>
@@ -597,7 +597,7 @@
               <tr>
                 <th colspan="2" rowspan="2"></th>
                 <th colspan="21">Stücklistenauflösung</th>
-                <th colspan="6">
+                <th colspan="7">
                   Zusätzliche Faktoren, die in die Menge der zu produzierenden
                   Teile einfließen.
                 </th>
@@ -631,6 +631,7 @@
                 <th>Lagerbestand</th>
                 <th>Bearbeitung</th>
                 <th>Warteschlange</th>
+                <th>Fehlteile</th>
                 <th>Direktkäufe</th>
                 <th>Direktverkäufe</th>
                 {% else %}
@@ -638,6 +639,7 @@
                 <th>Lagerbestand</th>
                 <th>Bearbeitung</th>
                 <th>Warteschlange</th>
+                <th>Fehlteile</th>
                 <th>Direktkäufe</th>
                 <th>Direktverkäufe</th>
                 {% endif %}
@@ -669,15 +671,33 @@
                   {{ articles[article] }}
                 </th>
                 {% for column in range(0, len_h) %}
-                <td name="{{ articles[article] + 'needed_for_' + headers[column] }}">{{ 0 }}</td>
+                <td name="{{ articles[article] + 'needed_for_' + headers[column] }}">{{ prod_data[articles[article]][headers[column]] }}</td>
                 {% endfor %}
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td name="{{ 'stock_' + articles[article] }}">{{ stock_data[articles[article]] }}</td>
+                <td name="{{ 'inventory_' + articles[article] }}">{{ stock_data[articles[article]] }}</td>
+                {% if articles[article] in processing %}
+                <td name="{{ 'processing_' + articles[article] }}">{{ processing[articles[article]] }}</td>
+                {% else %}
+                <td name="{{ 'processing_' + articles[article] }}">0</td>
+                {% endif %}
+                {% if articles[article] in queued %}
+                <td name="{{ 'queued_' + articles[article] }}">{{ queued[articles[article]] }}</td>
+                {% else %}
+                <td name="{{ 'queued_' + articles[article] }}">0</td>
+                {% endif %}
+                {% if articles[article] in missing %}
+                <td name="{{ 'missing_material_' + articles[article] }}">{{ missing[articles[article]] }}</td>
+                {% else %}
+                <td name="{{ 'missing_material_' + articles[article] }}">0</td>
+                {% endif %}
+                {% if articles[article] in trade %}
+                <td name="{{ 'direct_buy_' + articles[article] }}">{{ trade[articles[article]][0] }}</td>
+                <td name="{{ 'direct_sell_' + articles[article] }}">{{ trade[articles[article]][1] }}</td>
+                {% else %}
+                <td name="{{ 'direct_buy_' + articles[article] }}">0</td>
+                <td name="{{ 'direct_sell_' + articles[article] }}">0</td>
+                {% endif %}
+                <td name="{{ 'total_' + articles[article] }}">{{ prod_data[articles[article]]['sum'] }}</td>
               </tr>
               {% endfor %}
             </tbody>

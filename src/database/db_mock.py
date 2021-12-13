@@ -257,7 +257,7 @@ def get_missing_parts(period):
 def get_parts_trade(period):
     if(period == 1):
         return {
-            # "P1": (0, 70, 190)
+            # "P1": (0, 70, 190, 20)
         }
     else:
         return {
