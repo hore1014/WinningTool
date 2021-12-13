@@ -156,7 +156,7 @@
           {% else %}
           <button class="accent-button">
             <span class="material-icons white-icon"> calculate </span>
-            Produktion Berechnen
+            Produktion berechnen
           </button>
           {% endif %}
         </div>
@@ -524,6 +524,16 @@
           <!-- TODO: Zu übersetzen -->
           <table id="detailed-stock-table" style="display: none">
             <thead>
+              {%if lang == "en"%}
+              <tr>
+                <th colspan="2" rowspan="2"></th>
+                <th colspan="30">Products that trigger demand</th>
+                <th colspan="6">
+                  Additional factors that go into the quantity of parts to be produced.
+                </th>
+                <th rowspan="2">Total production</th>
+              </tr>
+              {% else %}
               <tr>
                 <th colspan="2" rowspan="2"></th>
                 <th colspan="30">Produkte, die den Bedarf auslösen</th>
@@ -533,6 +543,7 @@
                 </th>
                 <th rowspan="2">Gesamt-produktion</th>
               </tr>
+              {% endif %}
               <tr>
                 <th>P1</th>
                 <th>P2</th>
@@ -564,16 +575,34 @@
                 <th>E54</th>
                 <th>E55</th>
                 <th>E56</th>
+                {% if lang == "en" %}
                 <th>Planlagerbestand</th>
                 <th>Lagerbestand</th>
                 <th>Bearbeitung</th>
                 <th>Warteschlange</th>
                 <th>Direktkäufe</th>
                 <th>Direktverkäufe</th>
+                {% else %}
+                <th>Planlagerbestand</th>
+                <th>Lagerbestand</th>
+                <th>Bearbeitung</th>
+                <th>Warteschlange</th>
+                <th>Direktkäufe</th>
+                <th>Direktverkäufe</th>
+                {% endif %}
               </tr>
             </thead>
             <tbody id="detailed-table-body">
               <tr>
+                {% if lang == "en" %}
+                <th
+                  class="sticky-column sticky-column-header"
+                  rowspan="32"
+                  style="writing-mode: vertical-lr; text-align: left"
+                >
+                  Products that we produce
+                </th>
+                {% else %}
                 <th
                   class="sticky-column sticky-column-header"
                   rowspan="32"
@@ -581,6 +610,7 @@
                 >
                   Produkte, die wir produzieren
                 </th>
+                {% endif %}
               </tr>
             </tbody>
           </table>
