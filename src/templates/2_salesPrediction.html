@@ -24,6 +24,10 @@
     {% endif %}
   </head>
   <body>
+    <div hidden>
+      <input type="text" name="lang" value="{{ lang }}" />
+    </div>
+
     <nav>
       <ul class="progressbar">
         {% if lang == "en" %}
@@ -62,14 +66,14 @@
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton">Language</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption">
+            <button class="dropdownoption" onclick="changeLanguage('de')">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/german.png') }}"
               />
               German
             </button>
-            <button class="dropdownoption">
+            <button class="dropdownoption" onclick="changeLanguage('en')">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/english.png') }}"
@@ -82,14 +86,14 @@
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption">
+            <button class="dropdownoption" onclick="changeLanguage('de')">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/german.png') }}"
               />
               Deutsch
             </button>
-            <button class="dropdownoption">
+            <button class="dropdownoption" onclick="changeLanguage('en')">
               <img
                 class="flag"
                 src="{{ url_for('static', filename='img/english.png') }}"
@@ -123,6 +127,11 @@
           }
         }
       };
+
+      function changeLanguage(lang) {
+        document.getElementsByName("lang")[0].value = lang;
+      }
+
     </script>
     </nav>
 

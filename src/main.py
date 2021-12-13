@@ -37,13 +37,16 @@ def home():
 def update():
     global language
     language = request.form.get('lang')
-    print(f"main: language")
+    print(f"main: {language}")
     #handler.delete_all_xml()
 
     return render_template("/index.html", lang = language)
 
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
+    global language
+    language = request.form.get('lang')
+    print(f"main: {language}")
     return render_template("/1_lastPeriod.html", error=False, message=False, lang=language)
 
 
