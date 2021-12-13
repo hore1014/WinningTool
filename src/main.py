@@ -112,7 +112,7 @@ def salesPrediction():
     all_parts = handler.lookupArticles.p_e_k_list
 
     return render_template(
-        f"{language}/2_salesPrediction.html", period=period, inventory=current_parts,
+        f"{language}/2_salesPrediction.html", period=period, inventory=current_parts, all_parts=all_parts, len=len(all_parts),
 
         sales_P1_0=sales["P1"][0], sales_P1_1=sales["P1"][1], sales_P1_2=sales["P1"][2], sales_P1_3=sales["P1"][3],
         sales_P2_0=sales["P2"][0], sales_P2_1=sales["P2"][1], sales_P2_2=sales["P2"][2], sales_P2_3=sales["P2"][3],
