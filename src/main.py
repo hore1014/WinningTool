@@ -16,8 +16,13 @@ stock_P3 = 0
 sequence = []
 k_list = lookupArticles.k_list
 
-# TODO Get this values from user input (use a dict)
-language = "de"
+languages = {
+    "German": "de",
+    "English": "en",
+    "Russian": "fr"
+}
+# TODO Get value from user input (use a dict)
+language = languages["German"]
 
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
