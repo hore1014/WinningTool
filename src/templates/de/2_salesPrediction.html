@@ -41,7 +41,7 @@
     </nav>
 
     <form method="post">
-      <div class="big-vertical-container">
+      <div id="main-container" class="big-vertical-container">
         <!-- Absatz-Prognosen -->
         <h3>
           Geben Sie die Absatzprognosen für die aktuelle Periode (Periode {{
@@ -329,7 +329,9 @@
 
         <div class="content">
           <div id="error" hidden>
-            <p class="error">Ein Artikel kann nicht gleichzeitig gekauft und verkauft werden.</p>
+            <p class="error">
+              Ein Artikel kann nicht gleichzeitig gekauft und verkauft werden.
+            </p>
           </div>
           <div class="vertical-scrollable-table-wrapper">
             <table id="trade-table">
@@ -347,15 +349,29 @@
               <tbody id="trade-table-body">
                 {% for article in range(0, len) %}
                 <tr>
-                  <td name="{{ 'article_' + all_parts[article] }}">{{ all_parts[article] }}</td>
-                  <td class="editable">
-                    <input type="number" name="{{ 'order_amount_' + all_parts[article] }}" value="{{ 0 }}">
+                  <td name="{{ 'article_' + all_parts[article] }}">
+                    {{ all_parts[article] }}
                   </td>
                   <td class="editable">
-                    <input type="number" name="{{ 'sell_amount_' + all_parts[article] }}" value="{{ 0 }}">
+                    <input
+                      type="number"
+                      name="{{ 'order_amount_' + all_parts[article] }}"
+                      value="{{ 0 }}"
+                    />
                   </td>
                   <td class="editable">
-                    <input type="number" name="{{ 'price_' + all_parts[article] }}" value="{{ 0 }}">
+                    <input
+                      type="number"
+                      name="{{ 'sell_amount_' + all_parts[article] }}"
+                      value="{{ 0 }}"
+                    />
+                  </td>
+                  <td class="editable">
+                    <input
+                      type="number"
+                      name="{{ 'price_' + all_parts[article] }}"
+                      value="{{ 0 }}"
+                    />
                   </td>
                 </tr>
                 {% endfor %}
@@ -375,10 +391,13 @@
                 content.style.display = "none";
                 document.getElementById("arrow-down").style.transform =
                   "rotate(0deg)";
+                document.getElementById("main-container").style.marginTop = "0";
               } else {
                 content.style.display = "block";
                 document.getElementById("arrow-down").style.transform =
                   "rotate(180deg) translateY(5px)";
+                document.getElementById("main-container").style.marginTop =
+                  "290px";
               }
             });
           }
@@ -515,7 +534,7 @@
         calculateForecastSums();
         calculateProductions();
         calculateStockAndProductionSums();
-        checkBuyOrSell()
+        checkBuyOrSell();
       });
 
       /* Calculate sums in forecast table */
@@ -638,27 +657,29 @@
 
       function checkBuyOrSell() {
         var tradeTable = document.getElementById("trade-table");
-        var buy = 0
-        var sell = 0
-        var sum = 0
+        var buy = 0;
+        var sell = 0;
+        var sum = 0;
 
         for (var row = 1; row < tradeTable.rows.length; row++) {
-            buy = tradeTable.rows[row].cells[1].getElementsByTagName('input')[0].value;
-            sell = tradeTable.rows[row].cells[2].getElementsByTagName('input')[0].value;
-            // console.log(`buy: ${buy}, sell: ${sell}`);
-            sum += buy * sell;
+          buy =
+            tradeTable.rows[row].cells[1].getElementsByTagName("input")[0]
+              .value;
+          sell =
+            tradeTable.rows[row].cells[2].getElementsByTagName("input")[0]
+              .value;
+          // console.log(`buy: ${buy}, sell: ${sell}`);
+          sum += buy * sell;
         }
 
         if (sum == 0) {
           document.getElementById("continue-button").hidden = false;
           document.getElementById("error").hidden = true;
-        }
-        else {
+        } else {
           document.getElementById("continue-button").hidden = true;
           document.getElementById("error").hidden = false;
         }
       }
-        
     </script>
   </body>
   <footer>
