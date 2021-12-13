@@ -38,8 +38,8 @@ def home():
 
 @app.route("/", methods=["POST"])
 def update():
-    global language
-    language = request.form.get('lang')
+    #global language
+    #language = request.form.get('lang')
     #print(f"main: language")
     # handler.delete_all_xml()
 
@@ -48,9 +48,6 @@ def update():
 
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
-    global language
-    language = request.form.get('lang')
-    print(f"main: {language}")
     return render_template("/1_lastPeriod.html", error=False, message=False, lang=language)
 
 
@@ -207,6 +204,8 @@ def upload_prediction():
     tradeData_db = []
     for article in handler.lookupArticles.p_e_k_list:
         buy = request.form.get('order_amount_' + article)
+        if buy == None:
+            buy = 0
         sell = request.form.get('sell_amount_' + article)
         price = request.form.get('price_' + article)
         if (article in ["P1", "P2", "P3"]):
