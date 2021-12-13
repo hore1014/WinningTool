@@ -524,10 +524,10 @@
           <!-- TODO: Zu übersetzen -->
           <table id="detailed-stock-table" style="display: none">
             <thead>
-              {%if lang == "en"%}
+              {% if lang == "en" %}
               <tr>
                 <th colspan="2" rowspan="2"></th>
-                <th colspan="30">Products that trigger demand</th>
+                <th colspan="30">Bill of Materials processing</th>
                 <th colspan="6">
                   Additional factors that go into the quantity of parts to be produced.
                 </th>
@@ -551,20 +551,11 @@
                 <th>E4</th>
                 <th>E5</th>
                 <th>E6</th>
-                <th>E7</th>
-                <th>E8</th>
-                <th>E9</th>
                 <th>E10</th>
                 <th>E11</th>
                 <th>E12</th>
-                <th>E13</th>
-                <th>E14</th>
-                <th>E15</th>
                 <th>E16</th>
                 <th>E17</th>
-                <th>E18</th>
-                <th>E19</th>
-                <th>E20</th>
                 <th>E26</th>
                 <th>E29</th>
                 <th>E30</th>
@@ -598,7 +589,7 @@
                 <th
                   class="sticky-column sticky-column-header"
                   rowspan="32"
-                  style="writing-mode: vertical-lr; text-align: left"
+                  style="writing-mode: vertical-rl; text-align: left"
                 >
                   Products that we produce
                 </th>
@@ -612,6 +603,20 @@
                 </th>
                 {% endif %}
               </tr>
+              {% for article in range(0, len) %}
+              <tr>
+                {% for article2 in range(0, len_h) %}
+                <td name="{{ + 'needed_for_' +  }}">{{  }}</td>
+                {% endfor %}
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              {% endfor %}
             </tbody>
           </table>
           <script>
