@@ -381,8 +381,8 @@
                         (in days)
                       </th>
                       <th rowspan="2">Discount amount</th>
-                      <th rowspan="2">Normal order amount</th>
-                      <th rowspan="2">Rush order amount</th>
+                      <th rowspan="2">Recommended normal order amount</th>
+                      <th rowspan="2">Recommended rush order amount</th>
                     </tr>
                     <tr>
                       <th>Initial stock level</th>
@@ -413,8 +413,8 @@
                         (in Tagen)
                       </th>
                       <th rowspan="2">Diskontmenge</th>
-                      <th rowspan="2">Bestellmenge Normal</th>
-                      <th rowspan="2">BestellMenge Eil</th>
+                      <th rowspan="2">Vorgeschlagene Bestellmenge Normal</th>
+                      <th rowspan="2">Vorgeschlagene BestellMenge Eil</th>
                     </tr>
                     <tr>
                       <th>Anfangsbestand</th>
@@ -452,20 +452,8 @@
                       <td name="{{ 'speed_normal_' + articles[article] }}">{{ delivery[articles[article]][2] }}</td>
                       <td name="{{ 'speed_express_' + articles[article] }}">{{ delivery[articles[article]][0] }}</td>
                       <td>{{ discounts[articles[article]] }}</td>
-                      <td class="editable">
-                        <input
-                          type="number"
-                          name="{{ 'normal_' + articles[article] }}"
-                          value="{{ orders[articles[article]][0] }}"
-                        />
-                      </td>
-                      <td class="editable">
-                        <input
-                          type="number"
-                          name="{{ 'express_' + articles[article] }}"
-                          value="{{ orders[articles[article]][1] }}"
-                        />
-                      </td>
+                      <td name="{{ 'normal_' + articles[article] }}">{{ orders[articles[article]][0] }}</td>
+                      <td name="{{ 'express_' + articles[article] }}">{{ orders[articles[article]][1] }}</td>
                     </tr>
                     {% endfor %}
                   </tbody>
