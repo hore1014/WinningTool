@@ -406,7 +406,8 @@ def upload_orders():
 
 @app.route("/6_capacity.html")
 def capacity_planer():
-    return render_template("/6_capacity.html", lang=language)
+    capacity = handler.get_capacity()
+    return render_template("/6_capacity.html", period=period, lang=language)
 
 
 @app.route("/6_capacity.html", methods=["POST"])
@@ -416,7 +417,7 @@ def upload_shifts():
 
 @app.route("/download.html")
 def xml_download():
-    return render_template("/download.html", lang=language)
+    return render_template("/download.html", period=period, lang=language)
 
 
 @app.route("/download.html", methods=["POST"])
