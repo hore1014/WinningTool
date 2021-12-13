@@ -453,5 +453,6 @@ def create_results():
 
     handler.write_to_xml()
     # TODO: XML runterladbar machen
+    # TODO: Erfolgsmeldung nach Buttonklick
 
-    return redirect(url_for('home'))
+    return render_template("/download.html", period=period, lang=language, success=True)
