@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="HTML, CSS" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <meta
+      name="description"
+      content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
+    />
+    <title>Stock Planer</title>
+  </head>
+  <body>
+    <form action="fileUploader.php" method="post" enctype="multipart/form-data">
+      <div class="container">
+        <img id="file-upload" src="img/FileDownload.png" />
+        <h2 style="text-align: center">Periodenplanung downloaden</h2>
+        <p style="text-align: center">
+          Laden Sie die Periodenplanwerte in Form einer XML-Datei runter.
+        </p>
+        <button class="accent-button download-button">
+          <a href="/test.xml" download>
+            <span class="material-icons white-icon"> file_download </span>
+            Datei runterladen
+          </a>
+        </button>
+        <br />
+      </div>
+    </form>
+
+    <button
+      class="continue-button"
+      type="submit"
+      value="Upload"
+      onclick="location.href='index.html'"
+    >
+      Zurück zur Startseite
+      <img id="continue-icon" src="img/continueArrow.png" />
+    </button>
+  </body>
+  <footer>
+    © IbSys2 Projekt von René Hopfe, David Böhm und Amelie Rempel, 2021
+  </footer>
+</html>
