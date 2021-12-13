@@ -135,15 +135,14 @@ input::-webkit-inner-spin-button {
 
 .big-vertical-container {
   margin: 0;
-  margin-top: 700px;
   padding-bottom: 200px;
   position: absolute;
+  top: 800px;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   max-width: 100%;
   text-align: center;
-  /*overflow-y: scroll;*/
 }
 
 .big-horizontal-container {
@@ -408,7 +407,7 @@ table td {
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
   padding: 20px 0px;
-  width: 200px;
+  width: 150px;
 }
 
 table td:first-child {
@@ -419,7 +418,7 @@ table th {
   text-align: center;
   border-left: 1px solid #ccc;
   text-align: center;
-  padding: 20px 40px;
+  padding: 20px 20px;
   border-bottom: 1px solid #ccc;
 }
 

@@ -17,7 +17,7 @@
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
-    <title>Absatz-Prognosen und Produktionsplan</title>
+    <title>Sales Prediction, Stock and Production Planer</title>
   </head>
   <body>
     <nav>
@@ -41,7 +41,7 @@
     </nav>
 
     <form method="post">
-      <div class="big-vertical-container">
+      <div id="main-container" class="big-vertical-container">
         <!-- Absatz-Prognosen -->
         <h3>
           Geben Sie die Absatzprognosen für die aktuelle Periode (Periode {{
@@ -356,10 +356,13 @@
                 content.style.display = "none";
                 document.getElementById("arrow-down").style.transform =
                   "rotate(0deg)";
+                document.getElementById("main-container").style.marginTop = "0";
               } else {
                 content.style.display = "block";
                 document.getElementById("arrow-down").style.transform =
                   "rotate(180deg) translateY(5px)";
+                document.getElementById("main-container").style.marginTop =
+                  "300px";
               }
             });
           }
