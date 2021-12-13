@@ -107,14 +107,14 @@ input::-webkit-inner-spin-button {
 /* Kleiner Webpage-Inhalt in der Mitte zentriert */
 .container {
   margin: 0;
+  margin-top: 450px;
   position: absolute;
-  top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   max-width: 1000px;
   text-align: center;
-  max-height: 600px;
+  max-height: 700px;
   /*overflow-y: scroll;*/
 }
 
@@ -135,12 +135,12 @@ input::-webkit-inner-spin-button {
 
 .big-vertical-container {
   margin: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding-bottom: 200px;
-  position: absolute;
-  top: 800px;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  top: 180px;
   max-width: 100%;
   text-align: center;
 }
@@ -148,17 +148,16 @@ input::-webkit-inner-spin-button {
 .big-horizontal-container {
   margin: 0;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 100%;
   text-align: center;
   /*overflow-y: scroll;*/
 }
 
 .starts-below-navbar {
-  margin-top: 500px;
+  margin-top: 170px;
   min-height: 700px;
 }
 
@@ -178,6 +177,25 @@ input::-webkit-inner-spin-button {
   border: 1px solid #707070;
   content: "";
   padding: 20px;
+}
+
+.legende {
+  border-radius: 20px;
+  box-shadow: 3px 0px 30px #d3d2d2;
+  padding: 10px 20px;
+  width: fit-content;
+  align-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.legende p {
+  color: #707070;
+  font-size: 12px;
+}
+
+.legende table td {
+  font-size: 12px;
 }
 
 .spacing {
@@ -408,6 +426,7 @@ table td {
   border-left: 1px solid #ccc;
   padding: 20px 0px;
   width: 150px;
+  font-size: 15px;
 }
 
 table td:first-child {
@@ -420,6 +439,7 @@ table th {
   text-align: center;
   padding: 20px 20px;
   border-bottom: 1px solid #ccc;
+  font-size: 15px;
 }
 
 table th:first-child {
@@ -456,6 +476,12 @@ table tbody td.editable {
 table td em {
   font-weight: bold;
   font-style: normal;
+}
+
+#detailed-capacity-table td,
+#detailed-capacity-table th {
+  padding: 15px;
+  font-size: 14px;
 }
 
 #detailed-table,
@@ -550,6 +576,7 @@ table td em.warning {
 .vertical-scrollable-table-wrapper thead {
   position: sticky;
   top: -2px;
+  z-index: 100;
 }
 
 .vertical-scrollable-table-wrapper thead::after {
@@ -827,13 +854,14 @@ label[for="file-selector"]:hover {
   background-color: #f8f8f8;
 }
 
-.content {
+.collapsible-content {
   padding: 18px;
   display: none;
   overflow: hidden;
   background-color: #f1f1f1;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 /* TABWIDGET ----------------------------------------------*/

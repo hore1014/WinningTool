@@ -309,99 +309,103 @@
         </table>
 
         <br />
-        <button type="button" class="collapsible">
-          <div style="position: relative">
-            <div style="display: inline-block">
-              <h3>Handelsplanung (optional)</h3>
-              <p>
-                Hier könnnen Sie Kauf- oder Verkaufsteile mit anderen Firmen
-                planen.
+
+        <div name="collapsible">
+          <button type="button" class="collapsible">
+            <div style="position: relative">
+              <div style="display: inline-block">
+                <h3>Handelsplanung (optional)</h3>
+                <p>
+                  Hier könnnen Sie Kauf- oder Verkaufsteile mit anderen Firmen
+                  planen.
+                </p>
+              </div>
+              <div style="display: inline-block; float: right">
+                <img
+                  id="arrow-down"
+                  src="{{ url_for('static', filename='img/downArrow.png') }}"
+                />
+              </div>
+            </div>
+          </button>
+
+          <div class="content">
+            <div id="error" hidden>
+              <p class="error">
+                Ein Artikel kann nicht gleichzeitig gekauft und verkauft werden.
               </p>
             </div>
-            <div style="display: inline-block; float: right">
-              <img
-                id="arrow-down"
-                src="{{ url_for('static', filename='img/downArrow.png') }}"
-              />
+            <div class="vertical-scrollable-table-wrapper">
+              <table id="trade-table">
+                <thead>
+                  <tr>
+                    <td>Artikel</td>
+                    <td>Bestellmenge</td>
+                    <td>Verkaufsmenge</td>
+                    <td>
+                      Preis <br />
+                      (€ pro Stück)
+                    </td>
+                  </tr>
+                </thead>
+                <tbody id="trade-table-body">
+                  {% for article in range(0, len) %}
+                  <tr>
+                    <td name="{{ 'article_' + all_parts[article] }}">
+                      {{ all_parts[article] }}
+                    </td>
+                    <td class="editable">
+                      <input
+                        type="number"
+                        name="{{ 'order_amount_' + all_parts[article] }}"
+                        value="{{ 0 }}"
+                      />
+                    </td>
+                    <td class="editable">
+                      <input
+                        type="number"
+                        name="{{ 'sell_amount_' + all_parts[article] }}"
+                        value="{{ 0 }}"
+                      />
+                    </td>
+                    <td class="editable">
+                      <input
+                        type="number"
+                        name="{{ 'price_' + all_parts[article] }}"
+                        value="{{ 0 }}"
+                      />
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
           </div>
-        </button>
+          <script>
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
 
-        <div class="content">
-          <div id="error" hidden>
-            <p class="error">
-              Ein Artikel kann nicht gleichzeitig gekauft und verkauft werden.
-            </p>
-          </div>
-          <div class="vertical-scrollable-table-wrapper">
-            <table id="trade-table">
-              <thead>
-                <tr>
-                  <td>Artikel</td>
-                  <td>Bestellmenge</td>
-                  <td>Verkaufsmenge</td>
-                  <td>
-                    Preis <br />
-                    (€ pro Stück)
-                  </td>
-                </tr>
-              </thead>
-              <tbody id="trade-table-body">
-                {% for article in range(0, len) %}
-                <tr>
-                  <td name="{{ 'article_' + all_parts[article] }}">
-                    {{ all_parts[article] }}
-                  </td>
-                  <td class="editable">
-                    <input
-                      type="number"
-                      name="{{ 'order_amount_' + all_parts[article] }}"
-                      value="{{ 0 }}"
-                    />
-                  </td>
-                  <td class="editable">
-                    <input
-                      type="number"
-                      name="{{ 'sell_amount_' + all_parts[article] }}"
-                      value="{{ 0 }}"
-                    />
-                  </td>
-                  <td class="editable">
-                    <input
-                      type="number"
-                      name="{{ 'price_' + all_parts[article] }}"
-                      value="{{ 0 }}"
-                    />
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+            for (i = 0; i < coll.length; i++) {
+              coll[i].addEventListener("click", function () {
+                this.classList.toggle("activated");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                  content.style.display = "none";
+                  document.getElementById("arrow-down").style.transform =
+                    "rotate(0deg)";
+                  document.getElementById("main-container").style.marginTop =
+                    "0";
+                } else {
+                  content.style.display = "block";
+                  document.getElementById("arrow-down").style.transform =
+                    "rotate(180deg) translateY(5px)";
+                  document.getElementById("main-container").style.marginTop =
+                    "290px";
+                }
+              });
+            }
+          </script>
         </div>
-        <script>
-          var coll = document.getElementsByClassName("collapsible");
-          var i;
-
-          for (i = 0; i < coll.length; i++) {
-            coll[i].addEventListener("click", function () {
-              this.classList.toggle("activated");
-              var content = this.nextElementSibling;
-              if (content.style.display === "block") {
-                content.style.display = "none";
-                document.getElementById("arrow-down").style.transform =
-                  "rotate(0deg)";
-                document.getElementById("main-container").style.marginTop = "0";
-              } else {
-                content.style.display = "block";
-                document.getElementById("arrow-down").style.transform =
-                  "rotate(180deg) translateY(5px)";
-                document.getElementById("main-container").style.marginTop =
-                  "290px";
-              }
-            });
-          }
-        </script>
 
         <script>
           /*
