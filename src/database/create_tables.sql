@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS Einkauf(
 CREATE TABLE IF NOT EXISTS Handel(
    Periode INT,
    Artikel CHAR(10),
-   Direktkauf REAL,
-   Direktverkauf REAL,
+   Direktkauf INT,
+   Direktverkauf INT,
    Preis REAL,
    PRIMARY KEY (Periode, Artikel)
 );

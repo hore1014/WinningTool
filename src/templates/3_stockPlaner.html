@@ -17,8 +17,11 @@
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
+    {% if lang == "en" %}
     <title>Stock and production of intermediate products</title>
+    {% else %}
     <title>Lager und Produktion der Zwischenerzeugnisse</title>
+    {% endif %}
   </head>
   <body>
     <nav>
@@ -161,15 +164,21 @@
           {% endif %}
         </div>
         <br />
-        <!-- TODO: zu übersetzen -->
       <div class="details-button-container">
         <button class="details-button" type="button" onclick="showOtherTable()">
           <span class="material-icons"> article </span>
+          {% if lang == "en" %}
+          <span id="details-button-text">Detailed view</span>
+          {% else %}
           <span id="details-button-text">Detaillierte Ansicht</span>
+          {% endif %}
         </button>
       </div>
+      <input type="hidden"  id="language" value="{{ lang }}">
       <script>
         function showOtherTable() {
+          var language = document.querySelector('#language').value
+
           var detailedTable = document.getElementById("detailed-stock-table");
           var undetailedTable = document.getElementById(
             "undetailed-stock-table"
@@ -178,15 +187,29 @@
             "details-button-text"
           );
 
-          if (detailsButtonText.innerHTML == "Detaillierte Ansicht") {
-            undetailedTable.style.display = "none";
-            detailedTable.style.display = "block";
-            detailsButtonText.textContent = "Minimierte Ansicht";
-          } else {
-            detailedTable.style.display = "none";
-            undetailedTable.style.display = "block";
-            detailsButtonText.textContent = "Detaillierte Ansicht";
+          if(language == "en"){
+              if (detailsButtonText.innerHTML == "Detailled view") {
+                undetailedTable.style.display = "none";
+                detailedTable.style.display = "block";
+                detailsButtonText.textContent = "Minimized view";
+              } else {
+                detailedTable.style.display = "none";
+                undetailedTable.style.display = "block";
+                detailsButtonText.textContent = "Detailled view";
+              }
           }
+          else{
+              if (detailsButtonText.innerHTML == "Detaillierte Ansicht") {
+              undetailedTable.style.display = "none";
+              detailedTable.style.display = "block";
+              detailsButtonText.textContent = "Minimierte Ansicht";
+            } else {
+              detailedTable.style.display = "none";
+              undetailedTable.style.display = "block";
+              detailsButtonText.textContent = "Detaillierte Ansicht";
+            }
+          }
+          
         }
       </script>
       <br />
