@@ -8,7 +8,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
     <meta
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
@@ -16,7 +20,47 @@
     <title>Supply Chain Planer</title>
   </head>
   <body>
-    <div class="container">
+    <div class="dropdown" style="margin: 10px">
+      <button onclick="dropDown()" class="dropbutton">Sprache</button>
+      <div id="dropdown-content" class="dropdown-content">
+        <button class="dropdownoption">
+          <img
+            class="flag"
+            src="{{ url_for('static', filename='img/german.png') }}"
+          />
+          Deutsch
+        </button>
+        <button class="dropdownoption">
+          <img
+            class="flag"
+            src="{{ url_for('static', filename='img/english.png') }}"
+          />
+          Englisch
+        </button>
+      </div>
+    </div>
+    <script>
+      /* When the user clicks on the button, 
+    toggle between hiding and showing the dropdown content */
+      function dropDown() {
+        document.getElementById("dropdown-content").classList.toggle("show");
+      }
+
+      // Close the dropdown if the user clicks outside of it
+      window.onclick = function (event) {
+        if (!event.target.matches(".dropbutton")) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+              openDropdown.classList.remove("show");
+            }
+          }
+        }
+      };
+    </script>
+    <div class="container" style="position: absolute; top: 0">
       <h1>SUPPLY CHAIN PLANER</h1>
       {% if lang == "en" %}
       <button class="accent-button" onclick="location.href='1_lastPeriod.html'">
