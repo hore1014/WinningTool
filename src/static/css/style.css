@@ -13,6 +13,7 @@ Inhalt dieser css-Datei:
 - PROGRESSBAR
 - VORHERIGE PERIODE SEITE
 - NAVIGATIONSLEISTE 
+- COLLAPSIBLE
 - TABWIDGET
 - WARNING
 - FOOTER
@@ -50,11 +51,6 @@ label {
 }
 
 .error {
-  color: #eb6157;
-  text-align: center;
-}
-
-.invalid {
   color: #eb6157;
   text-align: center;
 }
@@ -163,7 +159,6 @@ input::-webkit-inner-spin-button {
 }
 
 .starts-below-navbar {
-  top: auto;
   margin-top: 500px;
   min-height: 700px;
 }
@@ -213,6 +208,8 @@ h3 {
 
 .centered-header {
   text-align: center;
+  border: none;
+  border-radius: 20px;
 }
 
 /* BILDER -----------------------------------------------*/
@@ -244,6 +241,15 @@ h3 {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+#arrow-down {
+  right: 20px;
+  height: 10px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* BUTTONS -----------------------------------------------*/
@@ -795,6 +801,40 @@ label[for="file-selector"] {
 
 label[for="file-selector"]:hover {
   background: #e4e4e4;
+}
+
+/* COLLAPSIBLE --------------------------------------------*/
+.collapsible {
+  background-color: white;
+  color: #a49e9e;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  box-shadow: 3px 0px 30px #d3d2d2;
+  margin-top: 50px;
+}
+
+.collapsible h3,
+.collapsible p {
+  margin: 10px;
+}
+
+.activated,
+.collapsible:hover {
+  background-color: #f8f8f8;
+}
+
+.content {
+  padding: 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  justify-content: center;
+  align-items: center;
 }
 
 /* TABWIDGET ----------------------------------------------*/
