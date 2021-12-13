@@ -16,6 +16,7 @@ Inhalt dieser css-Datei:
 - COLLAPSIBLE
 - TABWIDGET
 - WARNING
+- MANUAL
 - FOOTER
 
 */
@@ -997,6 +998,43 @@ label[for="file-selector"]:hover {
 
 #warning-icon {
   height: 30px;
+}
+
+/* MANUAL ------------------------------------------------*/
+.manual {
+  position: fixed;
+  top: 150px;
+  right: 0;
+  height: 70%;
+  width: 50%;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  z-index: 1000;
+}
+
+.manual h2 {
+  margin-left: 20px;
+  text-decoration: underline;
+}
+
+.manual-content {
+  position: fixed;
+  background-color: white;
+  top: 200px;
+  right: 0;
+  height: 70%;
+  width: 50%;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: 3px 0px 30px #d3d2d2;
+  z-index: 1000;
+  overflow-y: scroll;
+}
+
+.manual-page {
+  position: relative;
+  margin: 15px;
+  width: 96%;
 }
 
 /* FOOTER -----------------------------------------------*/

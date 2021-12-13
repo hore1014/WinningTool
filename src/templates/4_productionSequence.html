@@ -66,9 +66,7 @@
         </li>
         <li><a>Bestellungen</a></li>
         <li><a>Kapazität</a></li>
-        {% endif %}
-
-        {% if lang == "en" %}
+        {% endif %} {% if lang == "en" %}
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton">Language</button>
           <div id="dropdown-content" class="dropdown-content">
@@ -133,11 +131,55 @@
       </script>
     </nav>
 
+    <!-- TODO: Übersetzen -->
+    <div id="manual" class="manual" style="width: auto; height: auto">
+      <div
+        class="details-button-container"
+        style="text-align: left; margin-right: 10px"
+      >
+        <button class="details-button" onclick="hideManualContent()">
+          <span class="material-icons"> menu_book </span>
+          <span id="details-button-text">Produktions Übersicht</span>
+        </button>
+      </div>
+      <script>
+        function hideManualContent() {
+          var manual = document.getElementById("manual");
+          var manualContent = document.getElementById("manual-content");
+
+          if (manualContent.style.display == "none") {
+            manualContent.style.display = "block";
+            manual.style.width = "50%";
+            manual.style.height = "70%";
+          } else {
+            manualContent.style.display = "none";
+            manual.style.width = "auto";
+          }
+        }
+      </script>
+      <div id="manual-content" class="manual-content" style="display: none">
+        <h2>Fertigungsdurchläufe:</h2>
+        <img
+          class="manual-page"
+          src="{{ url_for('static', filename='img/manualPages/Fertigungsdurchlauf_P1.jpg') }}"
+        />
+        <img
+          class="manual-page"
+          src="{{ url_for('static', filename='img/manualPages/Fertigungsdurchlauf_P2.jpg') }}"
+        />
+        <img
+          class="manual-page"
+          src="{{ url_for('static', filename='img/manualPages/Fertigungsdurchlauf_P3.jpg') }}"
+        />
+      </div>
+    </div>
+
     <div class="big-horizontal-container starts-below-navbar">
       <div class="centered-container">
         {% if lang == "en" %}
         <h3>
-          Put the orders in the production sequence you wish and enter the quantity to be produced.
+          Put the orders in the production sequence you wish and enter the
+          quantity to be produced.
         </h3>
         <p>
           Whichever is first is produced first (from left to right).
@@ -177,8 +219,7 @@
             name="article-name"
             placeholder="Artikelname"
           />
-          {% endif %}
-          {% if lang == "en" %}
+          {% endif %} {% if lang == "en" %}
           <button type="button" id="addColumnButton" class="accent-button">
             <span class="material-icons white-icon"> add </span> Add new column
           </button>
@@ -191,19 +232,17 @@
         </form>
       </div>
 
-      {% if error == "sum" %}
-      {% if lang == "en" %}
+      {% if error == "sum" %} {% if lang == "en" %}
       <p class="error">
-        The quantities of the split products must correspond in total to the initial quantity!
+        The quantities of the split products must correspond in total to the
+        initial quantity!
       </p>
       {% endif %} {% if error == "keys" %}
       <p class="error">
         No products may be left out of the production planning!
       </p>
       {% endif %} {% if error == "limit" %}
-      <p class="error">
-        A maximum of 60 production orders may be created!
-      </p>
+      <p class="error">A maximum of 60 production orders may be created!</p>
       {% else %}
       <p class="error">
         Die Mengen der aufgeteilten Produkte müssen in Summe der Ausgangsmenge
@@ -217,8 +256,7 @@
       <p class="error">
         Es dürfen maximal 60 Produktionsaufträge erstellt werden!
       </p>
-      {% endif %}
-      {% endif %}
+      {% endif %} {% endif %}
 
       <form method="post">
         <table class="table-container">
