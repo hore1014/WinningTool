@@ -284,11 +284,7 @@ button {
   border: none;
   border-radius: 50px;
   color: white;
-  background: linear-gradient(
-    180deg,
-    rgba(124, 202, 214, 1) 0%,
-    rgba(82, 119, 175, 1) 100%
-  );
+  background: linear-gradient(180deg, #7ccad6 0%, #5277af 100%);
   padding: 20px;
   text-decoration: none;
   text-align: center;
