@@ -431,6 +431,15 @@ def capacity_planer():
 
 @app.route("/6_capacity.html", methods=["POST"])
 def upload_shifts():
+    shifts = {}
+    for station in stations:
+        if station == "Station_5":
+            continue
+        shifts[station] = (request.form.get(
+            f"shift_{station}"), request.form.get(f"extra_minutes_{station}"))
+    print(shifts)
+    # TODO: Schichten in die DB einlesen bzw ins XML schreiben; Format: Tupel (Schichten, Extraminuten pro Tag)
+
     return redirect(url_for('xml_download'))
 
 
