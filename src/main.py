@@ -458,4 +458,6 @@ def create_results():
     if os.path.exists(f'src/templates/input_results.xml'):
         os.remove(f'src/templates/input_results.xml')
 
-    return redirect(url_for('home'))
+    # TODO: Erfolgsmeldung nach Buttonklick
+
+    return render_template("/download.html", period=period, lang=language, success=True)
