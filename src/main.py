@@ -24,7 +24,7 @@ article_list = ["P1", "P2", "P3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "E1
 
 languages = {
     "de": "de",
-    "de": "en",
+    "en": "en",
 }
 language = "de"  # default
 

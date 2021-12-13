@@ -19,7 +19,7 @@
     />
     <title>WinningTool - Supply Chain Planer</title>
   </head>
-  
+
   <body>
     <form method="post">
       <div hidden>
@@ -27,17 +27,27 @@
       </div>
 
       {% if lang == "en" %}
-      <div class="dropdown" style="margin: 10px">
-        <button type="button" onclick="dropDown()" class="dropbutton">Language</button>
+      <div class="dropdown" style="position: absolute; right: 60px; top: 30px">
+        <button type="button" onclick="dropDown()" class="dropbutton">
+          Language
+        </button>
         <div id="dropdown-content" class="dropdown-content">
-          <button type="button" class="dropdownoption" onclick="location.href='/?lang=de'">
+          <button
+            type="button"
+            class="dropdownoption"
+            onclick="location.href='/?lang=de'"
+          >
             <img
               class="flag"
               src="{{ url_for('static', filename='img/german.png') }}"
             />
             German
           </button>
-          <button type="button" class="dropdownoption" onclick="location.href='/?lang=en'">
+          <button
+            type="button"
+            class="dropdownoption"
+            onclick="location.href='/?lang=en'"
+          >
             <img
               class="flag"
               src="{{ url_for('static', filename='img/english.png') }}"
@@ -47,17 +57,27 @@
         </div>
       </div>
       {% else %}
-      <div class="dropdown" style="margin: 10px">
-        <button type="button" onclick="dropDown()" class="dropbutton">Sprache</button>
+      <div class="dropdown" style="position: absolute; right: 60px; top: 30px">
+        <button type="button" onclick="dropDown()" class="dropbutton">
+          Sprache
+        </button>
         <div id="dropdown-content" class="dropdown-content">
-          <button type="button" class="dropdownoption" onclick="location.href='/?lang=de'">
+          <button
+            type="button"
+            class="dropdownoption"
+            onclick="location.href='/?lang=de'"
+          >
             <img
               class="flag"
               src="{{ url_for('static', filename='img/german.png') }}"
             />
             Deutsch
           </button>
-          <button type="button" class="dropdownoption" onclick="location.href='/?lang=en'">
+          <button
+            type="button"
+            class="dropdownoption"
+            onclick="location.href='/?lang=en'"
+          >
             <img
               class="flag"
               src="{{ url_for('static', filename='img/english.png') }}"
@@ -89,19 +109,50 @@
         };
 
         function changeLanguage(lang) {
-          console.log(lang)
+          console.log(lang);
           document.getElementsByName("lang")[0].value = lang;
-          console.log(document.getElementsByName("lang")[0].value)
+          console.log(document.getElementsByName("lang")[0].value);
         }
       </script>
-      <div class="container" style="position: absolute; top: 0">
+      <img
+        src="{{ url_for('static', filename='img/blob.svg') }}"
+        style="
+          position: fixed;
+          top: -400px;
+          left: -300px;
+          width: 900px;
+          opacity: 55%;
+        "
+      />
+      <img
+        src="{{ url_for('static', filename='img/biker.svg') }}"
+        style="position: fixed; bottom: 70px; right: 0px"
+      />
+      <div
+        class="container"
+        style="position: absolute; top: 45%; left: 35%; margin-top: 0"
+      >
+        <img
+          style="width: 200px"
+          src="{{ url_for('static', filename='img/winning_team_icon.svg') }}"
+        />
+        <p style="text-align: center; font-weight: bold; font-size: 20px">
+          Winning Team GmbH
+        </p>
         <h1>SUPPLY CHAIN PLANER</h1>
         {% if lang == "en" %}
-        <button class="accent-button" onclick="location.href='1_lastPeriod?lang=' + lang">
-          Start planning next period
+        <br />
+        <button
+          class="accent-button"
+          onclick="location.href='1_lastPeriod?lang=en'"
+        >
+          Start planning the next period
         </button>
         {% else %}
-        <button class="accent-button" onclick="location.href='1_lastPeriod?lang=' + lang">
+        <button
+          class="accent-button"
+          onclick="location.href='1_lastPeriod?lang=de'"
+        >
           Planung der nächsten Periode starten
         </button>
         {% endif %}
