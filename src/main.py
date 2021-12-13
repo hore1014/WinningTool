@@ -208,8 +208,12 @@ def upload_prediction():
         buy = request.form.get('order_amount_' + article)
         sell = request.form.get('sell_amount_' + article)
         price = request.form.get('price_' + article)
+        if (article in ["P1", "P2", "P3"]):
+            penalty = request.form.get('penalty_' + article)
+        else:
+            penalty = 0
         if (buy != sell):
-            tradeData[article] = (buy, sell, price)
+            tradeData[article] = (buy, sell, price, penalty)
 
     print(tradeData)
     # TODO: tradeData in die DB schreiben
@@ -435,12 +439,12 @@ def upload_shifts():
     for station in stations:
         if station == "Station_5":
             continue
-        shifts.append(( # tuple
+        shifts.append((  # tuple
             station.replace("Station_", ''),
             request.form.get(f"shift_{station}"),
             request.form.get(f"extra_minutes_{station}")
         ))
-        
+
     print(shifts)
     handler.xml_stationen = shifts
     # TODO: Schichten in die DB einlesen bzw ins XML schreiben; Format: Tupel (Schichten, Extraminuten pro Tag)
