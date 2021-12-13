@@ -46,7 +46,7 @@
           >
         </li>
         <li class="active">
-          <a>Orders</a>
+          <a href="5_orders_purchase.html">Orders</a>
         </li>
         <li class="active"><a>Capacity</a></li>
       {% else %}
@@ -675,9 +675,8 @@
       onclick="location.href='download.html'"
       >
       Abschließen
-      <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
-      </button>
-      {% endif %}
+    </button>
+    {% endif %}
     </form>
   </body>
   {% if lang == "en" %}
