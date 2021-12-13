@@ -35,7 +35,7 @@ app.config["SECRET_KEY"] = os.urandom(24).hex()  # random key
 def home():
     return render_template(f"{language}/index.html")
 
-
+# TODO Mit Button verknüpfen
 @app.route("/", methods=["POST"])
 def reset():
     handler.delete_all_xml()
