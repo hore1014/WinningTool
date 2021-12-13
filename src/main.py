@@ -99,9 +99,10 @@ def salesPrediction():
     sales = handler.get_sales_forecast(period)
     # get inventory
     current_parts = handler.get_parts_inventory(period)
+    all_parts = handler.lookupArticles.p_e_k_list
 
     return render_template(
-        "2_salesPrediction.html", period=period, inventory=current_parts,
+        "2_salesPrediction.html", period=period, inventory=current_parts, all_parts=all_parts, len=len(all_parts),
 
         sales_P1_0=sales["P1"][0], sales_P1_1=sales["P1"][1], sales_P1_2=sales["P1"][2], sales_P1_3=sales["P1"][3],
         sales_P2_0=sales["P2"][0], sales_P2_1=sales["P2"][1], sales_P2_2=sales["P2"][2], sales_P2_3=sales["P2"][3],
@@ -130,6 +131,7 @@ def upload_prediction():
     stock_P2 = request.form.get('stock_P2_0')
     stock_P3 = request.form.get('stock_P3_0')
 
+    # sales predictions
     salesData = [
         {
             'Periode': period,
@@ -157,6 +159,7 @@ def upload_prediction():
         },
     ]
 
+    # users strategy for P-parts inventory
     stockData = [
         {
             'Periode': period,
@@ -183,6 +186,19 @@ def upload_prediction():
             'Aktuell_3': request.form.get('stock_P3_3'),
         },
     ]
+
+    # trading data
+    tradeData = {}
+    for article in handler.lookupArticles.p_e_k_list:
+        buy = request.form.get('order_amount_' + article)
+        sell = request.form.get('sell_amount_' + article)
+        price = request.form.get('price_' + article)
+        if (buy != sell):
+            tradeData[article] = (buy, sell, price)
+
+    print(tradeData)
+    # TODO: tradeData in die DB schreiben
+
     # Daten in die DB schreiben
     handler.write_input_to_db(salesData, "Absatzprognose")
     print("Daten für Absatzprognose wurden in die Datenbank geschrieben")

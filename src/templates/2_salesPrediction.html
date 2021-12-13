@@ -307,6 +307,7 @@
             </tr>
           </tbody>
         </table>
+
         <br />
         <button type="button" class="collapsible">
           <div style="position: relative">
@@ -327,6 +328,9 @@
         </button>
 
         <div class="content">
+          <div id="error" hidden>
+            <p class="error">Ein Artikel kann nicht gleichzeitig gekauft und verkauft werden.</p>
+          </div>
           <div class="vertical-scrollable-table-wrapper">
             <table id="trade-table">
               <thead>
@@ -340,7 +344,22 @@
                   </td>
                 </tr>
               </thead>
-              <tbody id="trade-table-body"></tbody>
+              <tbody id="trade-table-body">
+                {% for article in range(0, len) %}
+                <tr>
+                  <td name="{{ 'article_' + all_parts[article] }}">{{ all_parts[article] }}</td>
+                  <td class="editable">
+                    <input type="number" name="{{ 'order_amount_' + all_parts[article] }}" value="{{ 0 }}">
+                  </td>
+                  <td class="editable">
+                    <input type="number" name="{{ 'sell_amount_' + all_parts[article] }}" value="{{ 0 }}">
+                  </td>
+                  <td class="editable">
+                    <input type="number" name="{{ 'price_' + all_parts[article] }}" value="{{ 0 }}">
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
             </table>
           </div>
         </div>
@@ -366,6 +385,7 @@
         </script>
 
         <script>
+          /*
           const articleList = [
             "P1",
             "P2",
@@ -428,7 +448,7 @@
             "K59",
           ];
 
-          /* Fill Table with rows */
+          // Fill Table with rows 
           var body = document.getElementById("trade-table-body");
 
           for (var i = 0; i < articleList.length; i++) {
@@ -445,6 +465,7 @@
               articleList[i] +
               '" value="0"/></td></tr>';
           }
+          */
         </script>
 
         <br class="spacing" />
@@ -471,6 +492,7 @@
       <br class="spacing" />
 
       <button
+        id="continue-button"
         class="continue-button"
         type="submit"
         value="Upload"
@@ -493,6 +515,7 @@
         calculateForecastSums();
         calculateProductions();
         calculateStockAndProductionSums();
+        checkBuyOrSell()
       });
 
       /* Calculate sums in forecast table */
@@ -612,6 +635,30 @@
           }
         }
       }
+
+      function checkBuyOrSell() {
+        var tradeTable = document.getElementById("trade-table");
+        var buy = 0
+        var sell = 0
+        var sum = 0
+
+        for (var row = 1; row < tradeTable.rows.length; row++) {
+            buy = tradeTable.rows[row].cells[1].getElementsByTagName('input')[0].value;
+            sell = tradeTable.rows[row].cells[2].getElementsByTagName('input')[0].value;
+            // console.log(`buy: ${buy}, sell: ${sell}`);
+            sum += buy * sell;
+        }
+
+        if (sum == 0) {
+          document.getElementById("continue-button").hidden = false;
+          document.getElementById("error").hidden = true;
+        }
+        else {
+          document.getElementById("continue-button").hidden = true;
+          document.getElementById("error").hidden = false;
+        }
+      }
+        
     </script>
   </body>
   <footer>
