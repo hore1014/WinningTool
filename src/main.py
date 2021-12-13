@@ -17,7 +17,7 @@ sequence = []
 k_list = lookupArticles.k_list
 
 # TODO Get this values from user input (use a dict)
-language = "ru"
+language = "de"
 
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
