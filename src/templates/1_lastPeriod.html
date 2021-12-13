@@ -44,6 +44,10 @@
 
   </head>
   <body>
+    <div hidden>
+      <input type="text" name="lang" value="{{ lang }}" />
+    </div>
+
     <nav>
       <ul class="progressbar">
         {% if lang == "en" %}
@@ -65,13 +69,13 @@
           {% if lang == "en" %}
           <button onclick="dropDown()" class="dropbutton">Language</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> German</button>
-            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> English</button>
+            <button class="dropdownoption" onclick="changeLanguage('de')"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> German</button>
+            <button class="dropdownoption" onclick="changeLanguage('en')"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> English</button>
           {% else %}
           <button onclick="dropDown()" class="dropbutton">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> Deutsch</button>
-            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> Englisch</button>
+            <button class="dropdownoption" onclick="changeLanguage('de')"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> Deutsch</button>
+            <button class="dropdownoption" onclick="changeLanguage('en')"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> Englisch</button>
           </div>
           {% endif %}
         </div>
@@ -96,6 +100,10 @@
             }
           }
         }
+
+        function changeLanguage(lang) {
+        document.getElementsByName("lang")[0].value = lang;
+      }
       </script>
     </nav>
 

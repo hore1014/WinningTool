@@ -57,6 +57,7 @@ def get_current_period():
 def get_period_by_file(file: str):
     return ixml.get_period_by_file(file)
 
+
 def delete_all_xml(path: str):
     files_list = os.listdir(path)
     for file in files_list:
@@ -182,6 +183,19 @@ def get_consumption():
 
     print(f"Verbrauch:\n{json.dumps(consumption, indent=4)}")
     return consumption
+
+
+def get_assembly_times():
+    """
+    Kalkuliert die notwendigen Arbeitsminuten pro Teil pro Station
+    """
+    assemly_times = cap.calculate_article_assembly_time(
+        production,
+        parts_processing,
+        parts_in_queue,
+        missing_parts
+    )
+    return get_assembly_times
 
 
 def get_capacity():

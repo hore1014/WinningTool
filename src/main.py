@@ -38,14 +38,17 @@ def home():
 def update():
     global language
     language = request.form.get('lang')
-    print(f"main: language")
+    #print(f"main: language")
     # handler.delete_all_xml()
 
-    return render_template("/index.html", lang=language)
+    return redirect(url_for('lastPeriod'))
 
 
 @app.route("/1_lastPeriod.html")
 def lastPeriod():
+    global language
+    language = request.form.get('lang')
+    print(f"main: {language}")
     return render_template("/1_lastPeriod.html", error=False, message=False, lang=language)
 
 
@@ -406,7 +409,8 @@ def upload_orders():
 
 @app.route("/6_capacity.html")
 def capacity_planer():
-    return render_template("/6_capacity.html", lang=language)
+    capacity = handler.get_capacity()
+    return render_template("/6_capacity.html", period=period, lang=language)
 
 
 @app.route("/6_capacity.html", methods=["POST"])
@@ -416,7 +420,7 @@ def upload_shifts():
 
 @app.route("/download.html")
 def xml_download():
-    return render_template("/download.html", lang=language)
+    return render_template("/download.html", period=period, lang=language)
 
 
 @app.route("/download.html", methods=["POST"])

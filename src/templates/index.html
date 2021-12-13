@@ -21,91 +21,90 @@
   </head>
   
   <body>
-    <div hidden>
-      <input type="text" name="lang" value="{{ lang }}" />
-    </div>
-
-    {% if lang == "en" %}
-    <div class="dropdown" style="margin: 10px">
-      <button onclick="dropDown()" class="dropbutton">Language</button>
-      <div id="dropdown-content" class="dropdown-content">
-        <button class="dropdownoption" onclick="changeLanguage('de')">
-          <img
-            class="flag"
-            src="{{ url_for('static', filename='img/german.png') }}"
-          />
-          German
-        </button>
-        <button class="dropdownoption" onclick="changeLanguage('en')">
-          <img
-            class="flag"
-            src="{{ url_for('static', filename='img/english.png') }}"
-          />
-          English
-        </button>
+    <form method="post">
+      <div hidden>
+        <input type="text" name="lang" value="{{ lang }}" />
       </div>
-    </div>
-    {% else %}
-    <div class="dropdown" style="margin: 10px">
-      <button onclick="dropDown()" class="dropbutton">Sprache</button>
-      <div id="dropdown-content" class="dropdown-content">
-        <button class="dropdownoption" onclick="changeLanguage('de')">
-          <img
-            class="flag"
-            src="{{ url_for('static', filename='img/german.png') }}"
-          />
-          Deutsch
-        </button>
-        <button class="dropdownoption" onclick="changeLanguage('en')">
-          <img
-            class="flag"
-            src="{{ url_for('static', filename='img/english.png') }}"
-          />
-          Englisch
-        </button>
-      </div>
-    </div>
-    {% endif %}
-    <script>
-      /* When the user clicks on the button, 
-    toggle between hiding and showing the dropdown content */
-      function dropDown() {
-        document.getElementById("dropdown-content").classList.toggle("show");
-      }
 
-      // Close the dropdown if the user clicks outside of it
-      window.onclick = function (event) {
-        if (!event.target.matches(".dropbutton")) {
-          var dropdowns = document.getElementsByClassName("dropdown-content");
-          var i;
-          for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains("show")) {
-              openDropdown.classList.remove("show");
+      {% if lang == "en" %}
+      <div class="dropdown" style="margin: 10px">
+        <button type="button" onclick="dropDown()" class="dropbutton">Language</button>
+        <div id="dropdown-content" class="dropdown-content">
+          <button type="button" class="dropdownoption" onclick="changeLanguage('de')">
+            <img
+              class="flag"
+              src="{{ url_for('static', filename='img/german.png') }}"
+            />
+            German
+          </button>
+          <button type="button" class="dropdownoption" onclick="changeLanguage('en')">
+            <img
+              class="flag"
+              src="{{ url_for('static', filename='img/english.png') }}"
+            />
+            English
+          </button>
+        </div>
+      </div>
+      {% else %}
+      <div class="dropdown" style="margin: 10px">
+        <button type="button" onclick="dropDown()" class="dropbutton">Sprache</button>
+        <div id="dropdown-content" class="dropdown-content">
+          <button type="button" class="dropdownoption" onclick="changeLanguage('de')">
+            <img
+              class="flag"
+              src="{{ url_for('static', filename='img/german.png') }}"
+            />
+            Deutsch
+          </button>
+          <button type="button" class="dropdownoption" onclick="changeLanguage('en')">
+            <img
+              class="flag"
+              src="{{ url_for('static', filename='img/english.png') }}"
+            />
+            Englisch
+          </button>
+        </div>
+      </div>
+      {% endif %}
+      <script>
+        /* When the user clicks on the button, 
+      toggle between hiding and showing the dropdown content */
+        function dropDown() {
+          document.getElementById("dropdown-content").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+          if (!event.target.matches(".dropbutton")) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains("show")) {
+                openDropdown.classList.remove("show");
+              }
             }
           }
-        }
-      };
+        };
 
-      function changeLanguage(lang) {
-        document.getElementsByName("lang")[0].value = lang;
-        console.log('index')
-        console.log(lang)
-        console.log(document.getElementsByName("lang")[0].value)
-      }
-    </script>
-    <div class="container" style="position: absolute; top: 0">
-      <h1>SUPPLY CHAIN PLANER</h1>
-      {% if lang == "en" %}
-      <button class="accent-button" onclick="location.href='1_lastPeriod.html'">
-        Start planning next period
-      </button>
-      {% else %}
-      <button class="accent-button" onclick="location.href='1_lastPeriod.html'">
-        Planung der nächsten Periode starten
-      </button>
-      {% endif %}
-    </div>
+        function changeLanguage(lang) {
+          document.getElementsByName("lang")[0].value = lang;
+        }
+      </script>
+      <div class="container" style="position: absolute; top: 0">
+        <h1>SUPPLY CHAIN PLANER</h1>
+        {% if lang == "en" %}
+        <button class="accent-button" onclick="location.href='1_lastPeriod.html'">
+          Start planning next period
+        </button>
+        {% else %}
+        <button class="accent-button" onclick="location.href='1_lastPeriod.html'">
+          Planung der nächsten Periode starten
+        </button>
+        {% endif %}
+      </div>
+    </form>
   </body>
   {% if lang == "en" %}
   <footer>
