@@ -17,6 +17,10 @@ sequence = []
 k_list = lookupArticles.k_list
 stations = ["Station_1", "Station_2", "Station_3", "Station_4", "Station_5", "Station_6", "Station_7",
             "Station_8", "Station_9", "Station_10", "Station_11", "Station_12", "Station_13", "Station_14", "Station_15"]
+header_list = ["P1", "P2", "P3", "E4", "E5", "E6", "E10", "E11", "E12", "E16",
+               "E17", "E26", "E29", "E30", "E31", "E49", "E50", "E51", "E54", "E55", "E56"]
+article_list = ["P1", "P2", "P3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "E11", "E12", "E13", "E14", "E15",
+                "E16", "E17", "E18", "E19", "E20", "E26", "E29", "E30", "E31", "E49", "E50", "E51", "E54", "E55", "E56"]
 
 languages = {
     "de": "de",
@@ -222,8 +226,6 @@ def upload_prediction():
                 "Preis": price
             })
             tradeData[article] = (buy, sell, price, penalty)
-        else:
-            print("Gleiche Artikel können nicht gekauft und verkauft werden!")
 
     # Daten in die DB schreiben
     handler.write_input_to_db(salesData, "Absatzprognose")
@@ -252,10 +254,6 @@ def upload_prediction():
 
 @app.route("/3_stockPlaner.html")
 def stock_planer():
-    header_list = ["P1", "P2", "P3", "E4", "E5", "E6", "E10", "E11", "E12", "E16",
-                   "E17", "E26", "E29", "E30", "E31", "E49", "E50", "E51", "E54", "E55", "E56"]
-    article_list = ["P1", "P2", "P3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "E11", "E12", "E13", "E14", "E15",
-                    "E16", "E17", "E18", "E19", "E20", "E26", "E29", "E30", "E31", "E49", "E50", "E51", "E54", "E55", "E56"]
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     current_parts = handler.get_parts_inventory(period)
     for article in lookupArticles.e_list:
@@ -303,6 +301,10 @@ def upload_plan():
                            calculated=True,
                            stock_data=stock_data,
                            prod_data=prod_data,
+                           articles=article_list,
+                           headers=header_list,
+                           len=len(article_list),
+                           len_h=len(header_list),
                            lang=language)
 
 

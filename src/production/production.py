@@ -37,7 +37,7 @@ def calculate_production(sales, current, planned, processing, missing, queued, t
                 missing_article - \
                 purchase_article + \
                 sell_article
-            # print(f"{sales[article][0]} + {production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
+            print(f"{sales[article][0]} + {production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
         else:
             results[article]["sum"] = \
                 production + \
@@ -48,7 +48,8 @@ def calculate_production(sales, current, planned, processing, missing, queued, t
                 missing_article - \
                 purchase_article + \
                 sell_article
-            # print(f"{production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
+            print(
+                f"{production} + {planned[article][0]} - {current[article][0]} - {processing_article} - {queued_article} - {missing_article} - {purchase_article} + {sell_article} = {results[article]['sum']}")
 
     return results
 
