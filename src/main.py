@@ -281,7 +281,7 @@ def upload_Sequence():
     production = handler.production
     data = request.form.to_dict(flat=False)
 
-    # check if aount of production orders is greater than 60
+    # check if amount of production orders is greater than 60
     if (len(data)-1 > 60):
         return render_template(f"{language}/4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="limit")
 
@@ -292,13 +292,13 @@ def upload_Sequence():
         if (article not in data.keys()):
             return render_template(f"{language}/4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="keys")
 
-    # check if sum of part orders is equal to calculated order
+    # check if sum of part orders is equal to calculated order and if amount
     for article, item in data.items():
         if (article == "results_list"):
             continue
         sum = 0
         for amount in item:
-            sum += int(amount) if amount != "" else 0
+            sum += int(amount) if amount != "" or int(amount) > 0 else 0
         if (production[article]["sum"] != sum):
             print("Error detected!")
             return render_template(f"{language}/4_productionSequence.html", period=period, len=len(sequence), sequence=sequence, production=production, results_list=[], error="sum")
