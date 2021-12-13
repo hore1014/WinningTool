@@ -17,10 +17,39 @@
       name="description"
       content="Mit dem Supply Chain Planer werden Bestellungen, Lagerhaltung, die Produktion und der Absatz geplant"
     />
-    <title>Stock Planer</title>
+    {% if lang == "en" %}
+    <title>Kapazitätsplanung</title>
+    {% else %}
+    <title>Kapazitätsplanung</title>
+    {% endif %}
   </head>
   <body>
     <nav>
+      {% if lang == "en" %}
+      <ul class="progressbar">
+        <li class="active">
+          <a href="1_lastPeriod.html">Previous Period</a>
+        </li>
+        <li class="active">
+          <a href="2_salesPrediction.html"
+            >Sales forecasts and production plan</a
+          >
+        </li>
+        <li class="active">
+          <a href="3_stockPlaner.html"
+            >Stock and production of intermediate products</a
+          >
+        </li>
+        <li class="active">
+          <a href="4_productionSequence.html"
+            >Production sequence and splitting</a
+          >
+        </li>
+        <li class="active">
+          <a>Orders</a>
+        </li>
+        <li class="active"><a>Capacity</a></li>
+      {% else %}
       <ul class="progressbar">
         <li class="active">
           <a href="1_lastPeriod.html">Vorherige Periode</a>
@@ -44,6 +73,8 @@
           <a href="5_orders_purchase.html">Bestellungen</a>
         </li>
         <li class="active"><a href="6_capacity.html">Kapazität</a></li>
+        {% endif %}
+        {% if lang == "en" %}
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton" type="button">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
@@ -63,6 +94,27 @@
             </button>
           </div>
         </div>
+        {% else %}
+        <div class="dropdown">
+          <button onclick="dropDown()" class="dropbutton" type="button">Sprache</button>
+          <div id="dropdown-content" class="dropdown-content">
+            <button class="dropdownoption" type="button">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/german.png') }}"
+              />
+              Deutsch
+            </button>
+            <button class="dropdownoption" type="button">
+              <img
+                class="flag"
+                src="{{ url_for('static', filename='img/english.png') }}"
+              />
+              Englisch
+            </button>
+          </div>
+        </div>
+        {% endif %}
       </ul>
       <script>
         /* When the user clicks on the button, 

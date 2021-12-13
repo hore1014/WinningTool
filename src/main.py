@@ -22,7 +22,7 @@ languages = {
     "de": "de",
     "de": "en",
 }
-language = "de"  # default
+language = "en"  # default
 
 
 app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # max 1MB upload size
