@@ -606,7 +606,7 @@
               {% for article in range(0, len) %}
               <tr>
                 <th class="sticky-column sticky-column-header" style="left: 42px;">
-                  {{ 0 }}
+                  {{ articles[article] }}
                 </th>
                 {% for column in range(0, len_h) %}
                 <td name="{{ articles[article] + 'needed_for_' + headers[column] }}">{{ 0 }}</td>

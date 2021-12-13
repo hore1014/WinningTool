@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from . import handler
 from .handler import lookupArticles
 from .procurement import lookupProcurement
-#from database import lookupArticles
+# from database import lookupArticles
 
 app = Flask(__name__)
 port = 5000  # default
@@ -42,9 +42,9 @@ def home():
 
 @app.route("/", methods=["POST"])
 def update():
-    #global language
-    #language = request.form.get('lang')
-    #print(f"main: language")
+    # global language
+    # language = request.form.get('lang')
+    # print(f"main: language")
     # handler.delete_all_xml()
 
     return redirect(url_for('lastPeriod'))
@@ -207,8 +207,9 @@ def upload_prediction():
     tradeData = {}
     tradeData_db = []
     for article in handler.lookupArticles.p_e_k_list:
-        buy = request.form.get('order_amount_' + article)
-        if buy == None:
+        if (article not in ["P1", "P2", "P3"]):
+            buy = request.form.get('order_amount_' + article)
+        else:
             buy = 0
         sell = request.form.get('sell_amount_' + article)
         price = request.form.get('price_' + article)
@@ -252,7 +253,7 @@ def upload_prediction():
     return redirect(url_for('stock_planer'))
 
 
-@app.route("/3_stockPlaner.html")
+@ app.route("/3_stockPlaner.html")
 def stock_planer():
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     current_parts = handler.get_parts_inventory(period)
@@ -274,7 +275,7 @@ def stock_planer():
                            lang=language)
 
 
-@app.route("/3_stockPlaner.html", methods=["POST"])
+@ app.route("/3_stockPlaner.html", methods=["POST"])
 def upload_plan():
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     result_data = []
@@ -308,7 +309,7 @@ def upload_plan():
                            lang=language)
 
 
-@app.route("/4_productionSequence.html")
+@ app.route("/4_productionSequence.html")
 def production_sequence():
     global sequence
     sequence = ["E16", "E7", "E8", "E9", "E13", "E14", "E15", "E18", "E19", "E20", "E4", "E5", "E6", "E10",
