@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'WinningTool'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_64044AF246D44576A65AAA77EBCCB25C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5FE7BFD9B72A4E3BB14182E8AB5FC153 }}
