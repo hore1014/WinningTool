@@ -28,20 +28,20 @@
       {% if lang == "en" %}
       <ul class="progressbar">
         <li class="active">
-          <a href="1_lastPeriod.html">Previous Period</a>
+          <a href="1_lastPeriod?lang=en">Previous Period</a>
         </li>
         <li class="active">
-          <a href="2_salesPrediction.html"
+          <a href="2_salesPrediction?lang=en"
             >Sales forecasts and production plan</a
           >
         </li>
         <li class="active">
-          <a href="3_stockPlaner.html"
+          <a href="3_stockPlaner?lang=en"
             >Stock and production of intermediate products</a
           >
         </li>
         <li class="active">
-          <a href="4_productionSequence.html"
+          <a href="4_productionSequence?lang=en"
             >Production sequence and splitting</a
           >
         </li>
@@ -52,20 +52,20 @@
       {% else %}
       <ul class="progressbar">
         <li class="active">
-          <a href="1_lastPeriod.html">Vorherige Periode</a>
+          <a href="1_lastPeriod?lang=de">Vorherige Periode</a>
         </li>
         <li class="active">
-          <a href="2_salesPrediction.html"
+          <a href="2_salesPrediction?lang=de"
             >Absatzprognosen und Produktionsplan</a
           >
         </li>
         <li class="active">
-          <a href="3_stockPlaner.html"
+          <a href="3_stockPlaner?lang=de"
             >Lager und Produktion der Zwischenerzeugnisse</a
           >
         </li>
         <li class="active">
-          <a href="4_productionSequence.html"
+          <a href="4_productionSequence?lang=de"
             >Produktionsreihenfolge und Splitting</a
           >
         </li>
@@ -79,16 +79,20 @@
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton">Language</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> German</button>
-            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> English</button>
+            <button class="dropdownoption" onclick="location.href='5_orders_purchase?lang=de'">
+              <img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> German</button>
+            <button class="dropdownoption" onclick="location.href='5_orders_purchase?lang=en'">
+              <img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> English</button>
           </div>
         </div>
         {% else %}
         <div class="dropdown">
           <button onclick="dropDown()" class="dropbutton">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> Deutsch</button>
-            <button class="dropdownoption"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> Englisch</button>
+            <button class="dropdownoption" onclick="location.href='5_orders_purchase?lang=de'">
+              <img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> Deutsch</button>
+            <button class="dropdownoption" onclick="location.href='5_orders_purchase?lang=en'">
+              <img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> Englisch</button>
           </div>
         </div>
         {% endif %}
@@ -146,11 +150,13 @@
       </script>
       <div id="manual-content" class="manual-content" style="display: none; width:35%; overflow-x: hidden;">
         {% if lang == "en" %}
+        <h2>Aproximate base data</h2>
         <img
           class="manual-page"
           src="{{ url_for('static', filename='img/manualPages/en/StammdatenKaufteile_en.jpg') }}"
         />
         {% else %}
+        <h2>Geschätzte Stammdaten</h2>
         <img
           class="manual-page"
           src="{{ url_for('static', filename='img/manualPages/de/StammdatenKaufteile.jpg') }}"
@@ -329,7 +335,7 @@
                       </th>
                       <th rowspan="2">Diskontmenge</th>
                       <th rowspan="2">Vorgeschlagene Bestellmenge Normal</th>
-                      <th rowspan="2">Vorgeschlagene BestellMenge Eil</th>
+                      <th rowspan="2">Vorgeschlagene Bestellmenge Eil</th>
                     </tr>
                     <tr>
                       <th>Anfangsbestand</th>
@@ -668,7 +674,7 @@
         class="continue-button"
         type="submit"
         value="Upload"
-        onclick="location.href='6_capacity.html'"
+        onclick="location.href='6_capacity?lang=en'"
       >
         Continue
         <img
@@ -681,7 +687,7 @@
         class="continue-button"
         type="submit"
         value="Upload"
-        onclick="location.href='6_capacity.html'"
+        onclick="location.href='6_capacity?lang=de'"
       >
         Weiter
         <img

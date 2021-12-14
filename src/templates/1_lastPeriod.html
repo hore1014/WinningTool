@@ -69,14 +69,14 @@
           {% if lang == "en" %}
           <button onclick="dropDown()" class="dropbutton">Language</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption" onclick="changeLanguage('de')"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> German</button>
-            <button class="dropdownoption" onclick="changeLanguage('en')"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> English</button>
+            <button class="dropdownoption" onclick="location.href='/1_lastPeriod?lang=de'"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> German</button>
+            <button class="dropdownoption" onclick="location.href='/1_lastPeriod?lang=en'"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> English</button>
           </div>
           {% else %}
           <button onclick="dropDown()" class="dropbutton">Sprache</button>
           <div id="dropdown-content" class="dropdown-content">
-            <button class="dropdownoption" onclick="changeLanguage('de')"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> Deutsch</button>
-            <button class="dropdownoption" onclick="changeLanguage('en')"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> Englisch</button>
+            <button class="dropdownoption" onclick="location.href='/1_lastPeriod?lang=de'"><img class="flag" src="{{ url_for('static', filename='img/german.png') }}"> Deutsch</button>
+            <button class="dropdownoption" onclick="location.href='/1_lastPeriod?lang=en'"><img class="flag" src="{{ url_for('static', filename='img/english.png') }}"> Englisch</button>
           </div>
           {% endif %}
         </div>
@@ -109,14 +109,13 @@
     </nav>
 
     <form method="post" enctype="multipart/form-data">
-      <div class="upload-container">
+      <div class="container" style="text-align: center;">
         <img id="file-upload" src="{{ url_for('static', filename='img/FileUpload.png') }}" />
         {% if lang == "en" %}
         <h2>Upload final values of the previous period</h2>
         <p>
           Upload the final values of the previous period as XML file.
         </p>
-        <h2>Endwerte der vorherigen Periode hochladen</h2>
         {% else %}
         <h2>Endwerte der vorherigen Periode hochladen</h2>
         <p>
@@ -188,7 +187,7 @@
       class="continue-button" 
       type="submit" 
       value="Upload" 
-      onclick="location.href='2_salesPrediction.html'">
+      onclick="location.href='2_salesPrediction?lang=en'">
       Continue
       <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
   </button>
@@ -197,7 +196,7 @@
       class="continue-button" 
       type="submit" 
       value="Upload" 
-      onclick="location.href='2_salesPrediction.html'">
+      onclick="location.href='2_salesPrediction?lang=de'">
       Weiter
       <img id="continue-icon" src="{{ url_for('static', filename='img/continueArrow.png') }}" />
     </button>
