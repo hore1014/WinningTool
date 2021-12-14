@@ -452,15 +452,13 @@ def upload_orders():
     for article in lookupArticles.k_list:
         norm = request.form.get(f"normal_{article}")
         eil = request.form.get(f"express_{article}")
-        if norm == 0 and eil == 0:
-            continue
-        if norm != 0:
+        if norm != '0':
             orders.append((  # tuple
                 article,
                 norm,
                 5
             ))
-        if eil != 0:
+        if eil != '0':
             orders.append((  # tuple
                 article,
                 eil,
