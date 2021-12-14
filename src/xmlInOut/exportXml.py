@@ -63,6 +63,7 @@ def export_xml(absatz: list , absatz_direkt: list, bestellungen: list, produktio
     # orderlist element
     orderlist = ET.SubElement(input, 'orderlist')
     for el in bestellungen:
+        
         ET.SubElement(orderlist, 'order', {
             "article" : el[0][1:], 
             "quantity": str(el[1]), 
