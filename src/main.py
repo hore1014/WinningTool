@@ -450,11 +450,20 @@ def procurement_planer():
 def upload_orders():
     orders = []
     for article in lookupArticles.k_list:
-        orders.append((  # tuple
-            article,
-            request.form.get(f"normal_{article}"),
-            request.form.get(f"express_{article}")
-        ))
+        norm = request.form.get(f"normal_{article}")
+        eil = request.form.get(f"express_{article}")
+        if norm != 0:
+            orders.append((  # tuple
+                article,
+                norm,
+                5
+            ))
+        if eil != 0:
+            orders.append((  # tuple
+                article,
+                eil,
+                4
+            ))
 
     handler.xml_bestellungen = orders
 
