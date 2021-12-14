@@ -124,7 +124,6 @@ def salesPrediction():
     current_parts = handler.get_parts_inventory(period)
     all_parts = handler.lookupArticles.p_e_k_list
 
-    print(language)
     return render_template(
         "/2_salesPrediction.html", lang=language, period=period, inventory=current_parts, all_parts=all_parts, len=len(all_parts),
 
@@ -150,7 +149,6 @@ def salesPrediction():
 def upload_prediction():
     args = request.args
     language = args.get("lang")
-    print(language)
     global stock_P1
     global stock_P2
     global stock_P3
@@ -263,7 +261,7 @@ def upload_prediction():
             # article, sell-amount, price, penalty
             el, tradeData[el][1], tradeData[el][2], tradeData[el][3]
         ))
-    print(language)
+
     return redirect(url_for('stock_planer') + f"?lang={language}")
 
 
@@ -279,6 +277,8 @@ def stock_planer():
     prod_data = {"P1": {}, "P2": {}, "P3": {}}
     for article in lookupArticles.e_list:
         prod_data[article] = {"sum": 0}
+
+    print(handler.get_parts_processing(period))
 
     return render_template("/3_stockPlaner.html",
                            period=period,
@@ -328,6 +328,10 @@ def upload_plan():
                            headers=header_list,
                            len=len(article_list),
                            len_h=len(header_list),
+                           processing=handler.get_parts_processing(period),
+                           queued=handler.get_parts_in_queue(period),
+                           missing=handler.get_missing_parts(period),
+                           trade=handler.get_parts_trade(period),
                            lang=language)
 
 
@@ -515,7 +519,6 @@ def upload_shifts():
             request.form.get(f"extra_minutes_{station}")
         ))
 
-    print(shifts)
     handler.xml_stationen = shifts
     # TODO: Schichten in die DB einlesen bzw ins XML schreiben; Format: Tupel (Schichten, Extraminuten pro Tag)
     handler.write_to_xml()
