@@ -124,6 +124,7 @@ def salesPrediction():
     current_parts = handler.get_parts_inventory(period)
     all_parts = handler.lookupArticles.p_e_k_list
 
+    print(language)
     return render_template(
         "/2_salesPrediction.html", lang=language, period=period, inventory=current_parts, all_parts=all_parts, len=len(all_parts),
 
@@ -147,6 +148,9 @@ def salesPrediction():
 
 @app.route("/2_salesPrediction", methods=["POST"])
 def upload_prediction():
+    args = request.args
+    language = args.get("lang")
+    print(language)
     global stock_P1
     global stock_P2
     global stock_P3
@@ -254,13 +258,12 @@ def upload_prediction():
             (el['Artikel'], el['Aktuell_0'])
         )
 
-    print(tradeData)
     for el in ['P1', 'P2', 'P3']:
         handler.xml_absatz_direkt.append((
             # article, sell-amount, price, penalty
             el, tradeData[el][1], tradeData[el][2], tradeData[el][3]
         ))
-
+    print(language)
     return redirect(url_for('stock_planer') + f"?lang={language}")
 
 
@@ -294,6 +297,8 @@ def stock_planer():
 
 @app.route("/3_stockPlaner", methods=["POST"])
 def upload_plan():
+    args = request.args
+    language = args.get("lang")
     stock_data = {"P1": stock_P1, "P2": stock_P2, "P3": stock_P3}
     result_data = []
     # User Eingaben für Planlagerbestand einlesen
@@ -349,6 +354,8 @@ def production_sequence():
 
 @app.route("/4_productionSequence", methods=["POST"])
 def upload_Sequence():
+    args = request.args
+    language = args.get("lang")
     production = handler.production
     data = request.form.to_dict(flat=False)
 
@@ -418,7 +425,7 @@ def upload_Sequence():
     # save data to exportXml
     handler.xml_produktion = results_list
 
-    return redirect(url_for('procurement_planer'))
+    return redirect(url_for('procurement_planer') + f"?lang={language}")
 
 
 @app.route("/5_orders_purchase")
@@ -448,6 +455,8 @@ def procurement_planer():
 
 @app.route("/5_orders_purchase", methods=["POST"])
 def upload_orders():
+    args = request.args
+    language = args.get("lang")
     orders = []
     for article in lookupArticles.k_list:
         norm = request.form.get(f"normal_{article}")
@@ -467,7 +476,7 @@ def upload_orders():
 
     handler.xml_bestellungen = orders
 
-    return redirect(url_for('capacity_planer'))
+    return redirect(url_for('capacity_planer') + f"?lang={language}")
 
 
 @app.route("/6_capacity")
@@ -494,6 +503,8 @@ def capacity_planer():
 
 @app.route("/6_capacity", methods=["POST"])
 def upload_shifts():
+    args = request.args
+    language = args.get("lang")
     shifts = []
     for station in stations:
         if station == "Station_5":
@@ -508,7 +519,7 @@ def upload_shifts():
     handler.xml_stationen = shifts
     # TODO: Schichten in die DB einlesen bzw ins XML schreiben; Format: Tupel (Schichten, Extraminuten pro Tag)
     handler.write_to_xml()
-    return redirect(url_for('xml_download'))
+    return redirect(url_for('xml_download') + f"?lang={language}")
 
 
 @app.route("/download")
